@@ -110,5 +110,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Styles\Reports.ElectedQuantitiesDiscrepancyReport.css" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
