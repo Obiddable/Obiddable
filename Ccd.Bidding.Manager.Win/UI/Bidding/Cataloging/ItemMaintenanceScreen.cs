@@ -69,14 +69,14 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
       {
          decimal multiplier;
 
-         using (MassUpdateItemPricesForm f = new MassUpdateItemPricesForm())
+         using MassUpdateItemPricesDialog dialog = new MassUpdateItemPricesDialog();
+
+         if (dialog.ShowDialog() != DialogResult.OK)
          {
-            if (f.ShowDialog() != DialogResult.OK)
-            {
-               return;
-            }
-            multiplier = f.Multiplier;
+            return;
          }
+         multiplier = dialog.Multiplier;
+
          _catalogingOperations.UpdateItems_MassPriceChange_ByBid(_bid.Id, multiplier);
          RefreshList();
       }
