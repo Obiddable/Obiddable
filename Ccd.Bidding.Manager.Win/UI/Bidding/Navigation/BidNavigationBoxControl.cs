@@ -1,7 +1,4 @@
 ﻿using Ccd.Bidding.Manager.Library.Bidding;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Ccd.Bidding.Manager.Win.UI.Bidding.Navigation
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
+﻿namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
 {
    public partial class MassUpdateItemPricesForm : Form
    {
@@ -21,11 +18,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
 
          Multiplier = Math.Round(multiplier, 4);
          itemPriceMultiplierTextBox.Text = Multiplier.ToString("0.0000");
-
-         if (CatalogingMessaging.Instance.ConfirmItemMassUpdatePrices(itemPriceMultiplierTextBox.Text) == false)
-         {
-            return;
-         }
 
          DialogResult = DialogResult.OK;
          Close();

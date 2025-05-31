@@ -15,13 +15,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
          string caption = "Reset Item Prices?";
          return ShowYesNoConfirmation(message, caption) == DialogResult.Yes;
       }
-      // mass update prices
-      public bool ConfirmItemMassUpdatePrices(string itemPriceMultiplier)
-      {
-         string message = $"Are you sure you would like to use {itemPriceMultiplier} as the multiplier?";
-         string caption = "Correct Price Multipler?";
-         return ShowYesNoConfirmation(message, caption) == DialogResult.Yes;
-      }
       // import
       public bool ConfirmItemDelete()
       {
