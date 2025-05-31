@@ -9,10 +9,7 @@ using Ccd.Bidding.Manager.Library.EF.Bidding.Requesting;
 using Ccd.Bidding.Manager.Library.EF.Bidding.Responding;
 using Ccd.Bidding.Manager.Win.Library.IO.Bidding.Cataloging;
 using Ccd.Bidding.Manager.Win.Library.UI;
-using System;
 using System.Data;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
 {
@@ -81,7 +78,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
             multiplier = f.Multiplier;
          }
          _catalogingOperations.UpdateItems_MassPriceChange_ByBid(_bid.Id, multiplier);
-         CatalogingMessaging.Instance.ShowItemMassUpdatePricesSuccess();
          RefreshList();
       }
       private void MassResetItemPrices_Click(object sender, EventArgs e)
@@ -91,16 +87,13 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
             return;
          }
          _catalogingOperations.UpdateItems_MassPriceReset_ByBid(_bid.Id);
-         CatalogingMessaging.Instance.ShowItemMassResetPricesSuccess();
 
          RefreshList();
-
       }
       private void importItemsMenuItem_Click(object sender, EventArgs e)
       {
          _itemsImportOperation.ImportItems(_bid);
          RefreshList();
-
       }
       private void ExportItemsMenuItem_Click(object sender, EventArgs e)
       {
@@ -178,7 +171,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
                return;
             }
             _catalogingRepo.AddItem(f.GetItem(), _bid.Id);
-            CatalogingMessaging.Instance.ShowItemAddSuccess();
          }
          RefreshList();
       }
@@ -200,7 +192,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
                return;
             }
             _catalogingRepo.UpdateItem(f.GetItem());
-            CatalogingMessaging.Instance.ShowItemEditSuccess();
          }
          RefreshList();
       }
@@ -230,7 +221,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
             return;
          }
          _catalogingRepo.DeleteItem(item.Id);
-         CatalogingMessaging.Instance.ShowItemDeleteSuccess();
          RefreshList();
       }
       #endregion

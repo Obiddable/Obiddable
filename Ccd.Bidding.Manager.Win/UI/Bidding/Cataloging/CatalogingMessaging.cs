@@ -1,5 +1,4 @@
 ﻿using Ccd.Bidding.Manager.Win.Library.UI;
-using System.Windows.Forms;
 
 namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
 {
@@ -16,12 +15,6 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
          string caption = "Reset Item Prices?";
          return ShowYesNoConfirmation(message, caption) == DialogResult.Yes;
       }
-      public void ShowItemMassResetPricesSuccess()
-      {
-         string message = "The prices were successfully reset.";
-         string caption = "Price Reset Successful";
-         ShowSuccess(message, caption);
-      }
       // mass update prices
       public bool ConfirmItemMassUpdatePrices(string itemPriceMultiplier)
       {
@@ -29,44 +22,12 @@ namespace Ccd.Bidding.Manager.Win.UI.Bidding.Cataloging
          string caption = "Correct Price Multipler?";
          return ShowYesNoConfirmation(message, caption) == DialogResult.Yes;
       }
-      public void ShowItemMassUpdatePricesSuccess()
-      {
-         string message = "The prices were successfully updated.";
-         string caption = "Price Update Successful";
-         ShowSuccess(message, caption);
-      }
       // import
-      public void ShowItemImportSuccess(int itemsCount)
-      {
-         string message =
-             $"The items import completed successfully.\r\n" +
-             $"{itemsCount} items were Added.";
-         string caption = "Import Successful";
-         ShowSuccess(message, caption);
-      }
-      public void ShowItemAddSuccess()
-      {
-         string message = "The item was successfully added.";
-         string caption = "Add Successful";
-         ShowSuccess(message, caption);
-      }
-      public void ShowItemEditSuccess()
-      {
-         string message = "The item was successfully edited.";
-         string caption = "Edit Successful";
-         ShowSuccess(message, caption);
-      }
       public bool ConfirmItemDelete()
       {
          string message = "Would you like to delete this item? This cannot be undone.";
          string caption = "Delete Item?";
          return ShowYesNoConfirmation(message, caption) == DialogResult.Yes;
-      }
-      public void ShowItemDeleteSuccess()
-      {
-         string message = "The item was successfully deleted.";
-         string caption = "Delete Successful";
-         ShowSuccess(message, caption);
       }
       public void ShowItemDelete_ItemRequestedError()
       {
