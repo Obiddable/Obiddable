@@ -1,21 +1,19 @@
 ﻿using System.Linq;
 
-namespace Ccd.Bidding.Manager.Library.Bidding
+namespace Ccd.Bidding.Manager.Library.Bidding;
+public class BiddingService
 {
-   public class BiddingService
+   private readonly IBiddingRepo _biddingRepo;
+
+   public BiddingService(IBiddingRepo biddingRepo)
    {
-      private readonly IBiddingRepo _biddingRepo;
+      _biddingRepo = biddingRepo;
+   }
 
-      public BiddingService(IBiddingRepo biddingRepo)
-      {
-         _biddingRepo = biddingRepo;
-      }
-
-      public bool BidNameExists(string text, int bidId)
-      {
-         return _biddingRepo.GetBids()
-             .Where(bid => bid.Id != bidId)
-             .Any(bid => bid.Name == text);
-      }
+   public bool BidNameExists(string text, int bidId)
+   {
+      return _biddingRepo.GetBids()
+          .Where(bid => bid.Id != bidId)
+          .Any(bid => bid.Name == text);
    }
 }

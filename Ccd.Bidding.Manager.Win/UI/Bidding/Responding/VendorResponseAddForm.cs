@@ -5,87 +5,85 @@ using Ccd.Bidding.Manager.Library.EF.Bidding.Responding;
 using System;
 using System.Windows.Forms;
 
-namespace Ccd.Bidding.Manager.Win.UI.Bidding.Responding
+namespace Ccd.Bidding.Manager.Win.UI.Bidding.Responding;
+public partial class VendorResponseAddForm : Form
 {
-   public partial class VendorResponseAddForm : Form
+   private readonly IBiddingRepo _biddingRepo = new EFBiddingRepo();
+   private readonly IRespondingRepo _respondingRepo = new EFRespondingRepo();
+
+   public int _bidId;
+
+   public VendorResponseAddForm(int bidId)
    {
-      private readonly IBiddingRepo _biddingRepo = new EFBiddingRepo();
-      private readonly IRespondingRepo _respondingRepo = new EFRespondingRepo();
+      InitializeComponent();
+      _bidId = bidId;
+   }
+   #region GET OBJECT METHOD
+   public VendorResponse GetVendorResponse()
+   {
+      if (dataIsValid())
+         return new VendorResponse()
+         {
+            Id = 0,
+            VendorName = vendorNameTextBox.Text,
+            Bid = _biddingRepo.GetBid(_bidId)
+         };
+      else
+         return null;
+   }
+   #endregion
 
-      public int _bidId;
-
-      public VendorResponseAddForm(int bidId)
+   #region DATA VALIDATION METHOD
+   private bool dataIsValid()
+   {
+      if (vendorNameTextBox.Text.Length == 0)
       {
-         InitializeComponent();
-         _bidId = bidId;
+         errorProvider1.SetError(vendorNameTextBox, VendorResponseMessaging.Instance.GetVendorResponseVendorNameCannotBeBlank());
+         return false;
       }
-      #region GET OBJECT METHOD
-      public VendorResponse GetVendorResponse()
+      if (vendorNameTextBox.Text.Length > 255)
       {
-         if (dataIsValid())
-            return new VendorResponse()
-            {
-               Id = 0,
-               VendorName = vendorNameTextBox.Text,
-               Bid = _biddingRepo.GetBid(_bidId)
-            };
-         else
-            return null;
-      }
-      #endregion
-
-      #region DATA VALIDATION METHOD
-      private bool dataIsValid()
-      {
-         if (vendorNameTextBox.Text.Length == 0)
-         {
-            errorProvider1.SetError(vendorNameTextBox, VendorResponseMessaging.Instance.GetVendorResponseVendorNameCannotBeBlank());
-            return false;
-         }
-         if (vendorNameTextBox.Text.Length > 255)
-         {
-            errorProvider1.SetError(vendorNameTextBox, VendorResponseMessaging.Instance.GetVendorResponseVendorNameCannotBeTooLong());
-            return false;
-         }
-
-         if (_respondingRepo.Check_VendorResponseVendorNameAlreadyExists_InBid(vendorNameTextBox.Text, _bidId, 0))
-         {
-            errorProvider1.SetError(vendorNameTextBox, VendorResponseMessaging.Instance.GetVendorResponseVendorNameCannotAlreadyExist());
-            return false;
-         }
-
-         return true;
-      }
-      #endregion
-
-      #region BUTTON EVENTS
-      private void savechangesButton_Click(object sender, EventArgs e)
-      {
-         if (dataIsValid())
-         {
-            DialogResult = DialogResult.OK;
-            Close();
-         }
+         errorProvider1.SetError(vendorNameTextBox, VendorResponseMessaging.Instance.GetVendorResponseVendorNameCannotBeTooLong());
+         return false;
       }
 
-      private void toolStripButton1_Click(object sender, EventArgs e)
+      if (_respondingRepo.Check_VendorResponseVendorNameAlreadyExists_InBid(vendorNameTextBox.Text, _bidId, 0))
       {
-         DialogResult = DialogResult.Cancel;
+         errorProvider1.SetError(vendorNameTextBox, VendorResponseMessaging.Instance.GetVendorResponseVendorNameCannotAlreadyExist());
+         return false;
+      }
+
+      return true;
+   }
+   #endregion
+
+   #region BUTTON EVENTS
+   private void savechangesButton_Click(object sender, EventArgs e)
+   {
+      if (dataIsValid())
+      {
+         DialogResult = DialogResult.OK;
          Close();
       }
-      #endregion
+   }
 
-      private void VendorResponseAddForm_KeyDown(object sender, KeyEventArgs e)
+   private void toolStripButton1_Click(object sender, EventArgs e)
+   {
+      DialogResult = DialogResult.Cancel;
+      Close();
+   }
+   #endregion
+
+   private void VendorResponseAddForm_KeyDown(object sender, KeyEventArgs e)
+   {
+      if (e.KeyCode == Keys.Enter)
       {
-         if (e.KeyCode == Keys.Enter)
-         {
-            savechangesButton_Click(sender, e);
-         }
-         if (e.KeyCode == Keys.Escape)
-         {
-            toolStripButton1_Click(sender, e);
-         }
-
+         savechangesButton_Click(sender, e);
       }
+      if (e.KeyCode == Keys.Escape)
+      {
+         toolStripButton1_Click(sender, e);
+      }
+
    }
 }

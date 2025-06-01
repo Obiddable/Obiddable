@@ -1,15 +1,14 @@
-﻿namespace Ccd.Bidding.Manager.Win.Library
+﻿namespace Ccd.Bidding.Manager.Win.Library;
+
+public class UrlOpener
 {
-   public class UrlOpener
+   public void OpenUrl(string url)
    {
-      public void OpenUrl(string url)
+      var psi = new System.Diagnostics.ProcessStartInfo
       {
-         var psi = new System.Diagnostics.ProcessStartInfo
-         {
-            FileName = url,
-            UseShellExecute = true
-         };
-         System.Diagnostics.Process.Start(psi);
-      }
+         FileName = url,
+         UseShellExecute = true
+      };
+      System.Diagnostics.Process.Start(psi);
    }
 }

@@ -1,8 +1,7 @@
-﻿namespace Ccd.Bidding.Manager.Reporting
+﻿namespace Ccd.Bidding.Manager.Reporting;
+
+public enum PrintOrientation
 {
-   public enum PrintOrientation
-   {
-      Landscape,
-      Portrait
-   }
+   Landscape,
+   Portrait
 }

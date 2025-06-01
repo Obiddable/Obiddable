@@ -2,31 +2,29 @@
 using System.Linq;
 using System.Text;
 
-namespace Ccd.Bidding.Manager.Reporting.Html.Tables
+namespace Ccd.Bidding.Manager.Reporting.Html.Tables;
+public class WorkingRowSet
 {
-   public class WorkingRowSet
+   public List<Row> Rows { get; private set; }
+   public int LineHeight { get => Rows.Sum(x => x.LineHeight); }
+
+   public WorkingRowSet()
    {
-      public List<Row> Rows { get; private set; }
-      public int LineHeight { get => Rows.Sum(x => x.LineHeight); }
+      Rows = new List<Row>();
+   }
 
-      public WorkingRowSet()
-      {
-         Rows = new List<Row>();
-      }
+   public void AddRow(Row row)
+   {
+      Rows.Add(row);
+   }
 
-      public void AddRow(Row row)
-      {
-         Rows.Add(row);
-      }
+   public string GetHtml()
+   {
+      StringBuilder output;
 
-      public string GetHtml()
-      {
-         StringBuilder output;
+      output = new StringBuilder();
+      Rows.ForEach(x => output.AppendLine(x.Html));
 
-         output = new StringBuilder();
-         Rows.ForEach(x => output.AppendLine(x.Html));
-
-         return output.ToString();
-      }
+      return output.ToString();
    }
 }

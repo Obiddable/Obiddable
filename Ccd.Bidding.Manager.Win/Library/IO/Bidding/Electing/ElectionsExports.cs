@@ -5,27 +5,25 @@ using Ccd.Bidding.Manager.Library.EF.Bidding.Responding;
 using Ccd.Bidding.Manager.Win.UI.Bidding.Electing;
 using System;
 
-namespace Ccd.Bidding.Manager.Win.Library.IO.Bidding.Electing
+namespace Ccd.Bidding.Manager.Win.Library.IO.Bidding.Electing;
+public static class ElectionsExports
 {
-   public static class ElectionsExports
+   private static readonly ExportFileNameFactory _fileNameGetter;
+   private static readonly ElectionsConversions _electionsConversions;
+
+   static ElectionsExports()
    {
-      private static readonly ExportFileNameFactory _fileNameGetter;
-      private static readonly ElectionsConversions _electionsConversions;
+      _fileNameGetter = new ExportFileNameFactory();
+      _electionsConversions = new ElectionsConversions(new EFCatalogingRepo(), new EFRespondingRepo());
+   }
 
-      static ElectionsExports()
-      {
-         _fileNameGetter = new ExportFileNameFactory();
-         _electionsConversions = new ElectionsConversions(new EFCatalogingRepo(), new EFRespondingRepo());
-      }
+   public static void ExportElectionsToCSV(Bid bid)
+   {
+      string fileName = _fileNameGetter.BuildFileName(bid, "elections", "csv", "", DateTime.Now);
+      string data = _electionsConversions.ConvertElectionsToCSV(bid.Id);
+      string title = "Save Elections Export";
+      FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
 
-      public static void ExportElectionsToCSV(Bid bid)
-      {
-         string fileName = _fileNameGetter.BuildFileName(bid, "elections", "csv", "", DateTime.Now);
-         string data = _electionsConversions.ConvertElectionsToCSV(bid.Id);
-         string title = "Save Elections Export";
-         FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
-
-         ElectingMessaging.Instance.ShowElectionExportSuccess();
-      }
+      ElectingMessaging.Instance.ShowElectionExportSuccess();
    }
 }

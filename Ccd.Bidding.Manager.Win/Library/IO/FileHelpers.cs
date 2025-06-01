@@ -4,280 +4,278 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace Ccd.Bidding.Manager.Win.Library.IO
+namespace Ccd.Bidding.Manager.Win.Library.IO;
+public static class FileHelpers
 {
-   public static class FileHelpers
+
+   #region SAVES
+   public static void SaveReport(IReportFile reportFile, bool supressDialog)
    {
-
-      #region SAVES
-      public static void SaveReport(IReportFile reportFile, bool supressDialog)
+      string initialFileName = reportFile.FileName.MakeValidFileName();
+      string initialDirectory = UserConfiguration.Instance.DefaultReportsDirectory.FullName;
+      string dialogTitle = "Save Report";
+      string extension = "html";
+      string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
+      if (fileName is null)
       {
-         string initialFileName = reportFile.FileName.MakeValidFileName();
-         string initialDirectory = UserConfiguration.Instance.DefaultReportsDirectory.FullName;
-         string dialogTitle = "Save Report";
-         string extension = "html";
-         string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
-         if (fileName is null)
-         {
-            return;
-         }
-
-         string data = reportFile.Data;
-
-         TryUntilFileUnlocked(fileName);
-
-         File.WriteAllText(fileName, data);
-         if (UserConfiguration.Instance.AutoOpenReports)
-         {
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-               FileName = fileName,
-               UseShellExecute = true
-            };
-            System.Diagnostics.Process.Start(psi);
-         }
-      }
-      public static void SaveCSV(string initialFileName, string data, string dialogTitle, bool supressDialog)
-      {
-         string initialDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
-         string extension = "csv";
-         string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
-         if (fileName is null)
-         {
-            return;
-         }
-
-         TryUntilFileUnlocked(fileName);
-         File.WriteAllText(fileName, data);
-         if (UserConfiguration.Instance.AutoOpenExports)
-         {
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-               FileName = fileName,
-               UseShellExecute = true
-            };
-            System.Diagnostics.Process.Start(psi);
-         }
+         return;
       }
 
-      public static void SaveExcel(string initialFileName, MemoryStream stream, string dialogTitle, bool supressDialog)
+      string data = reportFile.Data;
+
+      TryUntilFileUnlocked(fileName);
+
+      File.WriteAllText(fileName, data);
+      if (UserConfiguration.Instance.AutoOpenReports)
       {
-         string initialDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
-         string extension = "xlsx";
-
-         string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
-         if (fileName is null)
+         var psi = new System.Diagnostics.ProcessStartInfo
          {
-            return;
-         }
-
-         TryUntilFileUnlocked(fileName);
-         using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-         {
-            stream.WriteTo(file);
-         }
-         if (UserConfiguration.Instance.AutoOpenExports)
-         {
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-               FileName = fileName,
-               UseShellExecute = true
-            };
-            System.Diagnostics.Process.Start(psi);
-         }
-
+            FileName = fileName,
+            UseShellExecute = true
+         };
+         System.Diagnostics.Process.Start(psi);
       }
-      public static void SaveExcels(string[] fileNames, MemoryStream[] streams, string dialogDescription)
+   }
+   public static void SaveCSV(string initialFileName, string data, string dialogTitle, bool supressDialog)
+   {
+      string initialDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+      string extension = "csv";
+      string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
+      if (fileName is null)
       {
-         if (fileNames.Length != streams.Length)
-         {
-            return;
-         }
-         string selectedPath = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
-         string folderPath = ShowFolderBrowserDialog(selectedPath, dialogDescription);
-         if (folderPath is null)
-         {
-            return;
-         }
-
-         foreach (string fileName in fileNames)
-         {
-            TryUntilFileUnlocked(folderPath + "\\" + fileName);
-         }
-
-         for (int x = 0; x < fileNames.Length; x++)
-         {
-            using (FileStream file = new FileStream(folderPath + "\\" + fileNames[x], FileMode.Create, FileAccess.Write))
-            {
-               streams[x].WriteTo(file);
-            }
-         }
-
-         if (UserConfiguration.Instance.AutoOpenExports)
-         {
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-               FileName = folderPath,
-               UseShellExecute = true
-            };
-            System.Diagnostics.Process.Start(psi);
-         }
-
+         return;
       }
-      public static string ShowSaveFileDialog(string initialDirectory, string dialogTitle, string extension, string initialFileName, bool supressDialog)
+
+      TryUntilFileUnlocked(fileName);
+      File.WriteAllText(fileName, data);
+      if (UserConfiguration.Instance.AutoOpenExports)
       {
-         if (supressDialog)
+         var psi = new System.Diagnostics.ProcessStartInfo
          {
-            return initialDirectory + "\\" + initialFileName;
-         }
-         using (SaveFileDialog saveFileDialog = new SaveFileDialog()
-         {
-            InitialDirectory = initialDirectory,
-            Title = dialogTitle,
-            CheckPathExists = true,
-            FileName = initialFileName,
-            DefaultExt = extension,
-            Filter = $"{extension} files (*.{extension})|*.{extension}",
-            FilterIndex = 2,
-            RestoreDirectory = true,
-         })
-         {
-            if (saveFileDialog.ShowDialog() != DialogResult.OK)
-            {
-               return null;
-            }
-            return saveFileDialog.FileName;
-         }
+            FileName = fileName,
+            UseShellExecute = true
+         };
+         System.Diagnostics.Process.Start(psi);
       }
-      public static string ShowFolderBrowserDialog(string selectedPath, string dialogDescription)
+   }
+
+   public static void SaveExcel(string initialFileName, MemoryStream stream, string dialogTitle, bool supressDialog)
+   {
+      string initialDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+      string extension = "xlsx";
+
+      string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
+      if (fileName is null)
       {
-         using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog()
+         return;
+      }
+
+      TryUntilFileUnlocked(fileName);
+      using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+      {
+         stream.WriteTo(file);
+      }
+      if (UserConfiguration.Instance.AutoOpenExports)
+      {
+         var psi = new System.Diagnostics.ProcessStartInfo
          {
-            SelectedPath = selectedPath,
-            Description = dialogDescription,
-            ShowNewFolderButton = true
-         })
+            FileName = fileName,
+            UseShellExecute = true
+         };
+         System.Diagnostics.Process.Start(psi);
+      }
+
+   }
+   public static void SaveExcels(string[] fileNames, MemoryStream[] streams, string dialogDescription)
+   {
+      if (fileNames.Length != streams.Length)
+      {
+         return;
+      }
+      string selectedPath = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+      string folderPath = ShowFolderBrowserDialog(selectedPath, dialogDescription);
+      if (folderPath is null)
+      {
+         return;
+      }
+
+      foreach (string fileName in fileNames)
+      {
+         TryUntilFileUnlocked(folderPath + "\\" + fileName);
+      }
+
+      for (int x = 0; x < fileNames.Length; x++)
+      {
+         using (FileStream file = new FileStream(folderPath + "\\" + fileNames[x], FileMode.Create, FileAccess.Write))
          {
-            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
-            {
-               return null;
-            }
-            return folderBrowserDialog.SelectedPath;
+            streams[x].WriteTo(file);
          }
       }
-      #endregion
 
-      #region OPENS
-      public static string OpenFile(string dialogTitle, string extension)
+      if (UserConfiguration.Instance.AutoOpenExports)
       {
-         string initalDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+         var psi = new System.Diagnostics.ProcessStartInfo
+         {
+            FileName = folderPath,
+            UseShellExecute = true
+         };
+         System.Diagnostics.Process.Start(psi);
+      }
 
-         string fileName = ShowOpenFileDialog(initalDirectory, dialogTitle, extension);
-         if (fileName is null)
+   }
+   public static string ShowSaveFileDialog(string initialDirectory, string dialogTitle, string extension, string initialFileName, bool supressDialog)
+   {
+      if (supressDialog)
+      {
+         return initialDirectory + "\\" + initialFileName;
+      }
+      using (SaveFileDialog saveFileDialog = new SaveFileDialog()
+      {
+         InitialDirectory = initialDirectory,
+         Title = dialogTitle,
+         CheckPathExists = true,
+         FileName = initialFileName,
+         DefaultExt = extension,
+         Filter = $"{extension} files (*.{extension})|*.{extension}",
+         FilterIndex = 2,
+         RestoreDirectory = true,
+      })
+      {
+         if (saveFileDialog.ShowDialog() != DialogResult.OK)
          {
             return null;
          }
-
-         if (!File.Exists(fileName))
+         return saveFileDialog.FileName;
+      }
+   }
+   public static string ShowFolderBrowserDialog(string selectedPath, string dialogDescription)
+   {
+      using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog()
+      {
+         SelectedPath = selectedPath,
+         Description = dialogDescription,
+         ShowNewFolderButton = true
+      })
+      {
+         if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
          {
-            FilesMessaging.Instance.ShowFileCantBeLocatedError(fileName);
             return null;
          }
-
-
-         TryUntilFileUnlocked(fileName);
-
-         return fileName;
+         return folderBrowserDialog.SelectedPath;
       }
-      public static string ShowOpenFileDialog(string initialDirectory, string dialogTitle, string extension)
+   }
+   #endregion
+
+   #region OPENS
+   public static string OpenFile(string dialogTitle, string extension)
+   {
+      string initalDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+
+      string fileName = ShowOpenFileDialog(initalDirectory, dialogTitle, extension);
+      if (fileName is null)
       {
-         using (OpenFileDialog openFileDialog = new OpenFileDialog()
+         return null;
+      }
+
+      if (!File.Exists(fileName))
+      {
+         FilesMessaging.Instance.ShowFileCantBeLocatedError(fileName);
+         return null;
+      }
+
+
+      TryUntilFileUnlocked(fileName);
+
+      return fileName;
+   }
+   public static string ShowOpenFileDialog(string initialDirectory, string dialogTitle, string extension)
+   {
+      using (OpenFileDialog openFileDialog = new OpenFileDialog()
+      {
+         InitialDirectory = initialDirectory,
+
+         CheckFileExists = true,
+         CheckPathExists = true,
+
+         Title = dialogTitle,
+
+         DefaultExt = extension,
+         Filter = $"{extension} files (*.{extension})|*.{extension}",
+         FilterIndex = 2,
+         RestoreDirectory = true,
+
+         ReadOnlyChecked = true,
+         ShowReadOnly = true
+      })
+      {
+         if (openFileDialog.ShowDialog() != DialogResult.OK)
          {
-            InitialDirectory = initialDirectory,
+            return null;
+         }
+         return openFileDialog.FileName;
+      }
+   }
+   #endregion
 
-            CheckFileExists = true,
-            CheckPathExists = true,
+   public static string MakeValidFileName(this string name)
+   {
+      string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
+      string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
 
-            Title = dialogTitle,
+      return Regex.Replace(name.Replace(" ", "_"), invalidRegStr, "_");
+   }
+   public static bool IsFileLocked(string filePath)
+   {
+      try
+      {
+         using (File.Open(filePath, FileMode.Open)) { }
+      }
+      catch (IOException e)
+      {
+         var errorCode = Marshal.GetHRForException(e) & (1 << 16) - 1;
 
-            DefaultExt = extension,
-            Filter = $"{extension} files (*.{extension})|*.{extension}",
-            FilterIndex = 2,
-            RestoreDirectory = true,
+         return errorCode == 32 || errorCode == 33;
+      }
 
-            ReadOnlyChecked = true,
-            ShowReadOnly = true
-         })
+      return false;
+   }
+   public static void TryUntilFileUnlocked(string fileName)
+   {
+      while (IsFileLocked(fileName))
+      {
+         if (FilesMessaging.Instance.ConfirmRetryFileLocked(fileName) == false)
          {
-            if (openFileDialog.ShowDialog() != DialogResult.OK)
-            {
-               return null;
-            }
-            return openFileDialog.FileName;
+            return;
          }
       }
-      #endregion
+   }
+   public static string[] ParseCSVRow(string csvrow)
+   {
+      //Define pattern
+      Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
 
-      public static string MakeValidFileName(this string name)
+      string[] results = CSVParser.Split(csvrow);
+
+      for (int x = 0; x < results.Length; x++)
       {
-         string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
-         string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
-
-         return Regex.Replace(name.Replace(" ", "_"), invalidRegStr, "_");
+         results[x] = results[x].Replace("[DOUBLE-QUOTE]", "\"");
       }
-      public static bool IsFileLocked(string filePath)
+
+      //Separating columns to array
+      return results.ToList().Select(x => x.RemoveApostrophes()).ToArray();
+   }
+   public static string RemoveApostrophes(this string str)
+   {
+      if (str.Length < 2)
       {
-         try
-         {
-            using (File.Open(filePath, FileMode.Open)) { }
-         }
-         catch (IOException e)
-         {
-            var errorCode = Marshal.GetHRForException(e) & (1 << 16) - 1;
-
-            return errorCode == 32 || errorCode == 33;
-         }
-
-         return false;
-      }
-      public static void TryUntilFileUnlocked(string fileName)
-      {
-         while (IsFileLocked(fileName))
-         {
-            if (FilesMessaging.Instance.ConfirmRetryFileLocked(fileName) == false)
-            {
-               return;
-            }
-         }
-      }
-      public static string[] ParseCSVRow(string csvrow)
-      {
-         //Define pattern
-         Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-
-         string[] results = CSVParser.Split(csvrow);
-
-         for (int x = 0; x < results.Length; x++)
-         {
-            results[x] = results[x].Replace("[DOUBLE-QUOTE]", "\"");
-         }
-
-         //Separating columns to array
-         return results.ToList().Select(x => x.RemoveApostrophes()).ToArray();
-      }
-      public static string RemoveApostrophes(this string str)
-      {
-         if (str.Length < 2)
-         {
-            return str;
-         }
-
-         if (str[0] == '"' && str[str.Length - 1] == '"')
-         {
-            return str.Substring(1, str.Length - 2);
-         }
-
          return str;
       }
+
+      if (str[0] == '"' && str[str.Length - 1] == '"')
+      {
+         return str.Substring(1, str.Length - 2);
+      }
+
+      return str;
    }
 }

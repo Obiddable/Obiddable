@@ -1,28 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Ccd.Bidding.Manager.Win.Library.UI
+namespace Ccd.Bidding.Manager.Win.Library.UI;
+public static class UserControlExtensions
 {
-   public static class UserControlExtensions
+   public static IEnumerable<Control> GetAllNestedControls(this Control root)
    {
-      public static IEnumerable<Control> GetAllNestedControls(this Control root)
+      Stack<Control> stack;
+      Control control;
+
+      stack = new Stack<Control>();
+      stack.Push(root);
+      do
       {
-         Stack<Control> stack;
-         Control control;
+         control = stack.Pop();
 
-         stack = new Stack<Control>();
-         stack.Push(root);
-         do
+         foreach (Control child in control.Controls)
          {
-            control = stack.Pop();
-
-            foreach (Control child in control.Controls)
-            {
-               yield return child;
-               stack.Push(child);
-            }
+            yield return child;
+            stack.Push(child);
          }
-         while (stack.Count > 0);
       }
+      while (stack.Count > 0);
    }
 }

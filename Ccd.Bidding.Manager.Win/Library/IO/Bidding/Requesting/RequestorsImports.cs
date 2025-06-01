@@ -8,53 +8,51 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Ccd.Bidding.Manager.Win.Library.IO.Bidding.Requesting
+namespace Ccd.Bidding.Manager.Win.Library.IO.Bidding.Requesting;
+public static class RequestorsImports
 {
-   public static class RequestorsImports
+   public static void ImportRequestorsFromCSV(Bid bid, IRequestingRepo requestingRepo)
    {
-      public static void ImportRequestorsFromCSV(Bid bid, IRequestingRepo requestingRepo)
+      string fileName = FileHelpers.OpenFile("Open Requestors Import", "csv");
+      if (fileName is null)
       {
-         string fileName = FileHelpers.OpenFile("Open Requestors Import", "csv");
-         if (fileName is null)
-         {
-            return;
-         }
+         return;
+      }
 
-         string errors = "";
-         List<Requestor> requestors = File.ReadAllLines(fileName).ConvertCSVToRequestors(out errors);
+      string errors = "";
+      List<Requestor> requestors = File.ReadAllLines(fileName).ConvertCSVToRequestors(out errors);
 
-         if (errors != "")
-         {
-            FormsMessaging.Instance.ShowImportError(errors);
-         }
+      if (errors != "")
+      {
+         FormsMessaging.Instance.ShowImportError(errors);
+      }
 
-         if (requestors is null || requestors.Count == 0)
-         {
-            FormsMessaging.Instance.ShowImportNotCompleted();
-            return;
-         }
+      if (requestors is null || requestors.Count == 0)
+      {
+         FormsMessaging.Instance.ShowImportNotCompleted();
+         return;
+      }
 
-         try
+      try
+      {
+         foreach (var requestor in requestors)
          {
-            foreach (var requestor in requestors)
-            {
-               var requests = requestor.Requests;
-               requestor.Requests = null;
+            var requests = requestor.Requests;
+            requestor.Requests = null;
 
-               requestingRepo.AddRequestor_ToBid(requestor, bid.Id);
+            requestingRepo.AddRequestor_ToBid(requestor, bid.Id);
 
-               requests.ForEach(x => requestingRepo.AddRequest_ToRequestor(x, requestor.Id));
-            }
-            RequestorMessaging.Instance.ShowRequestorImportSuccess(requestors);
+            requests.ForEach(x => requestingRepo.AddRequest_ToRequestor(x, requestor.Id));
          }
-         catch (DataValidationException e)
-         {
-            FormsMessaging.Instance.ShowDataValidationExceptionError(e);
-         }
-         catch (Exception e)
-         {
-            FormsMessaging.Instance.ShowDatabaseOperationError(e.Message);
-         }
+         RequestorMessaging.Instance.ShowRequestorImportSuccess(requestors);
+      }
+      catch (DataValidationException e)
+      {
+         FormsMessaging.Instance.ShowDataValidationExceptionError(e);
+      }
+      catch (Exception e)
+      {
+         FormsMessaging.Instance.ShowDatabaseOperationError(e.Message);
       }
    }
 }

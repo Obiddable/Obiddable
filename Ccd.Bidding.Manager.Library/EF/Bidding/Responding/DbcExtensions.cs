@@ -1,6 +1,5 @@
-﻿namespace Ccd.Bidding.Manager.Library.EF.Bidding.Responding
+﻿namespace Ccd.Bidding.Manager.Library.EF.Bidding.Responding;
+
+public static class DbcExtensions
 {
-   public static class DbcExtensions
-   {
-   }
 }

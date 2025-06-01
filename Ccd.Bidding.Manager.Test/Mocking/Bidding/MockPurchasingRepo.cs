@@ -3,44 +3,42 @@ using Ccd.Bidding.Manager.Test.Repos;
 using System;
 using System.Collections.Generic;
 
-namespace Ccd.Bidding.Manager.Test.Mocking.Bidding
+namespace Ccd.Bidding.Manager.Test.Mocking.Bidding;
+public class MockPurchasingRepo : IPurchasingRepo
 {
-   public class MockPurchasingRepo : IPurchasingRepo
+   private readonly MockData _mockData;
+
+   public MockPurchasingRepo(MockData mockData)
    {
-      private readonly MockData _mockData;
+      _mockData = mockData;
+   }
+   public void AddPurchaseOrder_ToBid(PurchaseOrder obj, int bidId)
+   {
+      throw new NotImplementedException();
+   }
 
-      public MockPurchasingRepo(MockData mockData)
-      {
-         _mockData = mockData;
-      }
-      public void AddPurchaseOrder_ToBid(PurchaseOrder obj, int bidId)
-      {
-         throw new NotImplementedException();
-      }
+   public void DeleteLineItems_ByBid(int bidId)
+   {
+      throw new NotImplementedException();
+   }
 
-      public void DeleteLineItems_ByBid(int bidId)
-      {
-         throw new NotImplementedException();
-      }
+   public void DeletePurchaseOrder(int purchaseOrderId)
+   {
+      throw new NotImplementedException();
+   }
 
-      public void DeletePurchaseOrder(int purchaseOrderId)
-      {
-         throw new NotImplementedException();
-      }
+   public void DeletePurchaseOrders_ByBid(int bidId)
+   {
+      throw new NotImplementedException();
+   }
 
-      public void DeletePurchaseOrders_ByBid(int bidId)
-      {
-         throw new NotImplementedException();
-      }
+   public PurchaseOrder GetPurchaseOrder(int purchaseOrderId)
+   {
+      throw new NotImplementedException();
+   }
 
-      public PurchaseOrder GetPurchaseOrder(int purchaseOrderId)
-      {
-         throw new NotImplementedException();
-      }
-
-      public List<PurchaseOrder> GetPurchaseOrders_ByBid(int bidId)
-      {
-         throw new NotImplementedException();
-      }
+   public List<PurchaseOrder> GetPurchaseOrders_ByBid(int bidId)
+   {
+      throw new NotImplementedException();
    }
 }

@@ -1,7 +1,6 @@
-﻿namespace Ccd.Bidding.Manager.Reporting.Html.Tables
+﻿namespace Ccd.Bidding.Manager.Reporting.Html.Tables;
+
+public interface IHeightElement
 {
-   public interface IHeightElement
-   {
-      int LineHeight { get; }
-   }
+   int LineHeight { get; }
 }

@@ -1,6 +1,5 @@
-﻿namespace Ccd.Bidding.Manager.Library.Bidding.Requesting
+﻿namespace Ccd.Bidding.Manager.Library.Bidding.Requesting;
+
+public class RequestingService
 {
-   public class RequestingService
-   {
-   }
 }
