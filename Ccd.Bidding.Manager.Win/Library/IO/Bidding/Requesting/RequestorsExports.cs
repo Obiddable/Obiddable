@@ -14,8 +14,6 @@ public static class RequestorsExports
       string data = RequestorsConversions.GenerateBlankRequestorsImportTemplate();
       string title = "Save Requestors Import Template";
       FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
-
-      FormsMessaging.Instance.ShowImportTemplateGeneratedSuccess();
    }
 
    public static void ExportRequestorsToCSV(Bid bid, IRequestingRepo requestingRepo)
@@ -24,7 +22,5 @@ public static class RequestorsExports
       string data = RequestorsConversions.ConvertRequestorsToCSV(bid.Id, requestingRepo);
       string title = "Save Requestors Export";
       FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
-
-      FormsMessaging.Instance.ShowExportSuccess();
    }
 }

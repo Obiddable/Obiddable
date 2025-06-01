@@ -173,6 +173,10 @@ dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent
 
+dotnet_diagnostic.IDE0100.severity = warning
+
+
+
 # C# or VB files
 [*.{cs,vb}]
 guidelines = 120 12px solid 40ff0000

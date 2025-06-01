@@ -3,7 +3,6 @@ using Ccd.Bidding.Manager.Library.Bidding.Cataloging;
 using Ccd.Bidding.Manager.Library.Bidding.Requesting;
 using Ccd.Bidding.Manager.Library.Conversions.Bidding.Requesting;
 using Ccd.Bidding.Manager.Library.Conversions.Excel;
-using Ccd.Bidding.Manager.Win.UI;
 using Ccd.Bidding.Manager.Win.UI.Bidding.Requesting;
 
 namespace Ccd.Bidding.Manager.Win.Library.IO.Bidding.Requesting;
@@ -17,8 +16,6 @@ public static class RequestsExports
       string data = RequestsConversions.GenerateBlankRequestToCSV(bid.Id, catalogingRepo);
       string title = "Save Request Import Sheet";
       FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
-
-      FormsMessaging.Instance.ShowImportTemplateGeneratedSuccess();
    }
 
    public static void ExportBlankRequestToExcelForAllRequestors(Bid bid, IRequestingRepo requestingRepo)
@@ -42,8 +39,6 @@ public static class RequestsExports
       {
          streams[x].Dispose();
       }
-
-      RequestorMessaging.Instance.ShowRequestorExportAllExcelsSuccess();
    }
 
    public static void ExportRequestToCSV(Request request, IRequestingRepo requestingRepo, RequestMessaging requestMessaging)

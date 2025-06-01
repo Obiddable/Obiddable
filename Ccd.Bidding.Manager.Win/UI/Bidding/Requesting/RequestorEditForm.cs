@@ -135,7 +135,7 @@ public partial class RequestorEditForm : Form
       decimal value = 0;
       if (decimal.TryParse(budgtedAmountTextBox.Text, out value) == false || value < 0)
       {
-         errorProvider1.SetError(budgtedAmountTextBox, RequestorMessaging.Instance.GetAmountBudgettedInvalid());
+         errorProvider1.SetError(budgtedAmountTextBox, RequestorMessaging.Instance.GetAmountBudgetedInvalid());
          return false;
       }
 

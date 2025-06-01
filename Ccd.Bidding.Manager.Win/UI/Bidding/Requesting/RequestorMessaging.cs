@@ -6,7 +6,6 @@ public class RequestorMessaging : MessagingService
 {
    public static RequestorMessaging Instance = new RequestorMessaging();
 
-   #region REQUESTOR MAINTENANCE
    // clear requestors request
    public bool ConfirmRequestorClearRequests()
    {
@@ -24,27 +23,6 @@ public class RequestorMessaging : MessagingService
       string caption = "Import Successful";
       ShowSuccess(message, caption);
    }
-   // export all requestors 
-   public void ShowRequestorExportAllExcelsSuccess()
-   {
-      string message = "All requestors were successfully exported.";
-      string caption = "Export Successful";
-      ShowSuccess(message, caption);
-   }
-   // add
-   public void ShowRequestorAddSuccess()
-   {
-      string message = "The requestor was successfully added.";
-      string caption = "Add Successful";
-      ShowSuccess(message, caption);
-   }
-   // edit
-   public void ShowRequestorEditSuccess()
-   {
-      string message = "The requestor was successfully edited.";
-      string caption = "Edit Successful";
-      ShowSuccess(message, caption);
-   }
    // delete
    public bool ConfirmRequestorDelete(Requestor requestor)
    {
@@ -56,21 +34,18 @@ public class RequestorMessaging : MessagingService
    }
    public void ShowRequestorDelete_RequestorNotBlankError()
    {
-
       string message = "Requestor cannot be deleted if they have requests. Please delete all requests for this requestor before deleting.";
       string caption = "Delete Failed";
       ShowError(message, caption);
    }
-   public void ShowRequestorDeleteSuccess()
+
+   public void ShowExportBlankRequestToExcelForAllRequestors_FailedError(Exception ex)
    {
-      string message = "The requestor was successfully deleted.";
-      string caption = "Delete Successful";
-      ShowSuccess(message, caption);
+      string message = $"Failed to export request files for requestors. See error message: {ex.Message}";
+      string caption = "Export Failed";
+      ShowError(message, caption);
    }
-   #endregion
 
-
-   #region ADD/EDIT REQUESTOR
    // requestor code
    public string GetRequestorCodeCannotBeBlankError()
    {
@@ -123,10 +98,9 @@ public class RequestorMessaging : MessagingService
       return message;
    }
    // amount budgeted
-   public string GetAmountBudgettedInvalid()
+   public string GetAmountBudgetedInvalid()
    {
       string message = "Amount Budgeted is invalid";
       return message;
    }
-   #endregion
 }

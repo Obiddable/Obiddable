@@ -54,9 +54,15 @@ public class SortableListView : ListView
 
    public void ReplaceListViewItems(IEnumerable<ListViewItem> listViewItems)
    {
-      BeginUpdate();
-      Items.Clear();
-      Items.AddRange(listViewItems.ToArray());
-      EndUpdate();
+      try
+      {
+         BeginUpdate();
+         Items.Clear();
+         Items.AddRange(listViewItems.ToArray());
+      }
+      finally
+      {
+         EndUpdate();
+      }
    }
 }

@@ -32,18 +32,6 @@ public class FormsMessaging : MessagingService
       string caption = "Import Not Completed";
       ShowNotice(message, caption);
    }
-   public void ShowImportTemplateGeneratedSuccess()
-   {
-      string message = "The import template was generated successfully.";
-      string caption = "Import Template Generated Successful";
-      ShowSuccess(message, caption);
-   }
-   public void ShowExportSuccess()
-   {
-      string message = "The export completed successfully.";
-      string caption = "Export Successful";
-      ShowSuccess(message, caption);
-   }
 
    public void ShowDataValidationExceptionError(DataValidationException e)
    {

@@ -53,6 +53,14 @@ public partial class MaintenanceScreen : HostScreen
       actionsMenu.DropDownItems.Add(actionMenuItem);
    }
 
+   protected ToolStripMenuItem CreateMenuItem(string name, Action action)
+   {
+      var output = new ToolStripMenuItem(name);
+      output.Click += (_, _) => action();
+
+      return output;
+   }
+
    protected void AddActionSubMenu(string title, Action<IActionMenu> addSubActions)
    {
       var actionMenuItem = new ToolStripMenuItem() { Text = title };

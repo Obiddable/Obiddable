@@ -12,14 +12,13 @@ public class RequestorMaintenanceScreen : MaintenanceScreen
    private readonly IBiddingRepo _biddingRepo = new EFBiddingRepo();
    private readonly IRequestingRepo _requestingRepo = new EFRequestingRepo();
 
-   private Bid _bid;
+   private readonly Bid _bid;
 
    public RequestorMaintenanceScreen(IHostForm hostForm, int bidId) : base(hostForm)
    {
       _bid = _biddingRepo.GetBid(bidId);
    }
 
-   #region INITS
    protected override void InitializeTitles()
    {
       titleLabel.Text = "Requestors Maintenance";
@@ -27,130 +26,89 @@ public class RequestorMaintenanceScreen : MaintenanceScreen
       subtitleLabel.Text = $"{_bid.Id}-{_bid.Name}";
       topPanel.BackColor = ApplicationColors.Requesting;
    }
-   #endregion
 
-   #region ACTIONS
    protected override void InitializeActionsMenu(IActionMenu actionMenu)
    {
-      var importRequestorsMenuItem = new ToolStripMenuItem() { Text = "Import Requestors from CSV" };
-      importRequestorsMenuItem.Click += importRequestorsMenuItem_Click;
+      actionsMenu.DropDownItems.AddRange([
 
-      var exportRequestorsMenuItem = new ToolStripMenuItem() { Text = "Export All Requestors to CSV" };
-      exportRequestorsMenuItem.Click += ExportRequestorsMenuItem_Click;
+         CreateMenuItem("Import Requestors from CSV", () =>
+         {
+            RequestorsImports.ImportRequestorsFromCSV(_bid, _requestingRepo);
+            RefreshList();
+         }),
 
-      var exportBlankRequestForAllRequestors = new ToolStripMenuItem() { Text = "Generate Blank Requests For All Requestors to Excel" };
-      exportBlankRequestForAllRequestors.Click += ExportBlankRequestForAllRequestors_Click;
+         CreateMenuItem("Export All Requestors to CSV", () =>
+         {
+            RequestorsExports.ExportRequestorsToCSV(_bid, _requestingRepo);
+         }),
 
-      var generateRequestorsImportTemplateMenuItem = new ToolStripMenuItem() { Text = "Generate Requestor Import Template to CSV" };
-      generateRequestorsImportTemplateMenuItem.Click += generateRequestorsImportTemplateMenuItem_Click;
+         CreateMenuItem("Generate Requestor Import Template to CSV", () =>
+         {
+            RequestorsExports.GenerateRequestorsImportTemplateToCSV();
+         }),
 
-      actionsMenu.DropDownItems.AddRange(new ToolStripItem[] {
-             importRequestorsMenuItem,
-             exportRequestorsMenuItem,
-             generateRequestorsImportTemplateMenuItem,
-             new ToolStripSeparator(),
-             exportBlankRequestForAllRequestors,
-             new ToolStripSeparator(),
-             LoadSelectedRequestorActionMenuItems(),
-              });
+         new ToolStripSeparator(),
+
+         CreateMenuItem("Generate Blank Requests For All Requestors to Excel", () =>
+         {
+            try{
+               RequestsExports.ExportBlankRequestToExcelForAllRequestors(_bid, _requestingRepo);
+            }
+            catch(Exception ex)
+            {
+               RequestorMessaging.Instance.ShowExportBlankRequestToExcelForAllRequestors_FailedError(ex);
+            }
+         }),
+
+         new ToolStripSeparator(),
+
+         new ToolStripMenuItem("Selected")
+         {
+            DropDownItems =
+            {
+               CreateMenuItem("Open Requestor's Requests", OpenRequestsForRequestor),
+               CreateMenuItem("Clear Requestor's Requests", ClearRequestorsRequests)
+            }
+         }
+      ]);
    }
-   private ToolStripMenuItem LoadSelectedRequestorActionMenuItems()
-   {
-      var selectedMenuItem = new ToolStripMenuItem() { Text = "Selected" };
 
-      var clearRequestorsRequestsMenuItem = new ToolStripMenuItem() { Text = "Clear Requests" };
-      clearRequestorsRequestsMenuItem.Click += clearRequestorsRequestsMenuItem_Click; ;
-
-      selectedMenuItem.DropDownItems.Add(clearRequestorsRequestsMenuItem);
-
-      return selectedMenuItem;
-   }
-
-   private void ExportBlankRequestForAllRequestors_Click(object sender, EventArgs e)
-   {
-      RequestsExports.ExportBlankRequestToExcelForAllRequestors(_bid, _requestingRepo);
-   }
-   private void generateRequestorsImportTemplateMenuItem_Click(object sender, EventArgs e)
-   {
-      RequestorsExports.GenerateRequestorsImportTemplateToCSV();
-   }
-   private void ExportRequestorsMenuItem_Click(object sender, EventArgs e)
-   {
-      RequestorsExports.ExportRequestorsToCSV(_bid, _requestingRepo);
-   }
-   private void importRequestorsMenuItem_Click(object sender, EventArgs e)
-   {
-      RequestorsImports.ImportRequestorsFromCSV(_bid, _requestingRepo);
-
-      RefreshList();
-   }
-   private void clearRequestorsRequestsMenuItem_Click(object sender, EventArgs e)
-   {
-      if (SelectedItem == null)
-      {
-         return;
-      }
-      Requestor requestor = _requestingRepo.GetRequestor(SelectedItemTag);
-      if (requestor is null)
-      {
-         return;
-      }
-
-      if (RequestorMessaging.Instance.ConfirmRequestorClearRequests() == false)
-      {
-         return;
-      }
-      _requestingRepo.ClearRequests_ByRequestor(requestor.Id);
-      RefreshList();
-
-   }
-   #endregion
-
-   #region BUTTONS
    protected override void AddButtonClicked()
    {
-      using (RequestorEditForm f = new RequestorEditForm(_bid))
+      using var addForm = new RequestorEditForm(_bid);
+
+      if (addForm.ShowDialog() != DialogResult.OK ||
+         addForm.GetRequestor() is not Requestor newRequestor)
       {
-         if (f.ShowDialog() != DialogResult.OK)
-         {
-            return;
-         }
-         _requestingRepo.AddRequestor_ToBid(f.GetRequestor(), _bid.Id);
-         RequestorMessaging.Instance.ShowRequestorAddSuccess();
-         RefreshList();
+         return;
       }
+      _requestingRepo.AddRequestor_ToBid(newRequestor, _bid.Id);
+
+      RefreshList();
    }
    protected override void EditButtonClicked()
    {
-      if (SelectedItem == null)
-      {
-         return;
-      }
-      Requestor requestor = _requestingRepo.GetRequestor(SelectedItemTag);
-      if (requestor is null)
+      if (SelectedItem == null ||
+         _requestingRepo.GetRequestor(SelectedItemTag) is not Requestor requestor)
       {
          return;
       }
 
-      using (RequestorEditForm f = new RequestorEditForm(requestor))
-      {
-         if (f.ShowDialog() != DialogResult.OK)
-         {
-            return;
-         }
-         _requestingRepo.UpdateRequestor(f.GetRequestor());
-         RequestorMessaging.Instance.ShowRequestorEditSuccess();
-         RefreshList();
-      }
-   }
-   protected override void DeleteButtonClicked()
-   {
-      if (SelectedItem == null)
+      using var editForm = new RequestorEditForm(requestor);
+
+      if (editForm.ShowDialog() != DialogResult.OK ||
+         editForm.GetRequestor() is not Requestor editedRequestor)
       {
          return;
       }
-      Requestor requestor = _requestingRepo.GetRequestor(SelectedItemTag);
-      if (requestor is null)
+      _requestingRepo.UpdateRequestor(editedRequestor);
+
+      RefreshList();
+   }
+   protected override void DeleteButtonClicked()
+   {
+      if (SelectedItem is null ||
+         _requestingRepo.GetRequestor(SelectedItemTag) is not Requestor requestor)
       {
          return;
       }
@@ -160,93 +118,90 @@ public class RequestorMaintenanceScreen : MaintenanceScreen
          RequestorMessaging.Instance.ShowRequestorDelete_RequestorNotBlankError();
          return;
       }
-
-      if (RequestorMessaging.Instance.ConfirmRequestorDelete(requestor) == false)
+      if (!RequestorMessaging.Instance.ConfirmRequestorDelete(requestor))
       {
          return;
       }
+
       _requestingRepo.DeleteRequestor(requestor.Id);
-      RequestorMessaging.Instance.ShowRequestorDeleteSuccess();
+
       RefreshList();
    }
-   #endregion
 
-   #region LIST
    protected override void InitializeColumns()
    {
-
-      listViewMain.Columns.AddRange(
-          new ColumnHeader[] {
-
-                 new ColumnHeader() { Text = "Requestor Id", Width = 0 },
-                 new ColumnHeader() { Text = "Requestor Code", Width = 121 },
-                 new ColumnHeader() { Text = "Building Name", Width = 239 },
-                 new ColumnHeader() { Text = "Requestor Name", Width = 159 },
-                 new ColumnHeader() { Text = "Requests", Width = 116, TextAlign = HorizontalAlignment.Right  },
-                 new ColumnHeader() { Text = "Requested Items", Width = 169, TextAlign = HorizontalAlignment.Right  },
-                 new ColumnHeader() { Text = "Quantity Sum", Width = 167, TextAlign = HorizontalAlignment.Right  },
-                 new ColumnHeader() { Text = "Total Price", Width = 120, TextAlign = HorizontalAlignment.Right  },
-                 new ColumnHeader() { Text = "Total Price With Overrides", Width = 171, TextAlign = HorizontalAlignment.Right  },
-          }
-      );
+      listViewMain.Columns.AddRange([
+         new() { Text = "Requestor Id", Width = 0 },
+         new() { Text = "Requestor Code", Width = 121 },
+         new() { Text = "Building Name", Width = 239 },
+         new() { Text = "Requestor Name", Width = 159 },
+         new() { Text = "Requests", Width = 116, TextAlign = HorizontalAlignment.Right  },
+         new() { Text = "Requested Items", Width = 169, TextAlign = HorizontalAlignment.Right  },
+         new() { Text = "Quantity Sum", Width = 167, TextAlign = HorizontalAlignment.Right  },
+         new() { Text = "Total Price", Width = 120, TextAlign = HorizontalAlignment.Right  },
+         new() { Text = "Total Price With Overrides", Width = 171, TextAlign = HorizontalAlignment.Right  },
+      ]);
    }
    protected override void RefreshList()
    {
-      listViewMain.BeginUpdate();
+      if (_requestingRepo.GetRequestors_ByBid(_bid.Id) is not List<Requestor> requestors)
+         return;
 
-      listViewMain.Items.Clear();
+      listViewMain.ReplaceListViewItems(
+         requestors
+            .Select(r => new ListViewItem(items: [
+               $"{r.Id}",
+               r.FormattedCode,
+               r.Building,
+               r.Name,
+               r.Requests.Count.ToString(),
+               r.RequestItemsCount().ToString(),
+               r.QuantitySum().ToString(),
+               r.TotalPrice().ToString("$0.00"),
+               r.TotalPriceWithOverride().ToString("$0.00")
+            ])
+            { Tag = r.Id })
+            .ToArray()
+      );
 
-      List<Requestor> requestors = _requestingRepo.GetRequestors_ByBid(_bid.Id);
-      List<ListViewItem> listviewItems = new List<ListViewItem>();
-
-      foreach (Requestor r in requestors)
-      {
-         ListViewItem newListItem = new ListViewItem();
-
-         newListItem.Text = $"{r.Id}";
-
-         newListItem.SubItems.Add(r.FormattedCode);
-         newListItem.SubItems.Add(r.Building);
-         newListItem.SubItems.Add(r.Name);
-         newListItem.SubItems.Add(r.Requests.Count.ToString());
-         newListItem.SubItems.Add(r.RequestItemsCount().ToString());
-         newListItem.SubItems.Add(r.QuantitySum().ToString());
-         newListItem.SubItems.Add(r.TotalPrice().ToString("$0.00"));
-         newListItem.SubItems.Add(r.TotalPriceWithOverride().ToString("$0.00"));
-
-         newListItem.Tag = r.Id;
-         listviewItems.Add(newListItem);
-
-      }
-
-      listViewMain.Items.AddRange(listviewItems.ToArray());
-      listViewMain.EndUpdate();
       ReselectItem();
    }
+
    protected override void ListViewDoubleClicked()
    {
-      openRequestsMenuItem_Click(null, null);
+      OpenRequestsForRequestor();
    }
-   #endregion
 
-   #region OPENS
-   private void openRequestsMenuItem_Click(object sender, EventArgs e)
+   private void OpenRequestsForRequestor()
    {
-      if (SelectedItem == null)
-      {
-         return;
-      }
-      Requestor requestor = _requestingRepo.GetRequestor(SelectedItemTag);
-      if (requestor is null)
+      if (SelectedItem == null ||
+         _requestingRepo.GetRequestor(SelectedItemTag) is not Requestor requestor)
       {
          return;
       }
 
-      RequestMaintenanceScreen f = new RequestMaintenanceScreen(_hostForm, requestor.Id);
-      _hostForm.GoForward(f);
+      _hostForm.GoForward(
+         new RequestMaintenanceScreen(_hostForm, requestor.Id)
+      );
 
       RefreshList();
-
    }
-   #endregion
+
+   private void ClearRequestorsRequests()
+   {
+      if (SelectedItem == null ||
+         _requestingRepo.GetRequestor(SelectedItemTag) is not Requestor requestor)
+      {
+         return;
+      }
+
+      if (!RequestorMessaging.Instance.ConfirmRequestorClearRequests())
+      {
+         return;
+      }
+
+      _requestingRepo.ClearRequests_ByRequestor(requestor.Id);
+
+      RefreshList();
+   }
 }

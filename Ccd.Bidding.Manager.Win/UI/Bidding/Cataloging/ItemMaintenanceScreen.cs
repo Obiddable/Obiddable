@@ -38,28 +38,14 @@ public class ItemMaintenanceScreen : MaintenanceScreen
 
    protected override void InitializeActionsMenu(IActionMenu actionMenu)
    {
-      var massUpdateItemPrices = new ToolStripMenuItem() { Text = "Update All Item Prices" };
-      massUpdateItemPrices.Click += (_, _) => MassUpdateItemPrices();
-
-      var massResetItemPrices = new ToolStripMenuItem() { Text = "Reset All Item Prices To Last Purchase Price" };
-      massResetItemPrices.Click += (_, _) => MassResetItemPricesToLastOrdered();
-
-      var importItemsMenuItem = new ToolStripMenuItem() { Text = "Import Items from CSV" };
-      importItemsMenuItem.Click += (_, _) => ImportItems();
-
-      var exportItemsMenuItem = new ToolStripMenuItem() { Text = "Export All Items to CSV" };
-      exportItemsMenuItem.Click += (_, _) => ExportItems(); ;
-
-      var generateItemsImportTemplateMenuItem = new ToolStripMenuItem() { Text = "Generate Items Import Template to CSV" };
-      generateItemsImportTemplateMenuItem.Click += (_, _) => GenerateItemsImportTemplate();
-
       actionsMenu.DropDownItems.AddRange([
-             massUpdateItemPrices,
-             massResetItemPrices,
-             new ToolStripSeparator(),
-             importItemsMenuItem,
-             exportItemsMenuItem,
-             generateItemsImportTemplateMenuItem ]);
+         CreateMenuItem("Update All Item Prices", MassUpdateItemPrices),
+         CreateMenuItem("Reset All Item Prices To Last Purchase Price", MassResetItemPricesToLastOrdered),
+         new ToolStripSeparator(),
+         CreateMenuItem("Import Items from CSV", ImportItems),
+         CreateMenuItem("Export All Items to CSV", ExportItems),
+         CreateMenuItem("Generate Items Import Template to CSV", GenerateItemsImportTemplate)
+      ]);
 
       void MassUpdateItemPrices()
       {

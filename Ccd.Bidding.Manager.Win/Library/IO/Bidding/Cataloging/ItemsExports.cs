@@ -1,7 +1,6 @@
 ﻿using Ccd.Bidding.Manager.Library.Bidding;
 using Ccd.Bidding.Manager.Library.Bidding.Cataloging;
 using Ccd.Bidding.Manager.Library.Conversions.Bidding.Cataloging;
-using Ccd.Bidding.Manager.Win.UI;
 
 namespace Ccd.Bidding.Manager.Win.Library.IO.Bidding.Cataloging;
 public static class ItemsExports
@@ -21,8 +20,6 @@ public static class ItemsExports
       string data = ItemsConversions.Instance.GenerateBlankItemsImportTemplate();
       string title = "Save Item Import Template";
       FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
-
-      FormsMessaging.Instance.ShowImportTemplateGeneratedSuccess();
    }
 
    public static void ExportItemsToCSV(Bid bid, ICatalogingRepo catalogingRepo)
@@ -31,7 +28,5 @@ public static class ItemsExports
       string data = _itemsConversions.ConvertItemsToCSV(bid.Id, catalogingRepo);
       string title = "Save Items Export";
       FileHelpers.SaveCSV(fileName, data, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
-
-      FormsMessaging.Instance.ShowExportSuccess();
    }
 }
