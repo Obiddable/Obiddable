@@ -8,6 +8,4 @@
     <BuildDependency Project="Ccd.Bidding.Manager.Library/Ccd.Bidding.Manager.Library.csproj" />
   </Project>
   <Project Path="Ccd.Bidding.Manager.Win/Ccd.Bidding.Manager.Win.csproj" />
-  <Project Path="Tiptup300.BiddingManager.EntityFramework/Tiptup300.BiddingManager.EntityFramework.csproj" Id="e0d19be1-eb50-4ddc-91d3-184366e15408" />
-  <Project Path="Tiptup300.BiddingManager/Tiptup300.BiddingManager.csproj" Id="19b909cc-1f19-4566-ad0f-df364003fef8" />
 </Solution>
