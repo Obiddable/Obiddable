@@ -1,126 +1,249 @@
 ﻿using Ccd.Bidding.Manager.Win.Library;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
-namespace Ccd.Bidding.Manager.Win.UI
+namespace Ccd.Bidding.Manager.Win.UI;
+
+public partial class ConfigForm : Form
 {
-   public partial class ConfigForm : Form
+   public ConfigForm()
    {
-      public ConfigForm()
+      InitializeComponent();
+
+      SetControlValues(UserConfiguration.Instance);
+
+      UpdateEpplusTextBoxes();
+
+      IsDataValid();
+   }
+
+   private bool IsDataValid()
+   {
+      errorProvider1.Clear();
+      DirectoryInfo reportFolderDirectory = new DirectoryInfo(reportsFolderTextBox.Text);
+      if (!reportFolderDirectory.Exists)
       {
-         InitializeComponent();
-
-         setConfigurationValues(UserConfiguration.Instance);
-
-         dataIsValid();
+         errorProvider1.SetError(reportsFolderTextBox, "Report folder does not exist");
+         return false;
       }
 
-      #region DATA VALIDATION METHOD
-      private bool dataIsValid()
+      DirectoryInfo exportFolderDirectory = new DirectoryInfo(exportsFolderTextBox.Text);
+      if (!exportFolderDirectory.Exists)
       {
-         errorProvider1.Clear();
-         DirectoryInfo reportFolderDirectory = new DirectoryInfo(reportsFolderTextBox.Text);
-         if (!reportFolderDirectory.Exists)
-         {
-            errorProvider1.SetError(reportsFolderTextBox, "Report folder does not exist");
-            return false;
-         }
-
-         DirectoryInfo exportFolderDirectory = new DirectoryInfo(exportsFolderTextBox.Text);
-         if (!exportFolderDirectory.Exists)
-         {
-            errorProvider1.SetError(exportsFolderTextBox, "Export folder does not exist");
-            return false;
-         }
-
-         return true;
-      }
-      #endregion
-
-      #region BUTTON EVENTS
-      private void savechangesButton_Click(object sender, EventArgs e)
-      {
-         if (dataIsValid())
-         {
-            DialogResult = DialogResult.OK;
-
-            SaveConfigurationValues();
-
-            Close();
-         }
+         errorProvider1.SetError(exportsFolderTextBox, "Export folder does not exist");
+         return false;
       }
 
-      private void setConfigurationValues(UserConfiguration userConfiguration)
+      if (
+         SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal
+         && epplusNonCommercialPersonalNameTextBox.Text.Trim().Length <= 0
+      )
       {
-         reportsFolderTextBox.Text = userConfiguration.DefaultReportsDirectory.FullName;
-         exportsFolderTextBox.Text = userConfiguration.DefaultExportsDirectory.FullName;
-         allowBidDeletionCheckBox.Checked = userConfiguration.CanDeleteBid;
-         suppressFilePathSelectionsOnSavingCheckBox.Checked = userConfiguration.SupressFileLocationSelectDialog;
-         autoOpenExportsCheckBox.Checked = userConfiguration.AutoOpenExports;
-         autoOpenReportsCheckBox.Checked = userConfiguration.AutoOpenReports;
-         includeTimestampsOnAllFiles.Checked = userConfiguration.IncludeTimestampsOnAllFiles;
+         errorProvider1.SetError(
+            epplusNonCommercialPersonalNameTextBox,
+            "Please enter your name for the EPPlus license."
+         );
+         return false;
       }
 
-      private void SaveConfigurationValues()
+      if (
+         SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization
+         && epplusNonCommercialOrganizationNameTextBox.Text.Trim().Length <= 0
+      )
       {
-         UserConfiguration.Instance.DefaultReportsDirectory = new DirectoryInfo(reportsFolderTextBox.Text);
-         UserConfiguration.Instance.DefaultExportsDirectory = new DirectoryInfo(exportsFolderTextBox.Text);
-         UserConfiguration.Instance.CanDeleteBid = allowBidDeletionCheckBox.Checked;
-         UserConfiguration.Instance.SupressFileLocationSelectDialog = suppressFilePathSelectionsOnSavingCheckBox.Checked;
-         UserConfiguration.Instance.AutoOpenExports = autoOpenExportsCheckBox.Checked;
-         UserConfiguration.Instance.AutoOpenReports = autoOpenReportsCheckBox.Checked;
-         UserConfiguration.Instance.IncludeTimestampsOnAllFiles = includeTimestampsOnAllFiles.Checked;
+         errorProvider1.SetError(
+            epplusNonCommercialOrganizationNameTextBox,
+            "Please enter your organization name for the EPPlus license."
+         );
+         return false;
       }
 
-      private void toolStripButton1_Click(object sender, EventArgs e)
+      if (
+         SelectedEpplusLicenseType == EpplusLicenseType.Commercial
+         && epplusCommercialPaidLicenseKeyTextBox.Text.Trim().Length <= 0
+      )
       {
-         DialogResult = DialogResult.Cancel;
+         errorProvider1.SetError(
+            epplusCommercialPaidLicenseKeyTextBox,
+            "Please enter your EPPlus commercial license key."
+         );
+         return false;
+      }
+
+      return true;
+   }
+
+   private void OnSaveChangesClicked(object sender, EventArgs e)
+   {
+      if (IsDataValid())
+      {
+         DialogResult = DialogResult.OK;
+
+         SaveConfigurationValues();
+
          Close();
       }
-      #endregion
+   }
 
-      private void BidEditDialog_KeyDown(object sender, KeyEventArgs e)
+   private void SetControlValues(UserConfiguration userConfiguration)
+   {
+      reportsFolderTextBox.Text = userConfiguration.DefaultReportsDirectory.FullName;
+      exportsFolderTextBox.Text = userConfiguration.DefaultExportsDirectory.FullName;
+      allowBidDeletionCheckBox.Checked = userConfiguration.CanDeleteBid;
+      suppressFilePathSelectionsOnSavingCheckBox.Checked =
+         userConfiguration.SupressFileLocationSelectDialog;
+      autoOpenExportsCheckBox.Checked = userConfiguration.AutoOpenExports;
+      autoOpenReportsCheckBox.Checked = userConfiguration.AutoOpenReports;
+      includeTimestampsOnAllFiles.Checked = userConfiguration.IncludeTimestampsOnAllFiles;
+
+      switch (userConfiguration.EpplusLicenseType)
       {
-         if (e.KeyCode == Keys.Enter)
-         {
-            savechangesButton_Click(sender, e);
-         }
-
-         if (e.KeyCode == Keys.Escape)
-         {
-            toolStripButton1_Click(sender, e);
-         }
+         case EpplusLicenseType.NonCommercialPersonal:
+            epplusLicenseNonCommercialPersonalRadio.Checked = true;
+            break;
+         case EpplusLicenseType.NonCommercialOrganization:
+            epplusLicenseNonCommercialOrganizationRadio.Checked = true;
+            break;
+         case EpplusLicenseType.Commercial:
+            epplusLicenseCommercialPaidRadio.Checked = true;
+            break;
+         default:
+            epplusNoLicenseRadio.Checked = true;
+            break;
       }
 
-      private void reportsFolderButton_Click(object sender, EventArgs e)
+      //SelectedEpplusLicenseType = userConfiguration.EpplusConfig.LicenseType;
+      epplusNonCommercialPersonalNameTextBox.Text =
+         userConfiguration.EpplusNonCommercialPersonalName;
+      epplusNonCommercialOrganizationNameTextBox.Text =
+         userConfiguration.EpplusNonCommercialOrganizationName;
+      epplusCommercialPaidLicenseKeyTextBox.Text = userConfiguration.EpplusCommercialLicenseKey;
+   }
+
+   private void SaveConfigurationValues()
+   {
+      UserConfiguration.Instance.DefaultReportsDirectory = new DirectoryInfo(
+         reportsFolderTextBox.Text
+      );
+      UserConfiguration.Instance.DefaultExportsDirectory = new DirectoryInfo(
+         exportsFolderTextBox.Text
+      );
+      UserConfiguration.Instance.CanDeleteBid = allowBidDeletionCheckBox.Checked;
+      UserConfiguration.Instance.SupressFileLocationSelectDialog =
+         suppressFilePathSelectionsOnSavingCheckBox.Checked;
+      UserConfiguration.Instance.AutoOpenExports = autoOpenExportsCheckBox.Checked;
+      UserConfiguration.Instance.AutoOpenReports = autoOpenReportsCheckBox.Checked;
+      UserConfiguration.Instance.IncludeTimestampsOnAllFiles = includeTimestampsOnAllFiles.Checked;
+
+      UserConfiguration.Instance.EpplusLicenseType = SelectedEpplusLicenseType;
+
+      UserConfiguration.Instance.EpplusNonCommercialPersonalName =
+         SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal
+            ? epplusNonCommercialPersonalNameTextBox.Text.Trim()
+            : null;
+      UserConfiguration.Instance.EpplusNonCommercialOrganizationName =
+         SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization
+            ? epplusNonCommercialOrganizationNameTextBox.Text.Trim()
+            : null;
+      UserConfiguration.Instance.EpplusCommercialLicenseKey =
+         SelectedEpplusLicenseType == EpplusLicenseType.Commercial
+            ? epplusCommercialPaidLicenseKeyTextBox.Text.Trim()
+            : null;
+   }
+
+   private void OnCancelClicked(object sender, EventArgs e)
+   {
+      cancelButton.ToString();
+      DialogResult = DialogResult.Cancel;
+      Close();
+   }
+
+   private void OnKeyDown(object sender, KeyEventArgs e)
+   {
+      if (e.KeyCode == Keys.Enter)
       {
-         using (FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
+         OnSaveChangesClicked(sender, e);
+      }
+
+      if (e.KeyCode == Keys.Escape)
+      {
+         OnCancelClicked(sender, e);
+      }
+   }
+
+   private void OnBrowseReportsFolderClicked(object sender, EventArgs e)
+   {
+      using (
+         FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
          {
             SelectedPath = reportsFolderTextBox.Text,
-         })
-         {
-            if (folderSelectDialog.ShowDialog() != DialogResult.OK)
-            {
-               return;
-            }
-            reportsFolderTextBox.Text = folderSelectDialog.SelectedPath;
          }
-      }
-
-      private void exportsFolderButton_Click(object sender, EventArgs e)
+      )
       {
-         using (FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
+         if (folderSelectDialog.ShowDialog() != DialogResult.OK)
+         {
+            return;
+         }
+         reportsFolderTextBox.Text = folderSelectDialog.SelectedPath;
+      }
+   }
+
+   private void ExportsFolderButton_Click(object sender, EventArgs e)
+   {
+      using (
+         FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
          {
             SelectedPath = exportsFolderTextBox.Text,
-         })
+         }
+      )
+      {
+         if (folderSelectDialog.ShowDialog() != DialogResult.OK)
          {
-            if (folderSelectDialog.ShowDialog() != DialogResult.OK)
-            {
-               return;
-            }
-            exportsFolderTextBox.Text = folderSelectDialog.SelectedPath;
+            return;
+         }
+         exportsFolderTextBox.Text = folderSelectDialog.SelectedPath;
+      }
+   }
+
+   private void OnEpplusLicensingLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+   {
+      UrlOpener urlOpener = new UrlOpener();
+      urlOpener.OpenUrl(@"https://polyformproject.org/licenses/noncommercial/1.0.0/");
+   }
+
+   private void OnEpplusLicenseSelectionChanged(object sender, EventArgs e) =>
+      UpdateEpplusTextBoxes();
+
+   public EpplusLicenseType SelectedEpplusLicenseType
+   {
+      get
+      {
+         if (epplusLicenseNonCommercialPersonalRadio.Checked)
+         {
+            return EpplusLicenseType.NonCommercialPersonal;
+         }
+         else if (epplusLicenseNonCommercialOrganizationRadio.Checked)
+         {
+            return EpplusLicenseType.NonCommercialOrganization;
+         }
+         else if (epplusLicenseCommercialPaidRadio.Checked)
+         {
+            return EpplusLicenseType.Commercial;
+         }
+         else
+         {
+            return EpplusLicenseType.None;
          }
       }
+   }
+
+   private void UpdateEpplusTextBoxes()
+   {
+      epplusNonCommercialPersonalNameTextBox.Enabled =
+         SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal;
+
+      epplusNonCommercialOrganizationNameTextBox.Enabled =
+         SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization;
+
+      epplusCommercialPaidLicenseKeyTextBox.Enabled =
+         SelectedEpplusLicenseType == EpplusLicenseType.Commercial;
    }
 }

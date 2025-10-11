@@ -4,31 +4,29 @@ using Ccd.Bidding.Manager.Reporting.Bidding;
 using Ccd.Bidding.Manager.Win.Library.IO;
 using Ccd.Bidding.Manager.Win.UI.Bidding;
 
-namespace Ccd.Bidding.Manager.Win.Library.Operations.Bidding
+namespace Ccd.Bidding.Manager.Win.Library.Operations.Bidding;
+public class RollBidOperation : BidDataOperation
 {
-   public class RollBidOperation : BidDataOperation
+   private readonly IBiddingOperations _biddingOperations = new EFBiddingOperations();
+
+   public RollBidOperation(Bid bid) : base(bid) { }
+
+   public override bool Confirm()
    {
-      private readonly IBiddingOperations _biddingOperations = new EFBiddingOperations();
+      return BiddingMessaging.Instance.ConfirmBidRoll();
+   }
 
-      public RollBidOperation(Bid bid) : base(bid) { }
-
-      public override bool Confirm()
+   protected override void RunDataOperation()
+   {
+      Bid newBid = _biddingOperations.RollBid(_bid.Id);
+      if (newBid is null)
       {
-         return BiddingMessaging.Instance.ConfirmBidRoll();
+         BiddingMessaging.Instance.ShowBidRollFailedError();
+         return;
       }
+      BiddingMessaging.Instance.ShowBidRollSuccess(newBid.Items.Count, newBid.Requestors.Count, newBid.VendorResponses.Count);
 
-      protected override void RunDataOperation()
-      {
-         Bid newBid = _biddingOperations.RollBid(_bid.Id);
-         if (newBid is null)
-         {
-            BiddingMessaging.Instance.ShowBidRollFailedError();
-            return;
-         }
-         BiddingMessaging.Instance.ShowBidRollSuccess(newBid.Items.Count, newBid.Requestors.Count, newBid.VendorResponses.Count);
-
-         var reportBuilder = new RollReportBuilder();
-         FileHelpers.SaveReport(reportBuilder.BuildReport(newBid), UserConfiguration.Instance.SupressFileLocationSelectDialog);
-      }
+      var reportBuilder = new RollReportBuilder();
+      FileHelpers.SaveReport(reportBuilder.BuildReport(newBid), UserConfiguration.Instance.SupressFileLocationSelectDialog);
    }
 }

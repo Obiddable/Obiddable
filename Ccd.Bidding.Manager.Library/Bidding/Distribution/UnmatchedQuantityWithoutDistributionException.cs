@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Ccd.Bidding.Manager.Library.Bidding.Distribution
+﻿namespace Ccd.Bidding.Manager.Library.Bidding.Distribution;
+public class UnmatchedQuantityWithoutDistributionException : Exception
 {
-   public class UnmatchedQuantityWithoutDistributionException : Exception
+   public UnmatchedQuantityWithoutDistributionException() : base()
    {
-      public UnmatchedQuantityWithoutDistributionException() : base()
-      {
-      }
    }
 }

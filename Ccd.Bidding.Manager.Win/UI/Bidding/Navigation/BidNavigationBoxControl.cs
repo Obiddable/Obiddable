@@ -1,90 +1,88 @@
 ﻿using Ccd.Bidding.Manager.Library.Bidding;
 
-namespace Ccd.Bidding.Manager.Win.UI.Bidding.Navigation
+namespace Ccd.Bidding.Manager.Win.UI.Bidding.Navigation;
+public partial class BidNavigationBoxControl : UserControl
 {
-   public partial class BidNavigationBoxControl : UserControl
+   protected Bid _bid;
+   public event EventHandler EditClicked;
+
+   private bool _editEnabled;
+   protected bool EditEnabled
    {
-      protected Bid _bid;
-      public event EventHandler EditClicked;
-
-      private bool _editEnabled;
-      protected bool EditEnabled
+      get
       {
-         get
-         {
-            return _editEnabled;
-         }
-         set
-         {
-            _editEnabled = value;
-            SetButtonEnabled(value);
-         }
+         return _editEnabled;
       }
-
-      public BidNavigationBoxControl()
+      set
       {
-         InitializeComponent();
-         titleLabel.Text = GetType().Name;
+         _editEnabled = value;
+         SetButtonEnabled(value);
       }
+   }
 
-      protected void SetClickEventOnControls(Control control)
+   public BidNavigationBoxControl()
+   {
+      InitializeComponent();
+      titleLabel.Text = GetType().Name;
+   }
+
+   protected void SetClickEventOnControls(Control control)
+   {
+      control.Click += new EventHandler(_Click);
+      foreach (Control c in control.Controls)
       {
-         control.Click += new EventHandler(_Click);
-         foreach (Control c in control.Controls)
-         {
-            SetClickEventOnControls(c);
-         }
+         SetClickEventOnControls(c);
       }
+   }
 
-      public void SetBid(Bid bid)
+   public void SetBid(Bid bid)
+   {
+      _bid = bid;
+      InitLabels();
+   }
+
+   protected void SetTitle(string title)
+   {
+      titleLabel.Text = title;
+   }
+
+   protected void SetButtonColor(Color color)
+   {
+      editButton.BackColor = color;
+   }
+
+   private void SetButtonEnabled(bool buttonEnabled)
+   {
+      editButton.Enabled = buttonEnabled;
+      if (editButton.Enabled == false)
       {
-         _bid = bid;
-         InitLabels();
+         SetButtonDisabledStyle();
       }
+   }
 
-      protected void SetTitle(string title)
+   private void SetButtonDisabledStyle()
+   {
+      editButton.BackColor = Color.Gray;
+      editButton.ForeColor = Color.DarkGray;
+      editButton.Hide();
+      panel1.BackColor = Color.LightGray;
+   }
+
+   protected virtual void InitLabels() { }
+
+   private void _Click(object sender, EventArgs e) => TriggerEdit();
+   private void Panel1_Click(object sender, EventArgs e) => TriggerEdit();
+
+   private void TriggerEdit()
+   {
+      if (_editEnabled == false)
       {
-         titleLabel.Text = title;
+         return;
       }
-
-      protected void SetButtonColor(Color color)
+      if (EditClicked is null)
       {
-         editButton.BackColor = color;
+         return;
       }
-
-      private void SetButtonEnabled(bool buttonEnabled)
-      {
-         editButton.Enabled = buttonEnabled;
-         if (editButton.Enabled == false)
-         {
-            SetButtonDisabledStyle();
-         }
-      }
-
-      private void SetButtonDisabledStyle()
-      {
-         editButton.BackColor = Color.Gray;
-         editButton.ForeColor = Color.DarkGray;
-         editButton.Hide();
-         panel1.BackColor = Color.LightGray;
-      }
-
-      protected virtual void InitLabels() { }
-
-      private void _Click(object sender, EventArgs e) => TriggerEdit();
-      private void Panel1_Click(object sender, EventArgs e) => TriggerEdit();
-
-      private void TriggerEdit()
-      {
-         if (_editEnabled == false)
-         {
-            return;
-         }
-         if (EditClicked is null)
-         {
-            return;
-         }
-         EditClicked.Invoke(this, null);
-      }
+      EditClicked.Invoke(this, null);
    }
 }

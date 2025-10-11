@@ -1,37 +1,35 @@
 ﻿using Ccd.Bidding.Manager.Win.UI.Bidding;
 using Ccd.Bidding.Manager.Win.UI.Bidding.Navigation;
 
-namespace Ccd.Bidding.Manager.Win.Library.UI
+namespace Ccd.Bidding.Manager.Win.Library.UI;
+public class FirstHostScreenResolver
 {
-   public class FirstHostScreenResolver
+   public HostScreen Resolve(IHostForm hostForm)
    {
-      public HostScreen Resolve(IHostForm hostForm)
+      HostScreen output;
+
+      output = new BidMaintenanceScreen(hostForm);
+      if (isWorkingBidSet())
       {
-         HostScreen output;
-
-         output = new BidMaintenanceScreen(hostForm);
-         if (isWorkingBidSet())
-         {
-            output = getWorkingBidNavigationScreen(hostForm);
-         }
-
-         return output;
+         output = getWorkingBidNavigationScreen(hostForm);
       }
 
-      private HostScreen getWorkingBidNavigationScreen(IHostForm hostForm)
-      {
-         HostScreen output;
-         int workingBidId;
+      return output;
+   }
 
-         workingBidId = UserConfiguration.Instance.WorkingBidId.Value;
-         output = new BidNavigationScreen(hostForm, workingBidId);
+   private HostScreen getWorkingBidNavigationScreen(IHostForm hostForm)
+   {
+      HostScreen output;
+      int workingBidId;
 
-         return output;
-      }
+      workingBidId = UserConfiguration.Instance.WorkingBidId.Value;
+      output = new BidNavigationScreen(hostForm, workingBidId);
 
-      private bool isWorkingBidSet()
-      {
-         return UserConfiguration.Instance.WorkingBidId.HasValue;
-      }
+      return output;
+   }
+
+   private bool isWorkingBidSet()
+   {
+      return UserConfiguration.Instance.WorkingBidId.HasValue;
    }
 }

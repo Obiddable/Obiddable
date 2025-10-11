@@ -2,85 +2,83 @@
 using Ccd.Bidding.Manager.Library.Bidding.Requesting;
 using Ccd.Bidding.Manager.Library.EF.Bidding.Requesting;
 
-namespace Ccd.Bidding.Manager.Win.UI.Bidding.Requesting
+namespace Ccd.Bidding.Manager.Win.UI.Bidding.Requesting;
+public partial class RequestAddForm : Form
 {
-   public partial class RequestAddForm : Form
+   private readonly IRequestingRepo _requestingRepo = new EFRequestingRepo();
+
+   public int _requestorId;
+
+   public RequestAddForm(int requestorId)
    {
-      private readonly IRequestingRepo _requestingRepo = new EFRequestingRepo();
+      _requestorId = requestorId;
 
-      public int _requestorId;
+      InitializeComponent();
+      AccountNumberFormatLabel.Text = $"Format: {AccountNumber.FORMAT}";
+   }
 
-      public RequestAddForm(int requestorId)
+   public Request? GetRequest()
+   {
+      if (DataIsInvalid())
+         return null;
+
+      return new Request()
       {
-         _requestorId = requestorId;
+         Id = 0,
+         Account_Number = AccountNumberComboBox.Text,
+         Requestor = _requestingRepo.GetRequestor(_requestorId),
+      };
+   }
 
-         InitializeComponent();
-         AccountNumberFormatLabel.Text = $"Format: {AccountNumber.FORMAT}";
+   private bool DataIsInvalid()
+   {
+      if (AccountNumber.IsInvalid(AccountNumberComboBox.Text))
+      {
+         errorProvider.SetError(AccountNumberComboBox, RequestMessaging.Instance.GetRequestAccountNumberInvalid());
+         return true;
       }
 
-      public Request? GetRequest()
+      if (_requestingRepo.Check_RequestAccountNumberAlreadyExists_InRequestor(AccountNumberComboBox.Text, _requestorId, 0))
       {
-         if (DataIsInvalid())
-            return null;
-
-         return new Request()
-         {
-            Id = 0,
-            Account_Number = AccountNumberComboBox.Text,
-            Requestor = _requestingRepo.GetRequestor(_requestorId),
-         };
+         errorProvider.SetError(AccountNumberComboBox, RequestMessaging.Instance.GetRequestAccountNumberAlreadyExistsInRequestor());
+         return true;
       }
 
-      private bool DataIsInvalid()
+      return false;
+   }
+
+   private void SaveChangesButton_Click(object sender, EventArgs e)
+   {
+      if (DataIsInvalid())
+         return;
+
+      DialogResult = DialogResult.OK;
+      Close();
+   }
+
+   private void CancelButton_Click(object sender, EventArgs e)
+   {
+      DialogResult = DialogResult.Cancel;
+      Close();
+   }
+
+   private void BidEditDialog_KeyDown(object sender, KeyEventArgs e)
+   {
+      if (e.KeyCode == Keys.Enter)
       {
-         if (AccountNumber.IsInvalid(AccountNumberComboBox.Text))
-         {
-            errorProvider.SetError(AccountNumberComboBox, RequestMessaging.Instance.GetRequestAccountNumberInvalid());
-            return true;
-         }
-
-         if (_requestingRepo.Check_RequestAccountNumberAlreadyExists_InRequestor(AccountNumberComboBox.Text, _requestorId, 0))
-         {
-            errorProvider.SetError(AccountNumberComboBox, RequestMessaging.Instance.GetRequestAccountNumberAlreadyExistsInRequestor());
-            return true;
-         }
-
-         return false;
+         SaveChangesButton_Click(sender, e);
       }
-
-      private void SaveChangesButton_Click(object sender, EventArgs e)
+      if (e.KeyCode == Keys.Escape)
       {
-         if (DataIsInvalid())
-            return;
-
-         DialogResult = DialogResult.OK;
-         Close();
+         CancelButton_Click(sender, e);
       }
+   }
 
-      private void CancelButton_Click(object sender, EventArgs e)
+   private void RequestAddForm_Load(object sender, EventArgs e)
+   {
+      if (_requestingRepo.GetNewRequestAccountNumbers_ByRequestor(_requestorId) is string[] accountNumbers)
       {
-         DialogResult = DialogResult.Cancel;
-         Close();
-      }
-
-      private void BidEditDialog_KeyDown(object sender, KeyEventArgs e)
-      {
-         if (e.KeyCode == Keys.Enter)
-         {
-            SaveChangesButton_Click(sender, e);
-         }
-         if (e.KeyCode == Keys.Escape)
-         {
-            CancelButton_Click(sender, e);
-         }
-      }
-
-      private void RequestAddForm_Load(object sender, EventArgs e)
-      {
-         if (_requestingRepo.GetNewRequestAccountNumbers_ByRequestor(_requestorId) is string[] accountNumbers)
-         {
-            AccountNumberComboBox.Items.AddRange(accountNumbers);
-         }
+         AccountNumberComboBox.Items.AddRange(accountNumbers);
       }
    }
 }

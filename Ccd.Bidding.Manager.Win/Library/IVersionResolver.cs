@@ -1,7 +1,6 @@
-﻿namespace Ccd.Bidding.Manager.Win.Library
+﻿namespace Ccd.Bidding.Manager.Win.Library;
+
+public interface IVersionResolver
 {
-   public interface IVersionResolver
-   {
-      string GetVersion();
-   }
+   string GetVersion();
 }

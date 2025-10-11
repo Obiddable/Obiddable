@@ -1,7 +1,6 @@
-﻿namespace Ccd.Bidding.Manager.Library.Operations
+﻿namespace Ccd.Bidding.Manager.Library.Operations;
+
+public interface IOperation
 {
-   public interface IOperation
-   {
-      void Run();
-   }
+   void Run();
 }

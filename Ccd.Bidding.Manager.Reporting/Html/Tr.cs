@@ -1,8 +1,7 @@
-﻿namespace Ccd.Bidding.Manager.Reporting.Html
+﻿namespace Ccd.Bidding.Manager.Reporting.Html;
+
+public class Tr
 {
-   public class Tr
-   {
-      //private readonly string _body;
-      // private readonly 
-   }
+   //private readonly string _body;
+   // private readonly 
 }

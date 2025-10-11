@@ -1,12 +1,11 @@
-﻿namespace Ccd.Bidding.Manager.Reporting.Html.Tables
-{
-   public class PageBreakHeader
-   {
-      public string Line { get; private set; }
+﻿namespace Ccd.Bidding.Manager.Reporting.Html.Tables;
 
-      public PageBreakHeader(string line)
-      {
-         Line = line;
-      }
+public class PageBreakHeader
+{
+   public string Line { get; private set; }
+
+   public PageBreakHeader(string line)
+   {
+      Line = line;
    }
 }
