@@ -6,12 +6,13 @@ using Ccd.Bidding.Manager.Library.Bidding.Responding;
 using Ccd.Bidding.Manager.Library.EF.Bidding.Electing;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 
 namespace Ccd.Bidding.Manager.Library.EF
 {
    public class Dbc : DbContext
    {
-      public static string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
+      public static string ConnectionString = "Data Source=bidding.db";
 
       public Dbc(DbContextOptions options) : base(options) { }
 
@@ -21,7 +22,8 @@ namespace Ccd.Bidding.Manager.Library.EF
       {
          if (ConnectionString is null)
             throw new Exception($"{nameof(ConnectionString)} not set");
-         options.UseSqlServer(ConnectionString);
+         
+         options.UseSqlite(ConnectionString);
       }
 
       // These properties must be accessible for entity framework to work correctly.

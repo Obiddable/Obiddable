@@ -2,7 +2,6 @@
 using Ccd.Bidding.Manager.Library.EF.Bidding.Electing;
 using Ccd.Bidding.Manager.Win.Library;
 using Ccd.Bidding.Manager.Win.UI;
-using System.Configuration;
 
 namespace Ccd.Bidding.Manager.Win
 {
@@ -17,29 +16,39 @@ namespace Ccd.Bidding.Manager.Win
          DisableElectionsConversionService();
          InitializeUserConfiguration();
          SetDbcConnectionString();
+         EnsureDatabaseCreated();
          RunApplication();
 
          static void DisableElectionsConversionService()
          {
             ElectionsConversionService.Disabled = true;
          }
+
          static void InitializeUserConfiguration()
          {
             var myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             UserConfiguration.Instance = new UserConfiguration(myDocumentsPath + "//ccd.bm.win.config.csv");
          }
+
          static void SetDbcConnectionString()
          {
-            string connectionString = null;
+            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var dbPath = Path.Combine(appDataPath, typeof(Program).Assembly.FullName, "bidding.db");
 
-#if DEBUG
-            connectionString = ConfigurationManager.ConnectionStrings["Debug"].ConnectionString;
-#else
-            connectionString = ConfigurationManager.ConnectionStrings["Release"].ConnectionString;
-#endif
+            // Ensure directory exists
+            Directory.CreateDirectory(Path.GetDirectoryName(dbPath));
 
-            Dbc.ConnectionString = connectionString;
+            Dbc.ConnectionString = $"Data Source={dbPath}";
          }
+
+         static void EnsureDatabaseCreated()
+         {
+            using (var context = new Dbc())
+            {
+               context.Database.EnsureCreated();
+            }
+         }
+
          static void RunApplication()
          {
             Application.EnableVisualStyles();
@@ -47,6 +56,5 @@ namespace Ccd.Bidding.Manager.Win
             Application.Run(new HostForm());
          }
       }
-
    }
 }

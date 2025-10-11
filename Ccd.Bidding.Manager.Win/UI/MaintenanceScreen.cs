@@ -68,7 +68,15 @@ namespace Ccd.Bidding.Manager.Win.UI
          InitializeActionsMenu(_actionMenu);
          InitializeColumns();
          LoadColumnWidths();
-         RefreshList();
+         try
+         {
+
+            RefreshList();
+         }
+         catch
+         {
+            MessageBox.Show("An error occured while refreshing the list.");
+         }
       }
       #endregion
 
