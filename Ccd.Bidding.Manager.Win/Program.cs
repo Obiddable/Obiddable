@@ -41,8 +41,6 @@ static class Program
          Directory.CreateDirectory(Path.GetDirectoryName(dbPath));
 
          Dbc.ConnectionString = $"Data Source={dbPath}";
-
-         Dbc.ConnectionString = connectionString;
       }
 
       static void EnsureDatabaseCreated()
