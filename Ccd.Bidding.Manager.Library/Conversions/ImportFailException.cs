@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Ccd.Bidding.Manager.Library.Conversions
+﻿namespace Ccd.Bidding.Manager.Library.Conversions;
+public class ImportFailException : Exception
 {
-   public class ImportFailException : Exception
+   public ImportFailException(string message) : base(message)
    {
-      public ImportFailException(string message) : base(message)
-      {
-      }
    }
 }

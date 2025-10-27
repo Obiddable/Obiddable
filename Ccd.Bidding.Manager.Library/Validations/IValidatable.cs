@@ -1,7 +1,6 @@
-﻿namespace Ccd.Bidding.Manager.Library.Validations
+﻿namespace Ccd.Bidding.Manager.Library.Validations;
+
+interface IValidatable
 {
-   interface IValidatable
-   {
-      void Validate();
-   }
+   void Validate();
 }

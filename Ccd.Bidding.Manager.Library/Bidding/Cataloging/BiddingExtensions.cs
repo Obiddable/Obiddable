@@ -1,22 +1,18 @@
 ﻿using Ccd.Bidding.Manager.Library.Bidding.Requesting;
 using Ccd.Bidding.Manager.Library.Bidding.Requesting.Extensions;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Ccd.Bidding.Manager.Library.Bidding.Cataloging
+namespace Ccd.Bidding.Manager.Library.Bidding.Cataloging;
+public static class BiddingExtensions
 {
-   public static class BiddingExtensions
-   {
-      public static bool CanEditItems(this Bid bid)
-          => true;
+   public static bool CanEditItems(this Bid bid)
+       => true;
 
-      public static int GetItemsCount(this Bid bid)
-          => bid.Items.Count;
+   public static int GetItemsCount(this Bid bid)
+       => bid.Items.Count;
 
-      public static int GetItemCategoriesCount(this Bid bid)
-          => bid.Items.GroupBy(x => x.Category).Distinct().Count();
+   public static int GetItemCategoriesCount(this Bid bid)
+       => bid.Items.GroupBy(x => x.Category).Distinct().Count();
 
-      public static int GetRequestedItemsCount(this Bid bid, IRequestingRepo repo)
-          => bid.Items.Distinct().Count(x => x.GetRequestedQuantity(repo) > 0);
-   }
+   public static int GetRequestedItemsCount(this Bid bid, IRequestingRepo repo)
+       => bid.Items.Distinct().Count(x => x.GetRequestedQuantity(repo) > 0);
 }

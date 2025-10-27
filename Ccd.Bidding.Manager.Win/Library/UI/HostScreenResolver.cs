@@ -1,16 +1,12 @@
-﻿using System;
-
-namespace Ccd.Bidding.Manager.Win.Library.UI
+﻿namespace Ccd.Bidding.Manager.Win.Library.UI;
+public class HostScreenResolver
 {
-   public class HostScreenResolver
+   public HostScreen Resolve<TScreen>() where TScreen : HostScreen
    {
-      public HostScreen Resolve<TScreen>() where TScreen : HostScreen
-      {
-         HostScreen output;
+      HostScreen output;
 
-         output = (HostScreen)Activator.CreateInstance<TScreen>();
+      output = (HostScreen)Activator.CreateInstance<TScreen>();
 
-         return output;
-      }
+      return output;
    }
 }

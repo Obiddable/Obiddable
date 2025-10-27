@@ -1,7 +1,6 @@
-﻿namespace Ccd.Bidding.Manager.Reporting
+﻿namespace Ccd.Bidding.Manager.Reporting;
+
+public interface IReportBuilder<TObject>
 {
-   public interface IReportBuilder<TObject>
-   {
-      IReportFile BuildReport(TObject reportObject);
-   }
+   IReportFile BuildReport(TObject reportObject);
 }
