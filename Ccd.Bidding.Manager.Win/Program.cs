@@ -14,48 +14,30 @@ static class Program
    [STAThread]
    static void Main()
    {
-      DisableElectionsConversionService();
-      InitializeUserConfiguration();
-      SetDbcConnectionString();
-      EnsureDatabaseCreated();
-      RunApplication();
-
-      static void DisableElectionsConversionService()
+      var appDataPath = Path.Combine(
+         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+         typeof(Program).Assembly.GetName().Name!
+      );
+      if (!Directory.Exists(appDataPath))
       {
-         ElectionsConversionService.Disabled = true;
+         Directory.CreateDirectory(appDataPath);
       }
-      static void InitializeUserConfiguration()
-      {
-         var myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-         UserConfiguration.Instance = new UserConfiguration(
-            myDocumentsPath + "//ccd.bm.win.config.csv"
-         );
-         UserConfiguration.Instance.SetEpplusLicense();
-      }
-      static void SetDbcConnectionString()
-      {
-         var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-         var dbPath = Path.Combine(appDataPath, typeof(Program).Assembly.FullName, "bidding.db");
+      var configurationFilePath = Path.Combine(appDataPath, "config.csv");
+      var databaseFilePath = Path.Combine(appDataPath, "database.sqlite");
 
-         // Ensure directory exists
-         Directory.CreateDirectory(Path.GetDirectoryName(dbPath));
+      ElectionsConversionService.Disabled = true;
 
-         Dbc.ConnectionString = $"Data Source={dbPath}";
+      UserConfiguration.Instance = new UserConfiguration(configurationFilePath);
+      UserConfiguration.Instance.SetEpplusLicense();
+
+      Dbc.ConnectionString = $"Data Source={databaseFilePath}";
+      using (var context = new Dbc())
+      {
+         context.Database.EnsureCreated();
       }
 
-      static void EnsureDatabaseCreated()
-      {
-         using (var context = new Dbc())
-         {
-            context.Database.EnsureCreated();
-         }
-      }
-
-      static void RunApplication()
-      {
-         Application.EnableVisualStyles();
-         Application.SetCompatibleTextRenderingDefault(false);
-         Application.Run(new HostForm());
-      }
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      Application.Run(new HostForm());
    }
 }
