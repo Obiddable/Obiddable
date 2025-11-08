@@ -14,40 +14,30 @@ static class Program
    [STAThread]
    static void Main()
    {
-      DisableElectionsConversionService();
-      InitializeUserConfiguration();
-      SetDbcConnectionString();
-      RunApplication();
+      var appDataPath = Path.Combine(
+         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+         typeof(Program).Assembly.GetName().Name!
+      );
+      if (!Directory.Exists(appDataPath))
+      {
+         Directory.CreateDirectory(appDataPath);
+      }
+      var configurationFilePath = Path.Combine(appDataPath, "config.csv");
+      var databaseFilePath = Path.Combine(appDataPath, "database.sqlite");
 
-      static void DisableElectionsConversionService()
-      {
-         ElectionsConversionService.Disabled = true;
-      }
-      static void InitializeUserConfiguration()
-      {
-         var myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-         UserConfiguration.Instance = new UserConfiguration(
-            myDocumentsPath + "//ccd.bm.win.config.csv"
-         );
-         UserConfiguration.Instance.SetEpplusLicense();
-      }
-      static void SetDbcConnectionString()
-      {
-         string connectionString = null;
+      ElectionsConversionService.Disabled = true;
 
-#if DEBUG
-         connectionString = ConfigurationManager.ConnectionStrings["Debug"].ConnectionString;
-#else
-         connectionString = ConfigurationManager.ConnectionStrings["Release"].ConnectionString;
-#endif
+      UserConfiguration.Instance = new UserConfiguration(configurationFilePath);
+      UserConfiguration.Instance.SetEpplusLicense();
 
-         Dbc.ConnectionString = connectionString;
-      }
-      static void RunApplication()
+      Dbc.ConnectionString = $"Data Source={databaseFilePath}";
+      using (var context = new Dbc())
       {
-         Application.EnableVisualStyles();
-         Application.SetCompatibleTextRenderingDefault(false);
-         Application.Run(new HostForm());
+         context.Database.EnsureCreated();
       }
+
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      Application.Run(new HostForm());
    }
 }

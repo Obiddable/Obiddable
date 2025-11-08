@@ -1,35 +1,20 @@
-## ⚙️ SQL Server Setup Instructions
+# Bidding Manager
 
-To set up and connect the application to a local SQL Server Express instance, follow these steps precisely:
+This application manages bidding processes with a local SQLite database.
 
-1. **Install SQL Server Express**  
-   Make sure SQL Server Express is installed on your machine. You can download it from the official Microsoft website.
+## Setup Instructions
 
-2. **Configure the Connection String**  
-   Paste the appropriate connection string into:  
-   `Ccd.Bidding.Manager.Library.EF.Dbc`
+1. **Build and Run**  
+   Build and run the application. The database will be automatically created in your AppData folder.
 
-   Example:
-   ```plaintext
-   Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;
+2. **Location of Data**  
+   The SQLite database will be created at:  
+   `%AppData%\Ccd.Bidding.Manager\bidding.db`
 
-3. **Update the Database
+3. **First Run**  
+   On first run, the application will:
+   - Create necessary directories
+   - Initialize the SQLite database
+   - Apply all required migrations
 
-Open **Package Manager Console** in Visual Studio.**
-
-   * Set the Default Project to:
-       `Ccd.Bidding.Manager.Library`
-
-   * Run the following command to apply migrations:
-     ```
-     Update-Database -Context Ccd.Bidding.Manager.Library.EF.Dbc
-     ```
-
-4. **Ensure Configuration File is Correct**
-
-Check the .config file located in the binary (bin) directory. Ensure the connection string reflects your local instance of SQL Server Express.
-
-5. **Access via SQL Server Management Studio (SSMS)**
-
-* Connect to: localhost\SQLEXPRESS
-* Ensure "Encrypt" is set to Optional
+No additional database setup is required.

@@ -28,17 +28,17 @@ public class ResponseItem : IValidatable
    public decimal AlternateQuantity { get; set; }
 
    [MaxLength(30)]
-   public string AlternateUnit { get; set; }
+   public string? AlternateUnit { get; set; }
 
    [Required]
    public bool IsAlternate { get; set; }
 
    [MaxLength(500)]
-   public string AlternateDescription { get; set; }
+   public string? AlternateDescription { get; set; }
 
    public bool Elected { get; set; }
 
-   public string ElectionReason { get; set; }
+   public string? ElectionReason { get; set; }
 
    private ResponseItem() { }
 

@@ -73,7 +73,15 @@ public partial class MaintenanceScreen : HostScreen
       InitializeActionsMenu(_actionMenu);
       InitializeColumns();
       LoadColumnWidths();
-      RefreshList();
+      try
+      {
+
+         RefreshList();
+      }
+      catch
+      {
+         MessageBox.Show("An error occured while refreshing the list.");
+      }
    }
    #endregion
 

@@ -3,33 +3,30 @@ using System;
 using Ccd.Bidding.Manager.Library.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Ccd.Bidding.Manager.Library.Migrations
+#nullable disable
+
+namespace Ccd.Bidding.Manager.Library.EF.Migrations
 {
     [DbContext(typeof(Dbc))]
-    partial class bmDbContextModelSnapshot : ModelSnapshot
+    partial class DbcModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Bid", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -40,23 +37,22 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BidId")
-                        .HasColumnType("int");
+                    b.Property<int>("BidId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("Code")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Last_Order_Price")
                         .HasColumnType("decimal(18,5)");
@@ -65,12 +61,12 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<bool>("Substitutable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Unit")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -83,43 +79,46 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("AccountNumber")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ItemCode")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Note")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("PartNumber")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<int?>("PurchaseOrderId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Quantity")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<string>("Unit")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -132,22 +131,23 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BidId")
-                        .HasColumnType("int");
+                    b.Property<int>("BidId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Building")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Vendor")
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -160,16 +160,15 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Account_Number")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("RequestorId")
-                        .HasColumnType("int");
+                    b.Property<int>("RequestorId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -182,20 +181,19 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("OverridePrice")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RequestId")
-                        .HasColumnType("int");
+                    b.Property<int>("RequestId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -210,32 +208,31 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("AmountBudgeted")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("BidId")
-                        .HasColumnType("int");
+                    b.Property<int>("BidId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Building")
                         .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<int>("Code")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("varchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 
@@ -248,42 +245,41 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("AlternateDescription")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("AlternateQuantity")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<string>("AlternateUnit")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Elected")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ElectionReason")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsAlternate")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,5)");
 
-                    b.Property<int?>("VendorResponseId")
-                        .HasColumnType("int");
+                    b.Property<int>("VendorResponseId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -298,16 +294,15 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BidId")
-                        .HasColumnType("int");
+                    b.Property<int>("BidId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("VendorName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -320,19 +315,18 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ElectedResponseItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -347,12 +341,16 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Bid", "Bid")
                         .WithMany("Items")
-                        .HasForeignKey("BidId");
+                        .HasForeignKey("BidId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Purchasing.LineItem", b =>
                 {
-                    b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Purchasing.PurchaseOrder", "PurchaseOrder")
+                    b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Purchasing.PurchaseOrder", null)
                         .WithMany("LineItems")
                         .HasForeignKey("PurchaseOrderId");
                 });
@@ -361,14 +359,22 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                 {
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Bid", "Bid")
                         .WithMany("PurchaseOrders")
-                        .HasForeignKey("BidId");
+                        .HasForeignKey("BidId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Requesting.Request", b =>
                 {
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Requesting.Requestor", "Requestor")
                         .WithMany("Requests")
-                        .HasForeignKey("RequestorId");
+                        .HasForeignKey("RequestorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Requestor");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Requesting.RequestItem", b =>
@@ -381,14 +387,24 @@ namespace Ccd.Bidding.Manager.Library.Migrations
 
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Requesting.Request", "Request")
                         .WithMany("RequestItems")
-                        .HasForeignKey("RequestId");
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Requesting.Requestor", b =>
                 {
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Bid", "Bid")
                         .WithMany("Requestors")
-                        .HasForeignKey("BidId");
+                        .HasForeignKey("BidId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Responding.ResponseItem", b =>
@@ -401,14 +417,24 @@ namespace Ccd.Bidding.Manager.Library.Migrations
 
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Responding.VendorResponse", "VendorResponse")
                         .WithMany("ResponseItems")
-                        .HasForeignKey("VendorResponseId");
+                        .HasForeignKey("VendorResponseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("VendorResponse");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Responding.VendorResponse", b =>
                 {
                     b.HasOne("Ccd.Bidding.Manager.Library.Bidding.Bid", "Bid")
                         .WithMany("VendorResponses")
-                        .HasForeignKey("BidId");
+                        .HasForeignKey("BidId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Ccd.Bidding.Manager.Library.EF.Bidding.Electing.DbcMarkedElection", b =>
@@ -424,6 +450,41 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ElectedResponseItem");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Bid", b =>
+                {
+                    b.Navigation("Items");
+
+                    b.Navigation("PurchaseOrders");
+
+                    b.Navigation("Requestors");
+
+                    b.Navigation("VendorResponses");
+                });
+
+            modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Purchasing.PurchaseOrder", b =>
+                {
+                    b.Navigation("LineItems");
+                });
+
+            modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Requesting.Request", b =>
+                {
+                    b.Navigation("RequestItems");
+                });
+
+            modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Requesting.Requestor", b =>
+                {
+                    b.Navigation("Requests");
+                });
+
+            modelBuilder.Entity("Ccd.Bidding.Manager.Library.Bidding.Responding.VendorResponse", b =>
+                {
+                    b.Navigation("ResponseItems");
                 });
 #pragma warning restore 612, 618
         }
