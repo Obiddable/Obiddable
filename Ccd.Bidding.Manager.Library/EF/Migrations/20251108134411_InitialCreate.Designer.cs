@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ccd.Bidding.Manager.Library.Migrations
+namespace Ccd.Bidding.Manager.Library.EF.Migrations
 {
     [DbContext(typeof(Dbc))]
-    [Migration("20251011200732_InitialSqlite")]
-    partial class InitialSqlite
+    [Migration("20251108134411_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,7 +251,6 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AlternateDescription")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
@@ -259,7 +258,6 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<string>("AlternateUnit")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
@@ -272,7 +270,6 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ElectionReason")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsAlternate")

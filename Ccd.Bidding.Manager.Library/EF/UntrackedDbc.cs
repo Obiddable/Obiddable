@@ -6,6 +6,15 @@ using Ccd.Bidding.Manager.Library.Bidding.Responding;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ccd.Bidding.Manager.Library.EF;
+/// <summary>
+/// The purpose of this class is to sort of be an adapter or decorator of the
+/// main one Dbc, but this one does everything using GetUntracked. I believe if
+/// I just had this one then any migrations would not work. So I have to have both.
+/// 
+/// But at the same time, I usually reasonable the code where I'm assuming it's untracked.
+/// I believe I can merge them later on, for now this adds complexity where I have to
+/// specify the correct Dbc
+/// </summary>
 public class UntrackedDbc : Dbc
 {
    public List<Bid> GetUntrackedBids()

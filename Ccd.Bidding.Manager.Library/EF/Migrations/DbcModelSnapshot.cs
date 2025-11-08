@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ccd.Bidding.Manager.Library.Migrations
+namespace Ccd.Bidding.Manager.Library.EF.Migrations
 {
     [DbContext(typeof(Dbc))]
-    partial class bmDbContextModelSnapshot : ModelSnapshot
+    partial class DbcModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -248,7 +248,6 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AlternateDescription")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
@@ -256,7 +255,6 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<string>("AlternateUnit")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
@@ -269,7 +267,6 @@ namespace Ccd.Bidding.Manager.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ElectionReason")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsAlternate")
