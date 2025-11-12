@@ -18,7 +18,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '10.x'
+        dotnet-version: '10.0.x'
 
     - name: Install coverlet
       run: dotnet tool install --global coverlet.console --version 6.0.4
@@ -154,4 +154,4 @@ jobs:
         prerelease: false
         files: Obiddable-${{ steps.vars.outputs.tag_name }}-win-x64.zip
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
