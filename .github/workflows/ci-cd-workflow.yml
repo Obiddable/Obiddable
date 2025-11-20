@@ -75,6 +75,7 @@ jobs:
 
       - name: Confirm
         run: echo "Bumped to ${{ steps.bump.outputs.new_version }} (patch increment)"
+
   build:
     runs-on: windows-latest
     steps:
@@ -131,39 +132,9 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Run Tests and Collect Coverage
-        run: |
-          dotnet test --configuration Release --collect:"XPlat Code Coverage" --results-directory ./coverage
-      
-      - name: Generate Code Coverage Report
-        run: |
-          dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.5
-          reportgenerator "-reports:./coverage/**/coverage.cobertura.xml" "-targetdir:./coverage/"
-      
-      - name: Upload Code Coverage Report to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          file: './coverage/**/coverage.cobertura.xml'
-          token: ${{ secrets.CODECOV_TOKEN }}
-        
-      - name: Create Coverage PR Comment File
-        run: |
-          "## Code Coverage Report" | Out-File -FilePath code-coverage-results.md -Encoding utf8
-          "" | Add-Content -Path code-coverage-results.md
-          $covFile = Get-ChildItem -Path ./coverage -Recurse -Filter coverage.cobertura.xml | Select-Object -First 1
-          if ($covFile) {
-            '```xml' | Add-Content -Path code-coverage-results.md
-            Get-Content $covFile.FullName | Add-Content -Path code-coverage-results.md
-            '```' | Add-Content -Path code-coverage-results.md
-          } else {
-            "No coverage.cobertura.xml found." | Add-Content -Path code-coverage-results.md
-          }
-        shell: pwsh
-      - name: Add Coverage PR Comment
-        uses: marocchino/sticky-pull-request-comment@v2
-        if: github.event_name == 'pull_request'
-        with:
-          recreate: true
-          path: code-coverage-results.md
+        run: >
+            dotnet test
+            --configuration Release
   
   deploy:
     if: github.ref == 'refs/heads/main'
