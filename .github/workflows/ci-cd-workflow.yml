@@ -211,4 +211,4 @@ jobs:
         prerelease: false
         files: Obiddable-${{ steps.vars.outputs.tag_name }}-win-x64.zip
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
