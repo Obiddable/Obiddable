@@ -118,7 +118,7 @@ jobs:
       run: |
         $version = "${{ steps.vars.outputs.tag_name }}"
         $fileName = "Obiddable-$version-win-x64.zip"
-        Compress-Archive -Path "release-artifacts/*" -DestinationPath $fileName
+        Compress-Archive -Path "release-artifacts/*.dll","release-artifacts/*.exe" -DestinationPath $fileName
       shell: pwsh
   
     - name: Generate Release Notes
