@@ -3,10 +3,12 @@ name: CI/CD Workflow
 on:
   push:
     branches:
+      - main
       - release
       - release-staging
   pull_request:
     branches:
+      - main
       - release
       - release-staging
 
