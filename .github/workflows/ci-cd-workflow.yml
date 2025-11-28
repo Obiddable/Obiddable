@@ -4,15 +4,17 @@ on:
   push:
     branches:
       - release
+      - release-staging
   pull_request:
     branches:
       - release
+      - release-staging
 
 jobs:
   bump-version-on-merge:
-    name: Bump patch version (on PR merge to release)
+    name: Bump patch version (on PR merge to release-staging)
     # Only run this job when the PR was merged (closed + merged) and base branch is release
-    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release-staging'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -140,7 +142,7 @@ jobs:
   
   deploy:
     if: github.ref == 'refs/heads/release'
-    needs: [test, bump-version-on-merge]
+    needs: test
     runs-on: windows-latest
     permissions:
       contents: write
@@ -160,8 +162,9 @@ jobs:
       run: |
         $sha = git rev-parse --short HEAD
         "sha_short=$sha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
-        $version = "${{ needs.bump-version-on-merge.outputs.bumped_version }}"
+    
+        [xml]$props = Get-Content Directory.Build.props
+        $version = $props.Project.PropertyGroup.Version
         "tag_name=v$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
     - name: Create ZIP file
