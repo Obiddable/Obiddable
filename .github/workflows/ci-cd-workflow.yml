@@ -3,16 +3,16 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - main
+      - release
   pull_request:
     branches:
-      - main
+      - release
 
 jobs:
   bump-version-on-merge:
-    name: Bump patch version (on PR merge to main)
-    # Only run this job when the PR was merged (closed + merged) and base branch is main
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    name: Bump patch version (on PR merge to release)
+    # Only run this job when the PR was merged (closed + merged) and base branch is release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -64,12 +64,12 @@ jobs:
           sed -E -i "s#(<InformationalVersion>).*?(</InformationalVersion>)#\1$NEW+${GITHUB_SHA:0:8}\2#g" "$FILE"
 
           git add "$FILE"
-          # commit the change to main
+          # commit the change to release
           git commit -m "chore: bump version to $NEW" || echo "No changes to commit"
 
           # create lightweight tag and push commit+tag
           git tag "v$NEW" || echo "Tag v$NEW already exists"
-          git push origin HEAD:main
+          git push origin HEAD:release
           git push origin "v$NEW" || echo "Tag push failed or already exists"
 
           # set output for later steps
@@ -139,7 +139,7 @@ jobs:
             --configuration Release
   
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/release'
     needs: [test, bump-version-on-merge]
     runs-on: windows-latest
     permissions:
