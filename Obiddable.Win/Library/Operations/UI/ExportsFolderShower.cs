@@ -7,11 +7,11 @@ public class ExportsFolderShower : IOperation
     private ConfigMenuShower _configMenuShower = new ConfigMenuShower();
     public void Run()
     {
-        if (UserConfiguration.Instance.DefaultExportsDirectory.Exists)
+        if (UserConfiguration.Instance.ExportsDirectory.Exists)
         {
             var psi = new System.Diagnostics.ProcessStartInfo
             {
-                FileName = UserConfiguration.Instance.DefaultExportsDirectory.FullName,
+                FileName = UserConfiguration.Instance.ExportsDirectory.FullName,
                 UseShellExecute = true
             };
             System.Diagnostics.Process.Start(psi);

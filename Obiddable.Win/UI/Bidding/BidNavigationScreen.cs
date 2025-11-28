@@ -20,9 +20,9 @@ public partial class BidNavigationScreen : HostScreen
     private readonly ReportsFolderShower _reportsFolderShower = new ReportsFolderShower();
     private readonly ExportsFolderShower _exportsFolderShower = new ExportsFolderShower();
     private readonly HelpScreenShower _helpScreenShower = new HelpScreenShower(new UrlOpener());
-    private readonly ConfigMenuShower _configMenuShower = new ConfigMenuShower();
+	private readonly ConfigMenuShower _configMenuShower = new ConfigMenuShower();
 
-    public BidNavigationScreen(IHostForm hostForm, int bidId)
+	public BidNavigationScreen(IHostForm hostForm, int bidId)
     {
         _hostForm = hostForm;
         InitializeComponent();
@@ -116,8 +116,6 @@ public partial class BidNavigationScreen : HostScreen
     private void ReportsButton_Click(object sender, EventArgs e) => _reportsFolderShower.Run();
 
     private void RefreshButton_Click(object sender, EventArgs e) => RefreshScreen();
-
-    private void ConfigButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
 
     private void HelpButton_Click(object sender, EventArgs e) => _helpScreenShower.Run();
 

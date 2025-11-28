@@ -35,11 +35,14 @@ public partial class MaintenanceScreen : HostScreen
         editButton.Click += EditButton_Click;
 		refreshButton.Click += RefreshButton_Click;
         listViewMain.DoubleClick += ListViewMain_DoubleClick;
+        configButton.Click += ConfigButton_Click;
         _hostForm = hostForm;
     }
 
-    #region INIT
-    protected virtual void InitializeTitles() { }
+	private void ConfigButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
+
+	#region INIT
+	protected virtual void InitializeTitles() { }
 
     protected virtual void InitializeActionsMenu(IActionMenu actionMenu) { }
 
@@ -310,8 +313,6 @@ public partial class MaintenanceScreen : HostScreen
     {
         actionsMenuSeparator.Visible = actionsMenu.Visible;
     }
-
-    private void configButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
 
     private void reportsButton_Click(object sender, EventArgs e) => _reportsFolderShower.Run();
 

@@ -13,7 +13,7 @@ public static class FileHelpers
     public static void SaveReport(IReportFile reportFile, bool supressDialog)
     {
         string initialFileName = reportFile.FileName.MakeValidFileName();
-        string initialDirectory = UserConfiguration.Instance.DefaultReportsDirectory.FullName;
+        string initialDirectory = UserConfiguration.Instance.ReportsDirectory.FullName;
         string dialogTitle = "Save Report";
         string extension = "html";
         string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
@@ -39,7 +39,7 @@ public static class FileHelpers
     }
     public static void SaveCSV(string initialFileName, string data, string dialogTitle, bool supressDialog)
     {
-        string initialDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+        string initialDirectory = UserConfiguration.Instance.ExportsDirectory.FullName;
         string extension = "csv";
         string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
         if (fileName is null)
@@ -62,7 +62,7 @@ public static class FileHelpers
 
     public static void SaveExcel(string initialFileName, MemoryStream stream, string dialogTitle, bool supressDialog)
     {
-        string initialDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+        string initialDirectory = UserConfiguration.Instance.ExportsDirectory.FullName;
         string extension = "xlsx";
 
         string fileName = ShowSaveFileDialog(initialDirectory, dialogTitle, extension, initialFileName, supressDialog);
@@ -93,7 +93,7 @@ public static class FileHelpers
         {
             return;
         }
-        string selectedPath = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+        string selectedPath = UserConfiguration.Instance.ExportsDirectory.FullName;
         string folderPath = ShowFolderBrowserDialog(selectedPath, dialogDescription);
         if (folderPath is null)
         {
@@ -170,7 +170,7 @@ public static class FileHelpers
     #region OPENS
     public static string OpenFile(string dialogTitle, string extension)
     {
-        string initalDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+        string initalDirectory = UserConfiguration.Instance.ExportsDirectory.FullName;
 
         string fileName = ShowOpenFileDialog(initalDirectory, dialogTitle, extension);
         if (fileName is null)

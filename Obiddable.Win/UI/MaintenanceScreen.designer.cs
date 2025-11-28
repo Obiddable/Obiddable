@@ -106,7 +106,6 @@ namespace Obiddable.Win.UI
             configButton.Padding = new Padding(5, 5, 3, 5);
             configButton.Size = new Size(30, 32);
             configButton.Text = "Config";
-            configButton.Click += configButton_Click;
             // 
             // refreshButton
             // 

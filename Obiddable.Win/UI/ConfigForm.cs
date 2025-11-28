@@ -7,17 +7,42 @@ public partial class ConfigForm : Form
     public ConfigForm()
     {
         InitializeComponent();
+    }
+
+    private void ConfigForm_Load(object sender, EventArgs e)
+    {
+        if (
+            UserConfiguration.Instance.ReportsDirectory is null
+            || UserConfiguration.Instance.ExportsDirectory is null
+        )
+        {
+            UserConfiguration.Instance.ReportsDirectory = new DirectoryInfo(
+                Program.DefaultReportsDirectoryPath
+            );
+            UserConfiguration.Instance.ExportsDirectory = new DirectoryInfo(
+                Program.DefaultExportsDirectoryPath
+            );
+        }
 
         SetControlValues(UserConfiguration.Instance);
-
         UpdateEpplusTextBoxes();
-
         IsDataValid();
     }
 
     private bool IsDataValid()
     {
         errorProvider1.Clear();
+
+        if (string.IsNullOrWhiteSpace(reportsFolderTextBox.Text))
+        {
+            errorProvider1.SetError(reportsFolderTextBox, "Report folder needs to be set.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(exportsFolderTextBox.Text))
+        {
+            errorProvider1.SetError(exportsFolderTextBox, "Export folder needs to be set.");
+            return false;
+        }
         DirectoryInfo reportFolderDirectory = new DirectoryInfo(reportsFolderTextBox.Text);
         if (!reportFolderDirectory.Exists)
         {
@@ -33,37 +58,37 @@ public partial class ConfigForm : Form
         }
 
         if (
-           SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal
-           && epplusNonCommercialPersonalNameTextBox.Text.Trim().Length <= 0
+            SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal
+            && epplusNonCommercialPersonalNameTextBox.Text.Trim().Length <= 0
         )
         {
             errorProvider1.SetError(
-               epplusNonCommercialPersonalNameTextBox,
-               "Please enter your name for the EPPlus license."
+                epplusNonCommercialPersonalNameTextBox,
+                "Please enter your name for the EPPlus license."
             );
             return false;
         }
 
         if (
-           SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization
-           && epplusNonCommercialOrganizationNameTextBox.Text.Trim().Length <= 0
+            SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization
+            && epplusNonCommercialOrganizationNameTextBox.Text.Trim().Length <= 0
         )
         {
             errorProvider1.SetError(
-               epplusNonCommercialOrganizationNameTextBox,
-               "Please enter your organization name for the EPPlus license."
+                epplusNonCommercialOrganizationNameTextBox,
+                "Please enter your organization name for the EPPlus license."
             );
             return false;
         }
 
         if (
-           SelectedEpplusLicenseType == EpplusLicenseType.Commercial
-           && epplusCommercialPaidLicenseKeyTextBox.Text.Trim().Length <= 0
+            SelectedEpplusLicenseType == EpplusLicenseType.Commercial
+            && epplusCommercialPaidLicenseKeyTextBox.Text.Trim().Length <= 0
         )
         {
             errorProvider1.SetError(
-               epplusCommercialPaidLicenseKeyTextBox,
-               "Please enter your EPPlus commercial license key."
+                epplusCommercialPaidLicenseKeyTextBox,
+                "Please enter your EPPlus commercial license key."
             );
             return false;
         }
@@ -85,11 +110,11 @@ public partial class ConfigForm : Form
 
     private void SetControlValues(UserConfiguration userConfiguration)
     {
-        reportsFolderTextBox.Text = userConfiguration.DefaultReportsDirectory.FullName;
-        exportsFolderTextBox.Text = userConfiguration.DefaultExportsDirectory.FullName;
+        reportsFolderTextBox.Text = userConfiguration.ReportsDirectory?.FullName;
+        exportsFolderTextBox.Text = userConfiguration.ExportsDirectory?.FullName;
         allowBidDeletionCheckBox.Checked = userConfiguration.CanDeleteBid;
         suppressFilePathSelectionsOnSavingCheckBox.Checked =
-           userConfiguration.SupressFileLocationSelectDialog;
+            userConfiguration.SupressFileLocationSelectDialog;
         autoOpenExportsCheckBox.Checked = userConfiguration.AutoOpenExports;
         autoOpenReportsCheckBox.Checked = userConfiguration.AutoOpenReports;
         includeTimestampsOnAllFiles.Checked = userConfiguration.IncludeTimestampsOnAllFiles;
@@ -112,41 +137,38 @@ public partial class ConfigForm : Form
 
         //SelectedEpplusLicenseType = userConfiguration.EpplusConfig.LicenseType;
         epplusNonCommercialPersonalNameTextBox.Text =
-           userConfiguration.EpplusNonCommercialPersonalName;
+            userConfiguration.EpplusNonCommercialPersonalName;
         epplusNonCommercialOrganizationNameTextBox.Text =
-           userConfiguration.EpplusNonCommercialOrganizationName;
+            userConfiguration.EpplusNonCommercialOrganizationName;
         epplusCommercialPaidLicenseKeyTextBox.Text = userConfiguration.EpplusCommercialLicenseKey;
     }
 
     private void SaveConfigurationValues()
     {
-        UserConfiguration.Instance.DefaultReportsDirectory = new DirectoryInfo(
-           reportsFolderTextBox.Text
-        );
-        UserConfiguration.Instance.DefaultExportsDirectory = new DirectoryInfo(
-           exportsFolderTextBox.Text
-        );
+        UserConfiguration.Instance.ReportsDirectory = new DirectoryInfo(reportsFolderTextBox.Text);
+        UserConfiguration.Instance.ExportsDirectory = new DirectoryInfo(exportsFolderTextBox.Text);
         UserConfiguration.Instance.CanDeleteBid = allowBidDeletionCheckBox.Checked;
         UserConfiguration.Instance.SupressFileLocationSelectDialog =
-           suppressFilePathSelectionsOnSavingCheckBox.Checked;
+            suppressFilePathSelectionsOnSavingCheckBox.Checked;
         UserConfiguration.Instance.AutoOpenExports = autoOpenExportsCheckBox.Checked;
         UserConfiguration.Instance.AutoOpenReports = autoOpenReportsCheckBox.Checked;
-        UserConfiguration.Instance.IncludeTimestampsOnAllFiles = includeTimestampsOnAllFiles.Checked;
+        UserConfiguration.Instance.IncludeTimestampsOnAllFiles =
+            includeTimestampsOnAllFiles.Checked;
 
         UserConfiguration.Instance.EpplusLicenseType = SelectedEpplusLicenseType;
 
         UserConfiguration.Instance.EpplusNonCommercialPersonalName =
-           SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal
-              ? epplusNonCommercialPersonalNameTextBox.Text.Trim()
-              : null;
+            SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal
+                ? epplusNonCommercialPersonalNameTextBox.Text.Trim()
+                : null;
         UserConfiguration.Instance.EpplusNonCommercialOrganizationName =
-           SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization
-              ? epplusNonCommercialOrganizationNameTextBox.Text.Trim()
-              : null;
+            SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization
+                ? epplusNonCommercialOrganizationNameTextBox.Text.Trim()
+                : null;
         UserConfiguration.Instance.EpplusCommercialLicenseKey =
-           SelectedEpplusLicenseType == EpplusLicenseType.Commercial
-              ? epplusCommercialPaidLicenseKeyTextBox.Text.Trim()
-              : null;
+            SelectedEpplusLicenseType == EpplusLicenseType.Commercial
+                ? epplusCommercialPaidLicenseKeyTextBox.Text.Trim()
+                : null;
     }
 
     private void OnCancelClicked(object sender, EventArgs e)
@@ -172,10 +194,10 @@ public partial class ConfigForm : Form
     private void OnBrowseReportsFolderClicked(object sender, EventArgs e)
     {
         using (
-           FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
-           {
-               SelectedPath = reportsFolderTextBox.Text,
-           }
+            FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
+            {
+                SelectedPath = reportsFolderTextBox.Text,
+            }
         )
         {
             if (folderSelectDialog.ShowDialog() != DialogResult.OK)
@@ -189,10 +211,10 @@ public partial class ConfigForm : Form
     private void ExportsFolderButton_Click(object sender, EventArgs e)
     {
         using (
-           FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
-           {
-               SelectedPath = exportsFolderTextBox.Text,
-           }
+            FolderBrowserDialog folderSelectDialog = new FolderBrowserDialog()
+            {
+                SelectedPath = exportsFolderTextBox.Text,
+            }
         )
         {
             if (folderSelectDialog.ShowDialog() != DialogResult.OK)
@@ -210,7 +232,7 @@ public partial class ConfigForm : Form
     }
 
     private void OnEpplusLicenseSelectionChanged(object sender, EventArgs e) =>
-       UpdateEpplusTextBoxes();
+        UpdateEpplusTextBoxes();
 
     public EpplusLicenseType SelectedEpplusLicenseType
     {
@@ -238,12 +260,20 @@ public partial class ConfigForm : Form
     private void UpdateEpplusTextBoxes()
     {
         epplusNonCommercialPersonalNameTextBox.Enabled =
-           SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal;
+            SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialPersonal;
 
         epplusNonCommercialOrganizationNameTextBox.Enabled =
-           SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization;
+            SelectedEpplusLicenseType == EpplusLicenseType.NonCommercialOrganization;
 
         epplusCommercialPaidLicenseKeyTextBox.Enabled =
-           SelectedEpplusLicenseType == EpplusLicenseType.Commercial;
+            SelectedEpplusLicenseType == EpplusLicenseType.Commercial;
+    }
+
+    private void chooseDataSourceButton_Click(object sender, EventArgs e)
+    {
+        using ChooseDataSourceForm form = new ChooseDataSourceForm();
+        form.ShowDialog();
+
+        SetControlValues(UserConfiguration.Instance);
     }
 }
