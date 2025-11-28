@@ -4,6 +4,13 @@ using System.Reflection;
 
 namespace Obiddable.Win.Library;
 
+public enum DataSourceType
+{
+    Unspecified = 0,
+    Sqlite = 1,
+    MsSql = 2
+}
+
 public class UserConfiguration
 {
     public static UserConfiguration Instance;
@@ -22,6 +29,39 @@ public class UserConfiguration
     private DirectoryInfo _defaultExportsDirectory = new DirectoryInfo(
        Directory.GetCurrentDirectory() + "\\Exports"
     );
+    private DataSourceType? _dataSourceType;
+    private string _dataSourceSqliteFilePath = "";
+    private string _dataSourceMsSqlConnectionString = "";
+
+    public string DataSourceSqliteFilePath
+    {
+        get { return _dataSourceSqliteFilePath; }
+        set
+        {
+            _dataSourceSqliteFilePath = value;
+            SaveConfigurationFile();
+        }
+    }
+
+    public string DataSourceMsSqlConnectionString
+    {
+        get { return _dataSourceMsSqlConnectionString; }
+        set
+        {
+            _dataSourceMsSqlConnectionString = value;
+            SaveConfigurationFile();
+        }
+    }
+
+    public DataSourceType? DataSourceType
+    {
+        get { return _dataSourceType; }
+        set
+        {
+            _dataSourceType = value;
+            SaveConfigurationFile();
+        }
+    }
 
     public int? WorkingBidId
     {

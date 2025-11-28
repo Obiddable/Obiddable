@@ -151,13 +151,4 @@
         TgDQASA1MVpwzwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="errorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>122, 17</value>
-  </metadata>
-  <data name="label1.Text" xml:space="preserve">
-    <value>This application uses EPPlus, a library for working with Excel files. Most school districts qualify for a free NonCommercial license under the NonCommercial Organization terms.
-If needed, you can also enter a Personal or Commercial license key below.
-
-If you’re unsure, please consult your IT department or the EPPlus licensing guidelines.</value>
-  </data>
 </root>

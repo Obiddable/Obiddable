@@ -246,4 +246,12 @@ public partial class ConfigForm : Form
         epplusCommercialPaidLicenseKeyTextBox.Enabled =
            SelectedEpplusLicenseType == EpplusLicenseType.Commercial;
     }
+
+    private void chooseDataSourceButton_Click(object sender, EventArgs e)
+    {
+        using ChooseDataSourceForm form = new ChooseDataSourceForm();
+        form.ShowDialog();
+
+        SetControlValues(UserConfiguration.Instance);
+    }
 }
