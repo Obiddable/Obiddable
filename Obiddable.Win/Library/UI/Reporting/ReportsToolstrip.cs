@@ -54,17 +54,17 @@ public partial class ReportsToolstrip : UserControl
              ReportMenuItem("Price Override Report", typeof(PriceOverrideReportBuilder)),
              ReportMenuItem("Expenditures by Requestor Report", typeof(ExpendituresByRequestorsReportBuilder)),
 
-             HeaderMenuItem("Election Process Reports"),
+			 HeaderMenuItem("Vendor Response Reports"),
+			 ReportMenuItem("Vendor Specifications Report", typeof(VendorSpecificationsReportBuilder)),
+			 ReportMenuItem("Vendor Detail Report", typeof(VendorDetailReportBuilder)),
+			 ReportMenuItem("Vendor Detail Report (Elected Only)", typeof(ElectedOnlyVendorDetailReportBuilder)),
+			 ReportMenuItem("Vendor Summary Report", typeof(VendorSummaryReportBuilder)),
+			 ReportMenuItem("No Response Items Report", typeof(NoResponseItemsReportBuilder)),
+
+			 HeaderMenuItem("Election Process Reports"),
              ReportMenuItem("Election Confirmation Sheet Report", typeof(ElectionConfirmationSheetReportBuilder)),
              ReportMenuItem("Elected Quantities Discrepancy Report", typeof(ElectedQuantitiesDiscrepancyReport)),
              ReportMenuItem("Bid Tally Report", typeof(TallyReportBuilder)),
-
-             HeaderMenuItem("Vendor Response Reports"),
-             ReportMenuItem("Vendor Specifications Report", typeof(VendorSpecificationsReportBuilder)),
-             ReportMenuItem("Vendor Detail Report", typeof(VendorDetailReportBuilder)),
-             ReportMenuItem("Vendor Detail Report (Elected Only)", typeof(ElectedOnlyVendorDetailReportBuilder)),
-             ReportMenuItem("Vendor Summary Report", typeof(VendorSummaryReportBuilder)),
-             ReportMenuItem("No Response Items Report", typeof(NoResponseItemsReportBuilder)),
 
              HeaderMenuItem("Totals Reports"),
              ReportMenuItem("Bid Summary Report", typeof(SummaryReportBuilder)),
