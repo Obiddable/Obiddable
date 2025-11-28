@@ -2,5 +2,5 @@
 
 public interface IReportBuilder<TObject>
 {
-   IReportFile BuildReport(TObject reportObject);
+    IReportFile? BuildReport(TObject reportObject);
 }

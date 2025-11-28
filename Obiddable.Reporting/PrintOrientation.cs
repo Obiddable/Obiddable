@@ -2,6 +2,6 @@
 
 public enum PrintOrientation
 {
-   Landscape,
-   Portrait
+    Landscape,
+    Portrait
 }
