@@ -2,6 +2,7 @@
 using Obiddable.Library.Bidding.Responding;
 using Obiddable.Library.EF.Bidding.Responding;
 using Obiddable.Win.UI.Bidding;
+using System.Security.Cryptography;
 
 namespace Obiddable.Win.Library.Operations.Bidding;
 
@@ -18,8 +19,9 @@ public class ClearBidsVendorsOperation : BidDataOperation
     }
 
     protected override void RunDataOperation()
-    {
-        _respondingRepo.DeleteVendorResponses_ByBid(_bid.Id);
+	{
+		_respondingRepo.DeleteResponseItems_ByBid(_bid.Id);
+		_respondingRepo.DeleteVendorResponses_ByBid(_bid.Id);
         _biddingMessaging.ShowBidClearVendorResponsesSuccess();
     }
 }
