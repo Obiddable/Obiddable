@@ -17,15 +17,15 @@ public static class BidsExports
 {
     public static void ExportBid(Bid bid, IRespondingRepo respondingRepo, ICatalogingRepo catalogingRepo, IRequestingRepo requestingRepo, RequestMessaging requestMessaging)
     {
-        string originalExportDirectory = UserConfiguration.Instance.DefaultExportsDirectory.FullName;
+        string originalExportDirectory = UserConfiguration.Instance.ExportsDirectory.FullName;
         bool originalSupressDialog = UserConfiguration.Instance.SupressFileLocationSelectDialog;
 
-        string outputDirectory = FileHelpers.ShowFolderBrowserDialog(UserConfiguration.Instance.DefaultExportsDirectory.FullName, "Select folder to export bid");
+        string outputDirectory = FileHelpers.ShowFolderBrowserDialog(UserConfiguration.Instance.ExportsDirectory.FullName, "Select folder to export bid");
         if (outputDirectory == null)
         {
             return;
         }
-        UserConfiguration.Instance.DefaultExportsDirectory = new DirectoryInfo(outputDirectory);
+        UserConfiguration.Instance.ExportsDirectory = new DirectoryInfo(outputDirectory);
         UserConfiguration.Instance.SupressFileLocationSelectDialog = true;
 
         try
@@ -47,7 +47,7 @@ public static class BidsExports
         }
         finally
         {
-            UserConfiguration.Instance.DefaultExportsDirectory = new DirectoryInfo(originalExportDirectory);
+            UserConfiguration.Instance.ExportsDirectory = new DirectoryInfo(originalExportDirectory);
             UserConfiguration.Instance.SupressFileLocationSelectDialog = originalSupressDialog;
         }
 

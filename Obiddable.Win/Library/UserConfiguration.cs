@@ -4,8 +4,18 @@ using System.Reflection;
 
 namespace Obiddable.Win.Library;
 
+public enum DataSourceType
+{
+    Unspecified = 0,
+    Sqlite = 1,
+    MsSql = 2
+}
+
 public class UserConfiguration
 {
+
+
+
     public static UserConfiguration Instance;
     private const string _configCSVHeader = "property,value";
 
@@ -16,12 +26,42 @@ public class UserConfiguration
     private bool _autoOpenReports = true;
     private bool _canDeleteBid = false;
     private bool _supressFileLocationSelectDialog = true;
-    private DirectoryInfo _defaultReportsDirectory = new DirectoryInfo(
-       Directory.GetCurrentDirectory() + "\\Reports"
-    );
-    private DirectoryInfo _defaultExportsDirectory = new DirectoryInfo(
-       Directory.GetCurrentDirectory() + "\\Exports"
-    );
+    private DirectoryInfo _reportsDirectory;
+    private DirectoryInfo _exportsDirectory;
+
+    private DataSourceType _dataSourceType;
+    private string _dataSourceSqliteFilePath = "";
+    private string _dataSourceMsSqlConnectionString = "";
+
+    public string DataSourceSqliteFilePath
+    {
+        get { return _dataSourceSqliteFilePath; }
+        set
+        {
+            _dataSourceSqliteFilePath = value;
+            SaveConfigurationFile();
+        }
+    }
+
+    public string DataSourceMsSqlConnectionString
+    {
+        get { return _dataSourceMsSqlConnectionString; }
+        set
+        {
+            _dataSourceMsSqlConnectionString = value;
+            SaveConfigurationFile();
+        }
+    }
+
+    public DataSourceType DataSourceType
+    {
+        get { return _dataSourceType; }
+        set
+        {
+            _dataSourceType = value;
+            SaveConfigurationFile();
+        }
+    }
 
     public int? WorkingBidId
     {
@@ -77,21 +117,21 @@ public class UserConfiguration
             SaveConfigurationFile();
         }
     }
-    public DirectoryInfo DefaultReportsDirectory
+    public DirectoryInfo ReportsDirectory
     {
-        get { return _defaultReportsDirectory; }
+        get { return _reportsDirectory; }
         set
         {
-            _defaultReportsDirectory = value;
+            _reportsDirectory = value;
             SaveConfigurationFile();
         }
     }
-    public DirectoryInfo DefaultExportsDirectory
+    public DirectoryInfo ExportsDirectory
     {
-        get { return _defaultExportsDirectory; }
+        get { return _exportsDirectory; }
         set
         {
-            _defaultExportsDirectory = value;
+            _exportsDirectory = value;
             SaveConfigurationFile();
         }
     }
@@ -167,10 +207,10 @@ public class UserConfiguration
     public void SetEpplusLicense()
     {
         Obiddable.Excel.EpplusConfiguration.SetEpplusConfiguration(
-           EpplusLicenseType,
-           EpplusNonCommercialPersonalName,
-           EpplusNonCommercialOrganizationName,
-           EpplusCommercialLicenseKey
+            EpplusLicenseType,
+            EpplusNonCommercialPersonalName,
+            EpplusNonCommercialOrganizationName,
+            EpplusCommercialLicenseKey
         );
     }
 
@@ -239,11 +279,9 @@ public class UserConfiguration
             }
             else if (fieldInfo.FieldType == typeof(DirectoryInfo))
             {
+                if (string.IsNullOrWhiteSpace(fieldLine.Value))
+                    return;
                 DirectoryInfo directoryInfo = new DirectoryInfo(fieldLine.Value);
-                //if (directoryInfo.Exists == false)
-                //{
-                //throw new Exception($"Invalid Directory {fieldLine.Value} set for field {fieldInfo.Name}");
-                //}
                 valueToSet = directoryInfo;
             }
             else if (fieldInfo.FieldType == typeof(string))
@@ -262,22 +300,17 @@ public class UserConfiguration
                     valueToSet = null;
                 }
             }
-            else if (fieldInfo.FieldType == typeof(EpplusLicenseType))
+            else if (fieldInfo.FieldType.IsEnum)
             {
-                if (
-                 Enum.TryParse<EpplusLicenseType>(
-                    fieldLine.Value,
-                    out EpplusLicenseType epplusLicenseType
-                 )
-              )
+                if (Enum.TryParse(fieldInfo.FieldType, fieldLine.Value, out object enumValue))
                 {
-                    valueToSet = epplusLicenseType;
+                    valueToSet = enumValue;
                 }
                 else
                 {
                     throw new Exception(
-                     $"Invalid EPPlus License Type {fieldLine.Value} set for field {fieldInfo.Name}"
-                  );
+                        $"Invalid enum value '{fieldLine.Value}' for field {fieldInfo.Name} of type {fieldInfo.FieldType.Name}"
+                    );
                 }
             }
             else
@@ -303,9 +336,9 @@ public class UserConfiguration
         }
 
         var output = getNonPublicInstanceFields()
-           .Select(writeLine())
-           .Prepend(_configCSVHeader)
-           .JoinAsLines();
+            .Select(writeLine())
+            .Prepend(_configCSVHeader)
+            .JoinAsLines();
 
         File.WriteAllText(_configFileName, output);
     }

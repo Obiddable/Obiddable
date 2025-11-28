@@ -213,10 +213,10 @@ namespace Obiddable.Win.UI.Bidding.Navigation
             configButton.Size = new Size(30, 32);
             configButton.Text = "Config";
             configButton.Click += ConfigButton_Click;
-            // 
-            // refreshButton
-            // 
-            refreshButton.Alignment = ToolStripItemAlignment.Right;
+			// 
+			// refreshButton
+			// 
+			refreshButton.Alignment = ToolStripItemAlignment.Right;
             refreshButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             refreshButton.Image = (Image)resources.GetObject("refreshButton.Image");
             refreshButton.ImageScaling = ToolStripItemImageScaling.None;
@@ -291,8 +291,10 @@ namespace Obiddable.Win.UI.Bidding.Navigation
 
         }
 
-        #endregion
-        public System.Windows.Forms.Panel topPanel;
+		private void ConfigButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
+
+		#endregion
+		public System.Windows.Forms.Panel topPanel;
         public System.Windows.Forms.Button backButton;
         public System.Windows.Forms.Label titleLabel;
         private ReportsToolstrip reportsControl;

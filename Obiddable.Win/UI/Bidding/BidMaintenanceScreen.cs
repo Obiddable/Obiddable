@@ -24,7 +24,6 @@ public class BidMaintenanceScreen : MaintenanceScreen
         titleLabel.Text = "Bids Maintenance";
         topPanel.BackColor = ApplicationColors.Bidding;
         setSubtitleToVersion();
-        configButton.Click += ConfigButton_Click;
         UpdateButtons();
     }
 
@@ -51,20 +50,6 @@ public class BidMaintenanceScreen : MaintenanceScreen
         actionsMenu.DropDownItems.Add(LoadSelectedBidActionMenuItems());
     }
 
-    private bool isBidSelected()
-        => SelectedItem != null;
-    private Bid getSelectedBid()
-    {
-        Bid output;
-
-        output = _biddingRepo.GetBid(SelectedItemTag);
-        if (output == null)
-        {
-            throw new Exception("Bid Not Found");
-        }
-
-        return output;
-    }
     private ToolStripMenuItem LoadSelectedBidActionMenuItems()
     {
         var selectedBidActionMenuItem = new ToolStripMenuItem() { Text = "Selected" };
