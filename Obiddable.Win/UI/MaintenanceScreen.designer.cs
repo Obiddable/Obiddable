@@ -31,294 +31,279 @@ namespace Obiddable.Win.UI
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaintenanceScreen));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.actionsMenu = new System.Windows.Forms.ToolStripDropDownButton();
-            this.helpButton = new System.Windows.Forms.ToolStripButton();
-            this.configButton = new System.Windows.Forms.ToolStripButton();
-            this.refreshButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.reportsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.exportsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.actionsMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.addButton = new System.Windows.Forms.ToolStripButton();
-            this.editButton = new System.Windows.Forms.ToolStripButton();
-            this.deleteButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.subtitleLabel = new System.Windows.Forms.ToolStripLabel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.listViewMain = new SortableListView();
-            this.topPanel = new System.Windows.Forms.Panel();
-            this.backButton = new System.Windows.Forms.Button();
-            this.titleLabel = new System.Windows.Forms.Label();
-            this.toolStrip1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.topPanel.SuspendLayout();
-            this.SuspendLayout();
+            toolStrip1 = new ToolStrip();
+            actionsMenu = new ToolStripDropDownButton();
+            helpButton = new ToolStripButton();
+            configButton = new ToolStripButton();
+            refreshButton = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            reportsButton = new ToolStripButton();
+            toolStripSeparator4 = new ToolStripSeparator();
+            exportsButton = new ToolStripButton();
+            toolStripSeparator3 = new ToolStripSeparator();
+            actionsMenuSeparator = new ToolStripSeparator();
+            addButton = new ToolStripButton();
+            editButton = new ToolStripButton();
+            deleteButton = new ToolStripButton();
+            toolStripSeparator2 = new ToolStripSeparator();
+            subtitleLabel = new ToolStripLabel();
+            panel2 = new Panel();
+            listViewMain = new SortableListView();
+            topPanel = new Panel();
+            backButton = new Button();
+            titleLabel = new Label();
+            toolStrip1.SuspendLayout();
+            panel2.SuspendLayout();
+            topPanel.SuspendLayout();
+            SuspendLayout();
             // 
             // toolStrip1
             // 
-            this.toolStrip1.AllowMerge = false;
-            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(236)))), ((int)(((byte)(236)))));
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.actionsMenu,
-            this.helpButton,
-            this.configButton,
-            this.refreshButton,
-            this.toolStripSeparator1,
-            this.reportsButton,
-            this.toolStripSeparator4,
-            this.exportsButton,
-            this.toolStripSeparator3,
-            this.actionsMenuSeparator,
-            this.addButton,
-            this.editButton,
-            this.deleteButton,
-            this.toolStripSeparator2,
-            this.subtitleLabel});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStrip1.Size = new System.Drawing.Size(1132, 35);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            toolStrip1.AllowMerge = false;
+            toolStrip1.BackColor = Color.FromArgb(236, 236, 236);
+            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.Items.AddRange(new ToolStripItem[] { actionsMenu, helpButton, configButton, refreshButton, toolStripSeparator1, reportsButton, toolStripSeparator4, exportsButton, toolStripSeparator3, actionsMenuSeparator, addButton, editButton, deleteButton, toolStripSeparator2, subtitleLabel });
+            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Padding = new Padding(0);
+            toolStrip1.RightToLeft = RightToLeft.No;
+            toolStrip1.Size = new Size(1132, 35);
+            toolStrip1.TabIndex = 0;
+            toolStrip1.Text = "toolStrip1";
             // 
             // actionsMenu
             // 
-            this.actionsMenu.Image = ((System.Drawing.Image)(resources.GetObject("actionsMenu.Image")));
-            this.actionsMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.actionsMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.actionsMenu.Name = "actionsMenu";
-            this.actionsMenu.Padding = new System.Windows.Forms.Padding(55, 5, 0, 5);
-            this.actionsMenu.Size = new System.Drawing.Size(136, 32);
-            this.actionsMenu.Text = " Actions";
-            this.actionsMenu.VisibleChanged += new System.EventHandler(this.actionsMenu_VisibleChanged);
+            actionsMenu.Image = (Image)resources.GetObject("actionsMenu.Image");
+            actionsMenu.ImageScaling = ToolStripItemImageScaling.None;
+            actionsMenu.ImageTransparentColor = Color.Magenta;
+            actionsMenu.Name = "actionsMenu";
+            actionsMenu.Padding = new Padding(55, 5, 0, 5);
+            actionsMenu.Size = new Size(136, 32);
+            actionsMenu.Text = " Actions";
+            actionsMenu.VisibleChanged += actionsMenu_VisibleChanged;
             // 
-            // toolStripButton1
+            // helpButton
             // 
-            this.helpButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.helpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.helpButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.helpButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.helpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.helpButton.Name = "helpButton";
-            this.helpButton.Padding = new System.Windows.Forms.Padding(5, 5, 3, 5);
-            this.helpButton.Size = new System.Drawing.Size(30, 32);
-            this.helpButton.Text = "Help";
-            this.helpButton.Click += new System.EventHandler(this.helpButton_Click);
+            helpButton.Alignment = ToolStripItemAlignment.Right;
+            helpButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            helpButton.Image = (Image)resources.GetObject("helpButton.Image");
+            helpButton.ImageScaling = ToolStripItemImageScaling.None;
+            helpButton.ImageTransparentColor = Color.Magenta;
+            helpButton.Name = "helpButton";
+            helpButton.Padding = new Padding(5, 5, 3, 5);
+            helpButton.Size = new Size(30, 32);
+            helpButton.Text = "Help";
+            helpButton.Click += helpButton_Click;
             // 
             // configButton
             // 
-            this.configButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.configButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.configButton.Image = ((System.Drawing.Image)(resources.GetObject("configButton.Image")));
-            this.configButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.configButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.configButton.Name = "configButton";
-            this.configButton.Padding = new System.Windows.Forms.Padding(5, 5, 3, 5);
-            this.configButton.Size = new System.Drawing.Size(30, 32);
-            this.configButton.Text = "Config";
+            configButton.Alignment = ToolStripItemAlignment.Right;
+            configButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            configButton.Image = (Image)resources.GetObject("configButton.Image");
+            configButton.ImageScaling = ToolStripItemImageScaling.None;
+            configButton.ImageTransparentColor = Color.Magenta;
+            configButton.Name = "configButton";
+            configButton.Padding = new Padding(5, 5, 3, 5);
+            configButton.Size = new Size(30, 32);
+            configButton.Text = "Config";
+            configButton.Click += configButton_Click;
             // 
             // refreshButton
             // 
-            this.refreshButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.refreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
-            this.refreshButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.refreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Padding = new System.Windows.Forms.Padding(5, 5, 0, 5);
-            this.refreshButton.Size = new System.Drawing.Size(27, 32);
-            this.refreshButton.Text = "Refresh";
+            refreshButton.Alignment = ToolStripItemAlignment.Right;
+            refreshButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            refreshButton.Image = (Image)resources.GetObject("refreshButton.Image");
+            refreshButton.ImageScaling = ToolStripItemImageScaling.None;
+            refreshButton.ImageTransparentColor = Color.Magenta;
+            refreshButton.Name = "refreshButton";
+            refreshButton.Padding = new Padding(5, 5, 0, 5);
+            refreshButton.Size = new Size(27, 32);
+            refreshButton.Text = "Refresh";
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 35);
+            toolStripSeparator1.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 35);
             // 
             // reportsButton
             // 
-            this.reportsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.reportsButton.Image = ((System.Drawing.Image)(resources.GetObject("reportsButton.Image")));
-            this.reportsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.reportsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.reportsButton.Name = "reportsButton";
-            this.reportsButton.Padding = new System.Windows.Forms.Padding(5);
-            this.reportsButton.Size = new System.Drawing.Size(115, 32);
-            this.reportsButton.Text = "Reports Folder";
-            this.reportsButton.Click += new System.EventHandler(this.reportsButton_Click);
+            reportsButton.Alignment = ToolStripItemAlignment.Right;
+            reportsButton.Image = (Image)resources.GetObject("reportsButton.Image");
+            reportsButton.ImageScaling = ToolStripItemImageScaling.None;
+            reportsButton.ImageTransparentColor = Color.Magenta;
+            reportsButton.Name = "reportsButton";
+            reportsButton.Padding = new Padding(5);
+            reportsButton.Size = new Size(115, 32);
+            reportsButton.Text = "Reports Folder";
+            reportsButton.Click += reportsButton_Click;
             // 
             // toolStripSeparator4
             // 
-            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 35);
+            toolStripSeparator4.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new Size(6, 35);
             // 
             // exportsButton
             // 
-            this.exportsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.exportsButton.Image = ((System.Drawing.Image)(resources.GetObject("exportsButton.Image")));
-            this.exportsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.exportsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.exportsButton.Name = "exportsButton";
-            this.exportsButton.Padding = new System.Windows.Forms.Padding(5, 5, 6, 5);
-            this.exportsButton.Size = new System.Drawing.Size(115, 32);
-            this.exportsButton.Text = "Exports Folder";
-            this.exportsButton.Click += new System.EventHandler(this.exportsButton_Click);
+            exportsButton.Alignment = ToolStripItemAlignment.Right;
+            exportsButton.Image = (Image)resources.GetObject("exportsButton.Image");
+            exportsButton.ImageScaling = ToolStripItemImageScaling.None;
+            exportsButton.ImageTransparentColor = Color.Magenta;
+            exportsButton.Name = "exportsButton";
+            exportsButton.Padding = new Padding(5, 5, 6, 5);
+            exportsButton.Size = new Size(114, 32);
+            exportsButton.Text = "Exports Folder";
+            exportsButton.Click += exportsButton_Click;
             // 
             // toolStripSeparator3
             // 
-            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 35);
+            toolStripSeparator3.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(6, 35);
             // 
             // actionsMenuSeparator
             // 
-            this.actionsMenuSeparator.Name = "actionsMenuSeparator";
-            this.actionsMenuSeparator.Size = new System.Drawing.Size(6, 35);
+            actionsMenuSeparator.Name = "actionsMenuSeparator";
+            actionsMenuSeparator.Size = new Size(6, 35);
             // 
             // addButton
             // 
-            this.addButton.Image = ((System.Drawing.Image)(resources.GetObject("addButton.Image")));
-            this.addButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.addButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addButton.Name = "addButton";
-            this.addButton.Padding = new System.Windows.Forms.Padding(5);
-            this.addButton.Size = new System.Drawing.Size(61, 32);
-            this.addButton.Text = "Add";
-            this.addButton.ToolTipText = "Create New (Hotkeys: A, I, Insert)";
+            addButton.Image = (Image)resources.GetObject("addButton.Image");
+            addButton.ImageScaling = ToolStripItemImageScaling.None;
+            addButton.ImageTransparentColor = Color.Magenta;
+            addButton.Name = "addButton";
+            addButton.Padding = new Padding(5);
+            addButton.Size = new Size(61, 32);
+            addButton.Text = "Add";
+            addButton.ToolTipText = "Create New (Hotkeys: A, I, Insert)";
             // 
             // editButton
             // 
-            this.editButton.Image = ((System.Drawing.Image)(resources.GetObject("editButton.Image")));
-            this.editButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.editButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.editButton.Name = "editButton";
-            this.editButton.Padding = new System.Windows.Forms.Padding(5);
-            this.editButton.Size = new System.Drawing.Size(59, 32);
-            this.editButton.Text = "Edit";
-            this.editButton.ToolTipText = "Edit Selected (Hotkey: E, Enter)";
+            editButton.Image = (Image)resources.GetObject("editButton.Image");
+            editButton.ImageScaling = ToolStripItemImageScaling.None;
+            editButton.ImageTransparentColor = Color.Magenta;
+            editButton.Name = "editButton";
+            editButton.Padding = new Padding(5);
+            editButton.Size = new Size(59, 32);
+            editButton.Text = "Edit";
+            editButton.ToolTipText = "Edit Selected (Hotkey: E, Enter)";
             // 
             // deleteButton
             // 
-            this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
-            this.deleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.deleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Padding = new System.Windows.Forms.Padding(5);
-            this.deleteButton.Size = new System.Drawing.Size(72, 32);
-            this.deleteButton.Text = "Delete";
-            this.deleteButton.ToolTipText = "Delete Selected (Hotkey: D, Delete)";
+            deleteButton.Image = (Image)resources.GetObject("deleteButton.Image");
+            deleteButton.ImageScaling = ToolStripItemImageScaling.None;
+            deleteButton.ImageTransparentColor = Color.Magenta;
+            deleteButton.Name = "deleteButton";
+            deleteButton.Padding = new Padding(5);
+            deleteButton.Size = new Size(72, 32);
+            deleteButton.Text = "Delete";
+            deleteButton.ToolTipText = "Delete Selected (Hotkey: D, Delete)";
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 35);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(6, 35);
             // 
             // subtitleLabel
             // 
-            this.subtitleLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.subtitleLabel.ForeColor = System.Drawing.Color.Black;
-            this.subtitleLabel.Name = "subtitleLabel";
-            this.subtitleLabel.Size = new System.Drawing.Size(135, 32);
-            this.subtitleLabel.Text = "Obiddable (v1.0)";
+            subtitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            subtitleLabel.ForeColor = Color.Black;
+            subtitleLabel.Name = "subtitleLabel";
+            subtitleLabel.Size = new Size(98, 32);
+            subtitleLabel.Text = "Obiddable (v1.0)";
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.listViewMain);
-            this.panel2.Controls.Add(this.toolStrip1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 71);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1132, 625);
-            this.panel2.TabIndex = 2;
+            panel2.Controls.Add(listViewMain);
+            panel2.Controls.Add(toolStrip1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 71);
+            panel2.Margin = new Padding(2, 1, 2, 1);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1132, 625);
+            panel2.TabIndex = 2;
             // 
             // listViewMain
             // 
-            this.listViewMain.AllowColumnReorder = true;
-            this.listViewMain.BackColor = System.Drawing.Color.White;
-            this.listViewMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewMain.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.listViewMain.FullRowSelect = true;
-            this.listViewMain.GridLines = true;
-            this.listViewMain.HideSelection = false;
-            this.listViewMain.Location = new System.Drawing.Point(0, 35);
-            this.listViewMain.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.listViewMain.MultiSelect = false;
-            this.listViewMain.Name = "listViewMain";
-            this.listViewMain.Size = new System.Drawing.Size(1132, 590);
-            this.listViewMain.TabIndex = 1;
-            this.listViewMain.UseCompatibleStateImageBehavior = false;
-            this.listViewMain.View = System.Windows.Forms.View.Details;
-            this.listViewMain.SelectedIndexChanged += new System.EventHandler(this.listViewMain_SelectedIndexChanged);
-            this.listViewMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listViewMain_KeyDown);
+            listViewMain.AllowColumnReorder = true;
+            listViewMain.BackColor = Color.White;
+            listViewMain.Dock = DockStyle.Fill;
+            listViewMain.Font = new Font("Segoe UI", 10F);
+            listViewMain.FullRowSelect = true;
+            listViewMain.GridLines = true;
+            listViewMain.Location = new Point(0, 35);
+            listViewMain.Margin = new Padding(2, 1, 2, 1);
+            listViewMain.MultiSelect = false;
+            listViewMain.Name = "listViewMain";
+            listViewMain.Size = new Size(1132, 590);
+            listViewMain.TabIndex = 1;
+            listViewMain.UseCompatibleStateImageBehavior = false;
+            listViewMain.View = View.Details;
+            listViewMain.SelectedIndexChanged += listViewMain_SelectedIndexChanged;
+            listViewMain.KeyDown += listViewMain_KeyDown;
             // 
             // topPanel
             // 
-            this.topPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(117)))), ((int)(((byte)(135)))));
-            this.topPanel.Controls.Add(this.backButton);
-            this.topPanel.Controls.Add(this.titleLabel);
-            this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(1132, 71);
-            this.topPanel.TabIndex = 1;
+            topPanel.BackColor = Color.FromArgb(77, 117, 135);
+            topPanel.Controls.Add(backButton);
+            topPanel.Controls.Add(titleLabel);
+            topPanel.Dock = DockStyle.Top;
+            topPanel.Location = new Point(0, 0);
+            topPanel.Margin = new Padding(2, 1, 2, 1);
+            topPanel.Name = "topPanel";
+            topPanel.Size = new Size(1132, 71);
+            topPanel.TabIndex = 1;
             // 
             // backButton
             // 
-            this.backButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.backButton.BackColor = System.Drawing.Color.Transparent;
-            this.backButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.backButton.FlatAppearance.BorderSize = 2;
-            this.backButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
-            this.backButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.backButton.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backButton.ForeColor = System.Drawing.Color.White;
-            this.backButton.Location = new System.Drawing.Point(1017, 3);
-            this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(112, 64);
-            this.backButton.TabIndex = 1;
-            this.backButton.Text = "Go Back";
-            this.backButton.UseVisualStyleBackColor = false;
-            this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            backButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            backButton.BackColor = Color.Transparent;
+            backButton.FlatAppearance.BorderColor = Color.White;
+            backButton.FlatAppearance.BorderSize = 2;
+            backButton.FlatAppearance.MouseDownBackColor = Color.DimGray;
+            backButton.FlatAppearance.MouseOverBackColor = Color.Gray;
+            backButton.FlatStyle = FlatStyle.Flat;
+            backButton.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            backButton.ForeColor = Color.White;
+            backButton.Location = new Point(1016, 4);
+            backButton.Name = "backButton";
+            backButton.Size = new Size(112, 64);
+            backButton.TabIndex = 1;
+            backButton.Text = "Go Back";
+            backButton.UseVisualStyleBackColor = false;
+            backButton.Click += backButton_Click;
             // 
             // titleLabel
             // 
-            this.titleLabel.AutoSize = true;
-            this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(236)))), ((int)(((byte)(236)))));
-            this.titleLabel.Location = new System.Drawing.Point(3, 8);
-            this.titleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(328, 50);
-            this.titleLabel.TabIndex = 0;
-            this.titleLabel.Text = "Maintenance Form";
+            titleLabel.AutoSize = true;
+            titleLabel.Font = new Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            titleLabel.ForeColor = Color.FromArgb(236, 236, 236);
+            titleLabel.Location = new Point(3, 8);
+            titleLabel.Margin = new Padding(2, 0, 2, 0);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(328, 50);
+            titleLabel.TabIndex = 0;
+            titleLabel.Text = "Maintenance Form";
             // 
             // MaintenanceScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.topPanel);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.Name = "MaintenanceScreen";
-            this.Size = new System.Drawing.Size(1132, 696);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.topPanel.ResumeLayout(false);
-            this.topPanel.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(panel2);
+            Controls.Add(topPanel);
+            Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Margin = new Padding(2, 3, 2, 3);
+            Name = "MaintenanceScreen";
+            Size = new Size(1132, 696);
+            Load += Form1_Load;
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            topPanel.ResumeLayout(false);
+            topPanel.PerformLayout();
+            ResumeLayout(false);
 
         }
 
