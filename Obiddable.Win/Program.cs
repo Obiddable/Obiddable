@@ -36,17 +36,17 @@ static class Program
             || !Directory.Exists(DefaultExportsDirectoryPath)
         )
         {
-			try
-			{
-				Directory.CreateDirectory(DefaultObiddableDocumentsPath);
-				Directory.CreateDirectory(DefaultReportsDirectoryPath);
-				Directory.CreateDirectory(DefaultExportsDirectoryPath);
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show($"Failed to create default folders: {ex.Message}");
-			}
-		}
+            try
+            {
+                Directory.CreateDirectory(DefaultObiddableDocumentsPath);
+                Directory.CreateDirectory(DefaultReportsDirectoryPath);
+                Directory.CreateDirectory(DefaultExportsDirectoryPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to create default folders: {ex.Message}");
+            }
+        }
 
         // Initialize User Configuration
         var configurationFilePath = Path.Combine(DefaultObiddableDocumentsPath, "config.csv");
@@ -61,34 +61,55 @@ static class Program
         Application.SetCompatibleTextRenderingDefault(false);
 
         // Initialize Database
-        if (
-            UserConfiguration.Instance.DataSourceType is DataSourceType.Unspecified
-            || (
-                UserConfiguration.Instance.DataSourceType is DataSourceType.Sqlite
-                && !File.Exists(UserConfiguration.Instance.DataSourceSqliteFilePath)
-            )
-        )
+        try
         {
-            new ChooseDataSourceShower().Run();
-            if (UserConfiguration.Instance.DataSourceType is DataSourceType.Unspecified)
+            if (
+                UserConfiguration.Instance.DataSourceType is DataSourceType.Unspecified
+                || (
+                    UserConfiguration.Instance.DataSourceType is DataSourceType.Sqlite
+                    && !File.Exists(UserConfiguration.Instance.DataSourceSqliteFilePath)
+                )
+            )
             {
-                Application.Exit();
+                new ChooseDataSourceShower().Run();
+                if (UserConfiguration.Instance.DataSourceType is DataSourceType.Unspecified)
+                {
+                    Application.Exit();
+                    return;
+                }
+            }
+            if (UserConfiguration.Instance.DataSourceType == DataSourceType.Sqlite)
+            {
+                Dbc.DbType = DbcType.Sqlite;
+                Dbc.ConnectionString =
+                    $"Data Source={UserConfiguration.Instance.DataSourceSqliteFilePath}";
+                using (var context = new Dbc())
+                {
+                    context.Database.EnsureCreated();
+                }
+            }
+            else if (UserConfiguration.Instance.DataSourceType == DataSourceType.MsSql)
+            {
+                Dbc.DbType = DbcType.MsSqlServer;
+                Dbc.ConnectionString = UserConfiguration.Instance.DataSourceMsSqlConnectionString;
+                using (var context = new Dbc())
+                {
+                    context.Database.EnsureCreated();
+                }
+            }
+            else
+            {
                 return;
             }
         }
-        if (UserConfiguration.Instance.DataSourceType == DataSourceType.Sqlite)
+        catch (Exception ex)
         {
-            var databaseFilePath = UserConfiguration.Instance.DataSourceSqliteFilePath;
-            Dbc.ConnectionString = $"Data Source={databaseFilePath}";
-            using (var context = new Dbc())
-            {
-                context.Database.EnsureCreated();
-            }
+            MessageBox.Show($"Failed to initialize database: {ex.Message}");
+            Application.Exit();
+            return;
         }
-        else if (UserConfiguration.Instance.DataSourceType == DataSourceType.MsSql)
-        {
-            // do nothing now
-        }
+        // Check Reports and Exports directories
+
 
         if (
             UserConfiguration.Instance.ReportsDirectory is null
