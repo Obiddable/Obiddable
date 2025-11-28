@@ -120,7 +120,7 @@ public static class RequestsConversions
         }
         else
         {
-            throw new Exception("Now acceptable worksheets found.");
+            throw new Exception("No acceptable worksheets found.");
         }
     }
 

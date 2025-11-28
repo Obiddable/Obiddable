@@ -16,7 +16,6 @@ public class UserConfiguration
     private bool _autoOpenReports = true;
     private bool _canDeleteBid = false;
     private bool _supressFileLocationSelectDialog = true;
-    private string _helpUrl = "http://10.10.0.19/";
     private DirectoryInfo _defaultReportsDirectory = new DirectoryInfo(
        Directory.GetCurrentDirectory() + "\\Reports"
     );
@@ -75,15 +74,6 @@ public class UserConfiguration
         set
         {
             _includeTimestampsOnAllFiles = value;
-            SaveConfigurationFile();
-        }
-    }
-    public string HelpUrl
-    {
-        get => _helpUrl;
-        set
-        {
-            _helpUrl = value;
             SaveConfigurationFile();
         }
     }
