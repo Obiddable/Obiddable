@@ -1,23 +1,24 @@
 ﻿namespace Obiddable.Win.Library.UI;
+
 public static class UserControlExtensions
 {
-   public static IEnumerable<Control> GetAllNestedControls(this Control root)
-   {
-      Stack<Control> stack;
-      Control control;
+    public static IEnumerable<Control> GetAllNestedControls(this Control root)
+    {
+        Stack<Control> stack;
+        Control control;
 
-      stack = new Stack<Control>();
-      stack.Push(root);
-      do
-      {
-         control = stack.Pop();
+        stack = new Stack<Control>();
+        stack.Push(root);
+        do
+        {
+            control = stack.Pop();
 
-         foreach (Control child in control.Controls)
-         {
-            yield return child;
-            stack.Push(child);
-         }
-      }
-      while (stack.Count > 0);
-   }
+            foreach (Control child in control.Controls)
+            {
+                yield return child;
+                stack.Push(child);
+            }
+        }
+        while (stack.Count > 0);
+    }
 }

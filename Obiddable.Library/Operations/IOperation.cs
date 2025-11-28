@@ -2,5 +2,5 @@
 
 public interface IOperation
 {
-   void Run();
+    void Run();
 }

@@ -2,5 +2,5 @@
 
 public interface IVersionResolver
 {
-   string GetVersion();
+    string GetVersion();
 }

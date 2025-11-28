@@ -2,34 +2,35 @@
 using Obiddable.Win.UI.Bidding.Navigation;
 
 namespace Obiddable.Win.Library.UI;
+
 public class FirstHostScreenResolver
 {
-   public HostScreen Resolve(IHostForm hostForm)
-   {
-      HostScreen output;
+    public HostScreen Resolve(IHostForm hostForm)
+    {
+        HostScreen output;
 
-      output = new BidMaintenanceScreen(hostForm);
-      if (isWorkingBidSet())
-      {
-         output = getWorkingBidNavigationScreen(hostForm);
-      }
+        output = new BidMaintenanceScreen(hostForm);
+        if (isWorkingBidSet())
+        {
+            output = getWorkingBidNavigationScreen(hostForm);
+        }
 
-      return output;
-   }
+        return output;
+    }
 
-   private HostScreen getWorkingBidNavigationScreen(IHostForm hostForm)
-   {
-      HostScreen output;
-      int workingBidId;
+    private HostScreen getWorkingBidNavigationScreen(IHostForm hostForm)
+    {
+        HostScreen output;
+        int workingBidId;
 
-      workingBidId = UserConfiguration.Instance.WorkingBidId.Value;
-      output = new BidNavigationScreen(hostForm, workingBidId);
+        workingBidId = UserConfiguration.Instance.WorkingBidId.Value;
+        output = new BidNavigationScreen(hostForm, workingBidId);
 
-      return output;
-   }
+        return output;
+    }
 
-   private bool isWorkingBidSet()
-   {
-      return UserConfiguration.Instance.WorkingBidId.HasValue;
-   }
+    private bool isWorkingBidSet()
+    {
+        return UserConfiguration.Instance.WorkingBidId.HasValue;
+    }
 }

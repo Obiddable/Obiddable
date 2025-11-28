@@ -52,7 +52,7 @@ public partial class MaintenanceScreen : HostScreen
     protected void AddAction(string title, Action action)
     {
         var actionMenuItem = new ToolStripMenuItem() { Text = title };
-        actionMenuItem.Click += delegate(Object sender, EventArgs eventArgs)
+        actionMenuItem.Click += delegate (Object sender, EventArgs eventArgs)
         {
             action.Invoke();
         };

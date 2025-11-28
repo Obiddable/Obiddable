@@ -2,11 +2,12 @@
 using Obiddable.Library.Bidding.Electing.Elections;
 
 namespace Obiddable.Library.Bidding.Electing;
+
 public interface IElectingRepo
 {
-   IEnumerable<MarkedElection> GetMarkedElectionsForBid(Bid bid);
+    IEnumerable<MarkedElection> GetMarkedElectionsForBid(Bid bid);
 
-   void UpdateElections(IEnumerable<Election> elections);
+    void UpdateElections(IEnumerable<Election> elections);
 
-   MarkedElection GetMarkedElectionForItem(Item item);
+    MarkedElection GetMarkedElectionForItem(Item item);
 }
