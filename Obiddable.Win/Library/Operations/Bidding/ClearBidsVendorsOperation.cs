@@ -18,8 +18,9 @@ public class ClearBidsVendorsOperation : BidDataOperation
     }
 
     protected override void RunDataOperation()
-    {
-        _respondingRepo.DeleteVendorResponses_ByBid(_bid.Id);
+	{
+		_respondingRepo.DeleteResponseItems_ByBid(_bid.Id);
+		_respondingRepo.DeleteVendorResponses_ByBid(_bid.Id);
         _biddingMessaging.ShowBidClearVendorResponsesSuccess();
     }
 }

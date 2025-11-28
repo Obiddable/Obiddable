@@ -45,11 +45,11 @@ public static class VendorResponsesValidations
         }
     }
     public static void Validate_DeleteVendorResponses_ByBid(this Dbc dbc, int bidId)
-    {
-        // validate each VendorResponse to be deleted
-        var vendorResponses = dbc.VendorResponses.AsNoTracking().Include(x => x.Bid).Where(x => x.Bid.Id == bidId).ToList();
-        vendorResponses.ForEach(x => dbc.Validate_DeleteVendorResponse(x.Id));
-    }
+	{
+		// validate each VendorResponse to be deleted
+		var vendorResponses = dbc.VendorResponses.AsNoTracking().Include(x => x.Bid).Where(x => x.Bid.Id == bidId).ToList();
+		vendorResponses.ForEach(x => dbc.Validate_DeleteVendorResponse(x.Id));
+	}
     private static void validateVendorResponseValues(VendorResponse vendorResponse)
     {
         vendorResponse.Validate();
