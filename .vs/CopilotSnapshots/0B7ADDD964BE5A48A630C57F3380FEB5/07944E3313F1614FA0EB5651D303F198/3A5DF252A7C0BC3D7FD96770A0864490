@@ -1,0 +1,207 @@
+﻿name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Bump patch version in Directory.Build.props
+      id: bump_version
+      shell: bash
+      run: |
+        FILE="Directory.Build.props"
+        if [ ! -f "$FILE" ]; then
+          echo "::error ::$FILE not found at repo root"
+          exit 1
+        fi
+        CURR=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' "$FILE" | tr -d '[:space:]')
+        if [ -z "$CURR" ]; then
+          echo "::error ::No <Version> found in $FILE"
+          exit 1
+        fi
+        echo "Current version: $CURR"
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURR"
+        if [ -z "$PATCH" ]; then
+          echo "::error ::Version format unexpected: $CURR"
+          exit 1
+        fi
+        PATCH=$((PATCH + 1))
+        NEW="$MAJOR.$MINOR.$PATCH"
+        echo "New version: $NEW"
+        sed -E -i "s#(<Version>).*?(</Version>)#\1$NEW\2#g" "$FILE"
+        sed -E -i "s#(<AssemblyVersion>).*?(</AssemblyVersion>)#\1$NEW.0\2#g" "$FILE"
+        sed -E -i "s#(<FileVersion>).*?(</FileVersion>)#\1$NEW.0\2#g" "$FILE"
+        sed -E -i "s#(<InformationalVersion>).*?(</InformationalVersion>)#\1$NEW+${GITHUB_SHA:0:8}\2#g" "$FILE"
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add "$FILE"
+        git commit -m "chore: bump version to $NEW" || echo "No changes to commit"
+        git push origin HEAD:main
+        echo "new_version=$NEW" >> "$GITHUB_OUTPUT"
+
+    # Add cache for NuGet packages
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    # Add cache for .NET
+    - name: Cache .NET tools
+      uses: actions/cache@v3
+      with:
+        path: ~/.dotnet/tools
+        key: ${{ runner.os }}-dotnet-tools-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-dotnet-tools-
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build Solution
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Upload Release Artifact
+      id: upload-release
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-artifacts
+        path: "./Obiddable.Win/bin/Release/net10.0-windows"
+
+  test: 
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+      - name: Setup .NET  # ADD THIS
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run Tests and Collect Coverage
+        run: |
+          dotnet test --configuration Release --collect:"XPlat Code Coverage" --results-directory ./coverage
+      
+      - name: Generate Code Coverage Report
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.5
+          reportgenerator "-reports:./coverage/**/coverage.cobertura.xml" "-targetdir:./coverage/"
+      
+      - name: Upload Code Coverage Report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: './coverage/coverage.xml'
+          token: ${{ secrets.CODECOV_TOKEN }}
+        
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
+      
+      - name: Create Coverage PR Comment File
+        run: |
+          echo "## Code Coverage Report" > code-coverage-results.md
+          echo "" >> code-coverage-results.md
+          # Optionally, add summary or parse coverage.xml for details
+          if [ -f ./coverage/coverage.xml ]; then
+            echo '```xml' >> code-coverage-results.md
+            cat ./coverage/coverage.xml >> code-coverage-results.md
+            echo '```' >> code-coverage-results.md
+          else
+            echo "No coverage.xml found." >> code-coverage-results.md
+          fi
+  
+  deploy:
+    needs: test
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+  
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: release-artifacts
+        path: release-artifacts
+
+    - name: Set outputs
+      id: vars
+      shell: bash
+      run: |
+        echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+        version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props | tr -d '[:space:]')
+        if [ -z "$version" ]; then
+          echo "::error ::No <Version> found in Directory.Build.props"
+          exit 1
+        fi
+        echo "tag_name=v$version" >> "$GITHUB_OUTPUT"
+
+    # Create zip with platform-specific naming
+    - name: Create ZIP file
+      run: |
+        $version = "${{ steps.vars.outputs.tag_name }}"
+        $fileName = "Obiddable-$version-win-x64.zip"
+        Compress-Archive -Path "release-artifacts/*.dll","release-artifacts/*.exe" -DestinationPath $fileName
+      shell: pwsh
+  
+    - name: Generate Release Notes
+      id: release_notes
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: latestRelease } = await github.rest.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          }).catch(() => ({ data: { published_at: '1970-01-01T00:00:00Z' } }));
+          
+          const { data: commits } = await github.rest.repos.listCommits({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            since: latestRelease.published_at,
+            per_page: 100
+          });
+          
+          const changes = commits.map(commit => `- ${commit.commit.message}`).join('\n');
+          core.setOutput('notes', changes);
+  
+    - name: Set release date
+      id: date
+      run: echo "formatted_date=$(date +'%B %-d, %Y')" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.vars.outputs.tag_name }}
+        name: "Release ${{ steps.vars.outputs.tag_name }}"
+        body: |
+          # What's Changed
+          ${{ steps.release_notes.outputs.notes }}
+        draft: false
+        prerelease: false
+        files: Obiddable-${{ steps.vars.outputs.tag_name }}-win-x64.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
