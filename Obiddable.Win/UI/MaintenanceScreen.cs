@@ -9,12 +9,10 @@ public partial class MaintenanceScreen : HostScreen
     public IHostForm _hostForm;
     public ListViewItem SelectedItem;
     private int LastSelectedItemIndex;
-    private ReportsFolderShower _reportsFolderShower = new ReportsFolderShower();
-    private ExportsFolderShower _exportsFolderShower = new ExportsFolderShower();
-    private HelpScreenShower _helpScreenShower = new HelpScreenShower(
-        UserConfiguration.Instance,
-        new UrlOpener()
-    );
+    private readonly ReportsFolderShower _reportsFolderShower = new ReportsFolderShower();
+    private readonly ExportsFolderShower _exportsFolderShower = new ExportsFolderShower();
+    private readonly HelpScreenShower _helpScreenShower = new HelpScreenShower(new UrlOpener());
+    private readonly ConfigMenuShower _configMenuShower = new ConfigMenuShower();
     private readonly ToolStripDropDownActionMenu _actionMenu;
     public int SelectedItemTag
     {
@@ -33,13 +31,9 @@ public partial class MaintenanceScreen : HostScreen
 
         _actionMenu = new ToolStripDropDownActionMenu(actionsMenu);
 
-        configButton.Enabled = false;
-        configButton.Visible = false;
-
         addButton.Click += AddButton_Click;
         editButton.Click += EditButton_Click;
-        deleteButton.Click += DeleteButton_Click;
-        refreshButton.Click += RefreshButton_Click;
+		refreshButton.Click += RefreshButton_Click;
         listViewMain.DoubleClick += ListViewMain_DoubleClick;
         _hostForm = hostForm;
     }
@@ -52,7 +46,7 @@ public partial class MaintenanceScreen : HostScreen
     protected void AddAction(string title, Action action)
     {
         var actionMenuItem = new ToolStripMenuItem() { Text = title };
-        actionMenuItem.Click += delegate (Object sender, EventArgs eventArgs)
+        actionMenuItem.Click += delegate(Object sender, EventArgs eventArgs)
         {
             action.Invoke();
         };
@@ -316,6 +310,8 @@ public partial class MaintenanceScreen : HostScreen
     {
         actionsMenuSeparator.Visible = actionsMenu.Visible;
     }
+
+    private void configButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
 
     private void reportsButton_Click(object sender, EventArgs e) => _reportsFolderShower.Run();
 

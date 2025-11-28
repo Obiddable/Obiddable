@@ -1,25 +1,36 @@
 ﻿using Obiddable.Library.Operations;
+using System.Reflection;
 
 namespace Obiddable.Win.Library.Operations.UI;
 
 public class HelpScreenShower : IOperation
 {
-    private readonly UserConfiguration _userConfiguration;
     private readonly UrlOpener _urlOpener;
 
-    public HelpScreenShower(UserConfiguration userConfiguration, UrlOpener urlOpener)
+    public HelpScreenShower(UrlOpener urlOpener)
     {
-        _userConfiguration = userConfiguration;
         _urlOpener = urlOpener;
     }
 
     public void Run()
     {
-        _urlOpener.OpenUrl(getHelpUrl());
+        if (GetHelpUrlFromProject() is string helpUrl)
+            _urlOpener.OpenUrl(helpUrl);
     }
 
-    private string getHelpUrl()
+    private string? GetHelpUrlFromProject()
     {
-        return _userConfiguration.HelpUrl;
+        if (
+            Assembly
+                .GetExecutingAssembly()
+                ?.GetCustomAttributes<AssemblyMetadataAttribute>()
+                ?.FirstOrDefault(x => x.Key == "HelpUrl")
+            is not AssemblyMetadataAttribute helpUrl
+        )
+        {
+            return null;
+        }
+
+        return helpUrl.Value;
     }
 }

@@ -15,44 +15,41 @@ public partial class BidNavigationScreen : HostScreen
 {
     private readonly IBiddingRepo _biddingRepo = new EFBiddingRepo();
 
-    private IHostForm _hostForm;
-    private Bid _bid;
-    private ReportsFolderShower _reportsFolderShower = new ReportsFolderShower();
-    private ExportsFolderShower _exportsFolderShower = new ExportsFolderShower();
-    private HelpScreenShower _helpScreenShower = new HelpScreenShower(UserConfiguration.Instance, new UrlOpener());
-    private ConfigMenuShower _configMenuShower = new ConfigMenuShower();
+    private readonly IHostForm _hostForm;
+    private Bid? _bid;
+    private readonly ReportsFolderShower _reportsFolderShower = new ReportsFolderShower();
+    private readonly ExportsFolderShower _exportsFolderShower = new ExportsFolderShower();
+    private readonly HelpScreenShower _helpScreenShower = new HelpScreenShower(new UrlOpener());
+    private readonly ConfigMenuShower _configMenuShower = new ConfigMenuShower();
 
     public BidNavigationScreen(IHostForm hostForm, int bidId)
     {
         _hostForm = hostForm;
         InitializeComponent();
-        load(bidId);
+        Load(bidId);
     }
 
-    private void load(int bidId)
-    {
-        setBid(bidId);
-        setSubTitle();
-        initReportToolstrip();
-        initBoxes();
-    }
-
-    private void initReportToolstrip()
-    {
-        reportsControl.SetBid(_bid);
-    }
-
-    private void setBid(int bidId)
+    private void Load(int bidId)
     {
         _bid = _biddingRepo.GetBid(bidId);
         if (_bid is null)
         {
-            MessageBox.Show("Bid #{bidId} could not be loaded. Reverting to Bid Maintenance Screen.");
+            MessageBox.Show(
+                "Bid #{bidId} could not be loaded. Reverting to Bid Maintenance Screen."
+            );
             _hostForm.GoBack();
         }
+        SetSubTitle();
+        InitReportToolstrip();
+        InitBoxes();
     }
 
-    private void initBoxes()
+    private void InitReportToolstrip()
+    {
+        reportsControl.SetBid(_bid);
+    }
+
+    private void InitBoxes()
     {
         this.GetAllNestedControls()
             .OfType<BidNavigationBoxControl>()
@@ -60,51 +57,39 @@ public partial class BidNavigationScreen : HostScreen
             .ForEach(x => x.SetBid(_bid));
     }
 
-    private void setSubTitle()
+    private void SetSubTitle()
     {
         string title = $"Bid: {_bid.Name}";
         this.Text = title;
     }
 
-
-
-    private void backButton_Click(object sender, EventArgs e)
+    private void BackButton_Click(object sender, EventArgs e)
     {
-        clearWorkingBid();
+        ClearWorkingBid();
         _hostForm.GoBack();
     }
 
-    private void clearWorkingBid()
+    private void ClearWorkingBid()
     {
         UserConfiguration.Instance.WorkingBidId = null;
     }
 
+    private void ItemNavigationBoxControl1_EditClicked(object sender, EventArgs e) =>
+        ForwardToScreen(new ItemMaintenanceScreen(_hostForm, _bid.Id));
 
+    private void RequestorsNavigationControl1_EditClicked(object sender, EventArgs e) =>
+        ForwardToScreen(new RequestorMaintenanceScreen(_hostForm, _bid.Id));
 
-    private void itemNavigationBoxControl1_EditClicked(object sender, EventArgs e)
-        => forwardToScreen(new ItemMaintenanceScreen(_hostForm, _bid.Id));
+    private void VendorResponseNavigationBoxControl1_EditClicked(object sender, EventArgs e) =>
+        ForwardToScreen(new VendorResponseMaintenanceScreen(_hostForm, _bid.Id));
 
+    private void ElectionNavigationBoxControl1_EditClicked(object sender, EventArgs e) =>
+        ForwardToScreen(new LegacyElectionMaintenanceScreen(_hostForm, _bid.Id));
 
-    private void requestorsNavigationControl1_EditClicked(object sender, EventArgs e)
-        => forwardToScreen(new RequestorMaintenanceScreen(_hostForm, _bid.Id));
+    private void PurchaseOrderNavigationBoxControl1_EditClicked(object sender, EventArgs e) =>
+        ForwardToScreen(new PurchaseOrderMaintenanceScreen(_hostForm, _bid.Id));
 
-
-    private void vendorResponseNavigationBoxControl1_EditClicked(object sender, EventArgs e)
-        => forwardToScreen(new VendorResponseMaintenanceScreen(_hostForm, _bid.Id));
-
-
-    private void electionNavigationBoxControl1_EditClicked(object sender, EventArgs e)
-        => forwardToScreen(new LegacyElectionMaintenanceScreen(_hostForm, _bid.Id));
-
-
-    private void purchaseOrderNavigationBoxControl1_EditClicked(object sender, EventArgs e)
-        => forwardToScreen(new PurchaseOrderMaintenanceScreen(_hostForm, _bid.Id));
-
-
-
-
-    private void forwardToScreen(HostScreen nextScreen)
-        => _hostForm.GoForward(nextScreen);
+    private void ForwardToScreen(HostScreen nextScreen) => _hostForm.GoForward(nextScreen);
 
     private void BidNavigationScreen_SizeChanged(object sender, EventArgs e)
     {
@@ -121,26 +106,30 @@ public partial class BidNavigationScreen : HostScreen
         int leftPos = (spaceWidth - centeredPanel.Width) / 2;
         int topPos = topOffset + spaceHeightHalf - boxHeightHalf;
 
-
         centeredPanel.Left = leftPos;
         centeredPanel.Top = topPos;
         ResumeLayout();
     }
 
-    private void exportsButton_Click(object sender, EventArgs e) => _exportsFolderShower.Run();
-    private void reportsButton_Click(object sender, EventArgs e) => _reportsFolderShower.Run();
-    private void refreshButton_Click(object sender, EventArgs e) => refreshScreen();
-    private void configButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
-    private void helpButton_Click(object sender, EventArgs e) => _helpScreenShower.Run();
+    private void ExportsButton_Click(object sender, EventArgs e) => _exportsFolderShower.Run();
+
+    private void ReportsButton_Click(object sender, EventArgs e) => _reportsFolderShower.Run();
+
+    private void RefreshButton_Click(object sender, EventArgs e) => RefreshScreen();
+
+    private void ConfigButton_Click(object sender, EventArgs e) => _configMenuShower.Run();
+
+    private void HelpButton_Click(object sender, EventArgs e) => _helpScreenShower.Run();
 
     public override void Refresh()
     {
-        refreshScreen();
+        RefreshScreen();
         base.Refresh();
     }
 
-    private void refreshScreen()
+    private void RefreshScreen()
     {
-        load(_bid.Id);
+        if (_bid is not null)
+            Load(_bid.Id);
     }
 }
