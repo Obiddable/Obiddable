@@ -2,7 +2,6 @@
 using Obiddable.Library.Bidding.Responding;
 using Obiddable.Library.EF.Bidding.Responding;
 using Obiddable.Win.UI.Bidding;
-using System.Security.Cryptography;
 
 namespace Obiddable.Win.Library.Operations.Bidding;
 
