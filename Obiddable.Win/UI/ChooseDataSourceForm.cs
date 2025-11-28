@@ -105,9 +105,6 @@ public partial class ChooseDataSourceForm : Form
         }
         else if (msSqlRadioButton.Checked)
         {
-            MessageBox.Show("This feature is not yet implemented.", "Not Implemented", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return;
-            
             if (string.IsNullOrWhiteSpace(msSqlConnectionStringTextBox.Text))
 			{
 				MessageBox.Show(

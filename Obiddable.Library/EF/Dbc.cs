@@ -8,9 +8,17 @@ using Obiddable.Library.EF.Bidding.Electing;
 
 namespace Obiddable.Library.EF;
 
+public enum DbcType
+{
+    Unspecified,
+    Sqlite,
+	MsSqlServer
+}
+
 public class Dbc : DbContext
 {
-    public static string ConnectionString = "Data Source=bidding.db";
+    public static DbcType DbType = DbcType.Unspecified;
+	public static string ConnectionString = "Data Source=bidding.db";
 
     public Dbc(DbContextOptions options) : base(options) { }
 
@@ -21,7 +29,18 @@ public class Dbc : DbContext
         if (ConnectionString is null)
             throw new Exception($"{nameof(ConnectionString)} not set");
 
-        options.UseSqlite(ConnectionString);
+        switch (DbType)
+        {
+            case DbcType.Sqlite:
+                options.UseSqlite(ConnectionString);
+                break;
+            case DbcType.MsSqlServer:
+                options.UseSqlServer(ConnectionString);
+                break;
+            case DbcType.Unspecified:
+            default:
+                throw new Exception("DbcType not specified");
+		}
     }
 
     // These properties must be accessible for entity framework to work correctly.
