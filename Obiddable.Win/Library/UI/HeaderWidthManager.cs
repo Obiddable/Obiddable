@@ -6,7 +6,7 @@ public class HeaderWidthManager
 {
     private Dictionary<string, Dictionary<int, int>> lookupTable = new Dictionary<string, Dictionary<int, int>>();
 
-    private string filePath = Directory.GetCurrentDirectory() + "\\ColumnWidths.csv";
+    private string filePath = Path.Combine(Program.DefaultObiddableDocumentsPath, "ColumnWidths.csv");
 
 
     public HeaderWidthManager()
