@@ -20,7 +20,7 @@
     <FileVersion>1.0.13.0</FileVersion>
 
     <!-- InformationalVersion is useful for including the git SHA if desired -->
-    <InformationalVersion>1.0.13+94de744b</InformationalVersion>
+    <InformationalVersion>1.0.13.0+172ed8d4</InformationalVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Application-Specific URLs -->
