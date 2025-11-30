@@ -5,6 +5,7 @@
     <MediaTemplate EmbedCab="yes" />
     <Feature Id="Main">
       <ComponentGroupRef Id="AppComponent" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
     </Feature>
 
     <Icon Id="Icon" SourceFile="$(sys.CURRENTDIR)\..\images\bmlogo_LVC_icon.ico"/>
@@ -19,5 +20,30 @@
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="InstallFolder" Name="!(bind.Property.ProductName)" />
     </StandardDirectory>
+
+    <Directory Id="xxxx" Name="SourceDir">
+      <Directory Id="DesktopFolder" Name="Desktop">
+        <Component Id="ApplicationShortcutDesktop" Guid="*">
+          <Shortcut Id="ApplicationDesktopShortcut"
+              Name="Obiddable"
+              Description="Launch Obiddable"
+              Target="[MYAPPDIRPROPERTY]Obiddable.exe"
+              WorkingDirectory="MYAPPDIRPROPERTY"/>
+          <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+          <RegistryValue
+              Root="HKCU"
+              Key="Software\Obiddable"
+              Name="installed"
+              Type="integer"
+              Value="1"
+              KeyPath="yes"/>
+        </Component>
+      </Directory>
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="MYAPPDIRPROPERTY" Name="Obiddable">
+        </Directory>
+      </Directory>
+    </Directory>
+
   </Fragment>
 </Wix>
