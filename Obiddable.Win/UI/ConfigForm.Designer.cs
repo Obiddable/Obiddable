@@ -79,7 +79,7 @@
             toolStrip1.Dock = DockStyle.Bottom;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
             toolStrip1.Items.AddRange(new ToolStripItem[] { cancelButton, saveChangesButton, chooseDataSourceButton });
-            toolStrip1.Location = new Point(0, 682);
+            toolStrip1.Location = new Point(0, 635);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(450, 32);
             toolStrip1.TabIndex = 4;
@@ -394,7 +394,7 @@
             // 
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 714);
+            ClientSize = new Size(450, 667);
             ControlBox = false;
             Controls.Add(groupBox1);
             Controls.Add(optionsGroupBox);

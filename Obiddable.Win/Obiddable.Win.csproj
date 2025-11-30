@@ -8,6 +8,7 @@
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
     <AssemblyName>Obiddable</AssemblyName>
+    <ApplicationIcon>bmlogo_LVC_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
