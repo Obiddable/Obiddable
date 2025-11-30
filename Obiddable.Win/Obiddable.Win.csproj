@@ -1,31 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <!-- Basic Project Info -->
-    <Company>Obiddable</Company>
-    <Product>Obiddable Bidding Manager</Product>
-    <Description>An open source bidding application and process for Pennsylvania school districts</Description>
-    <Copyright>Copyright © 2025 Obiddable</Copyright>
-
-    <!-- Repository Information -->
-    <PackageProjectUrl>https://github.com/Obiddable/Obiddable</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Obiddable/Obiddable</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-
-    <!-- License -->
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <!-- Or if you have a different license, check the repo -->
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Application-Specific URLs -->
-    <AssemblyMetadata Include="HelpUrl" Value="https://github.com/Obiddable/Obiddable/wiki" />
-    <AssemblyMetadata Include="SupportUrl" Value="https://github.com/Obiddable/Obiddable/discussions" />
-    <AssemblyMetadata Include="BugReportUrl" Value="https://github.com/Obiddable/Obiddable/issues" />
-    <AssemblyMetadata Include="DocumentationUrl" Value="https://github.com/Obiddable/Obiddable#readme" />
-    <AssemblyMetadata Include="ProjectUrl" Value="https://github.com/Obiddable/Obiddable" />
-  </ItemGroup>
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
@@ -34,6 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+    <AssemblyName>Obiddable</AssemblyName>
+    <ApplicationIcon>bmlogo_LVC_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

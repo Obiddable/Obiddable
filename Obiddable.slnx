@@ -1,4 +1,10 @@
 <Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".csharpierrc" />
     <File Path=".editorconfig" />
@@ -8,6 +14,9 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="Obiddable.Excel/Obiddable.Excel.csproj" Id="10531dcf-08a3-4e26-9e09-e29ca91226da" />
+  <Project Path="Obiddable.Installer/Obiddable.Installer.wixproj" Type="b7dd6f7e-def8-4e67-b5b7-07ef123db6f0" Id="19e6bb24-f150-49f9-a4ee-cd9bc1eceb75">
+    <Platform Solution="*|Any CPU" Project="x64" />
+  </Project>
   <Project Path="Obiddable.Library/Obiddable.Library.csproj" />
   <Project Path="Obiddable.Reporting/Obiddable.Reporting.csproj" />
   <Project Path="Obiddable.Test/Obiddable.Test.csproj">
