@@ -123,7 +123,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: release-artifacts
-        path: "./Obiddable.Win/bin/Release/net10.0-windows"
+        path: "./Obiddable.Installer/bin/x64/Release/Obiddable.msi"
 
   test: 
     needs: build
