@@ -172,7 +172,7 @@ jobs:
     - name: Create ZIP file
       shell: pwsh
       run: |
-        $version = "${{ needs.bump-version-on-merge.outputs.bumped_version }}"
+        $version = "${{ steps.vars.outputs.tag_name }}"
         $zip = "Obiddable-v$version-win-x64.zip"
         Compress-Archive -Path "release-artifacts/*" -DestinationPath $zip
   
