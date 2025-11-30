@@ -1,17 +1,18 @@
 ﻿namespace Obiddable.Library.Bidding;
+
 public class BiddingService
 {
-   private readonly IBiddingRepo _biddingRepo;
+    private readonly IBiddingRepo _biddingRepo;
 
-   public BiddingService(IBiddingRepo biddingRepo)
-   {
-      _biddingRepo = biddingRepo;
-   }
+    public BiddingService(IBiddingRepo biddingRepo)
+    {
+        _biddingRepo = biddingRepo;
+    }
 
-   public bool BidNameExists(string text, int bidId)
-   {
-      return _biddingRepo.GetBids()
-          .Where(bid => bid.Id != bidId)
-          .Any(bid => bid.Name == text);
-   }
+    public bool BidNameExists(string text, int bidId)
+    {
+        return _biddingRepo.GetBids()
+            .Where(bid => bid.Id != bidId)
+            .Any(bid => bid.Name == text);
+    }
 }

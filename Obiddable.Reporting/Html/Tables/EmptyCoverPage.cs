@@ -2,7 +2,7 @@
 
 public class EmptyCoverPage : CoverPage
 {
-   public EmptyCoverPage() : base(new string[] { })
-   {
-   }
+    public EmptyCoverPage() : base(new string[] { })
+    {
+    }
 }

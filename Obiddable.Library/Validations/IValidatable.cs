@@ -2,5 +2,5 @@
 
 interface IValidatable
 {
-   void Validate();
+    void Validate();
 }

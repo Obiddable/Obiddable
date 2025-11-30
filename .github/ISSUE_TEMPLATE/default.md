@@ -1,7 +1,7 @@
 ---
 name: DEFAULT
 about: Six Seven
-title: "[cat/pri] location: "
+title: "[/] : "
 labels: ''
 assignees: Tiptup300
 
@@ -14,16 +14,7 @@ assignees: Tiptup300
 ---
 
 ## Acceptance Criteria
-
 ```gherkin
-
-# AC-1: []
-
-  # AC-1.1
-  Scenario: <Concise scenario title>
-    Given <initial state or prerequisite>
-    When <action the actor performs>
-    Then <observable, testable outcome>
-    And <additional outcome if required>
-
+# AC-1: <Clear and testable capability>
+# AC-2: <Second capability or behavioral grouping>
 ```

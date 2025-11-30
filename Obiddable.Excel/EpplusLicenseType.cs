@@ -2,8 +2,8 @@
 
 public enum EpplusLicenseType
 {
-   None,
-   Commercial,
-   NonCommercialPersonal,
-   NonCommercialOrganization,
+    None,
+    Commercial,
+    NonCommercialPersonal,
+    NonCommercialOrganization,
 }

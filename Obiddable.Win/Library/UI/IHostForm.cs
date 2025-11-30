@@ -2,11 +2,11 @@
 
 public interface IHostForm
 {
-   void GoForward(HostScreen control);
+    void GoForward(HostScreen control);
 
-   void GoBack();
+    void GoBack();
 
-   void GoTo(HostScreen control);
+    void GoTo(HostScreen control);
 
-   HeaderWidthManager HeaderWidthManager { get; }
+    HeaderWidthManager HeaderWidthManager { get; }
 }

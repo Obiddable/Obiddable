@@ -1,0 +1,9 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+  <PropertyGroup Label="Globals">
+    <DefineConstants>Version=$(Version);</DefineConstants>
+    <OutputName>Obiddable</OutputName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Obiddable.Win\Obiddable.Win.csproj" />
+  </ItemGroup>
+</Project>

@@ -2,10 +2,10 @@
 
 public class PageBreakHeader
 {
-   public string Line { get; private set; }
+    public string Line { get; private set; }
 
-   public PageBreakHeader(string line)
-   {
-      Line = line;
-   }
+    public PageBreakHeader(string line)
+    {
+        Line = line;
+    }
 }

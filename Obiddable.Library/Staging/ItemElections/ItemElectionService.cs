@@ -4,49 +4,50 @@ using Obiddable.Library.Bidding.Electing.Elections;
 using Obiddable.Library.Bidding.Requesting;
 
 namespace Obiddable.Library.Staging.ItemElections;
+
 public class ItemElectionService
 {
-   private readonly IRequestingRepo _requestingRepo;
-   private readonly ICatalogingRepo _catalogingRepo;
-   private readonly IElectingRepo _electingRepo;
+    private readonly IRequestingRepo _requestingRepo;
+    private readonly ICatalogingRepo _catalogingRepo;
+    private readonly IElectingRepo _electingRepo;
 
-   public ItemElectionService(IRequestingRepo requestingRepo, ICatalogingRepo catalogingRepo, IElectingRepo electingRepo)
-   {
-      _requestingRepo = requestingRepo;
-      _catalogingRepo = catalogingRepo;
-      _electingRepo = electingRepo;
-   }
+    public ItemElectionService(IRequestingRepo requestingRepo, ICatalogingRepo catalogingRepo, IElectingRepo electingRepo)
+    {
+        _requestingRepo = requestingRepo;
+        _catalogingRepo = catalogingRepo;
+        _electingRepo = electingRepo;
+    }
 
-   public ItemElection GetItemElectionForItem(int itemId)
-   {
-      ItemElection output;
+    public ItemElection GetItemElectionForItem(int itemId)
+    {
+        ItemElection output;
 
-      Item item = _catalogingRepo.GetItem(itemId);
-      output = buildItemElectionFromItem(item);
+        Item item = _catalogingRepo.GetItem(itemId);
+        output = buildItemElectionFromItem(item);
 
-      return output;
+        return output;
 
-   }
+    }
 
-   public IEnumerable<ItemElection> GetItemElectionsForBid(int bidId)
-   {
-      IEnumerable<ItemElection> output;
-      IEnumerable<Item> bidItems;
+    public IEnumerable<ItemElection> GetItemElectionsForBid(int bidId)
+    {
+        IEnumerable<ItemElection> output;
+        IEnumerable<Item> bidItems;
 
-      bidItems = _catalogingRepo.GetItems(bidId);
-      output = bidItems.Select(item => buildItemElectionFromItem(item));
+        bidItems = _catalogingRepo.GetItems(bidId);
+        output = bidItems.Select(item => buildItemElectionFromItem(item));
 
-      return output;
-   }
+        return output;
+    }
 
-   private ItemElection buildItemElectionFromItem(Item item)
-   {
-      ItemElection output;
-      MarkedElection election;
+    private ItemElection buildItemElectionFromItem(Item item)
+    {
+        ItemElection output;
+        MarkedElection election;
 
-      election = _electingRepo.GetMarkedElectionForItem(item);
-      output = new ItemElection(item, election);
+        election = _electingRepo.GetMarkedElectionForItem(item);
+        output = new ItemElection(item, election);
 
-      return output;
-   }
+        return output;
+    }
 }

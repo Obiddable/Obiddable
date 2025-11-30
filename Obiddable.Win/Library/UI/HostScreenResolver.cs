@@ -1,12 +1,13 @@
 ﻿namespace Obiddable.Win.Library.UI;
+
 public class HostScreenResolver
 {
-   public HostScreen Resolve<TScreen>() where TScreen : HostScreen
-   {
-      HostScreen output;
+    public HostScreen Resolve<TScreen>() where TScreen : HostScreen
+    {
+        HostScreen output;
 
-      output = (HostScreen)Activator.CreateInstance<TScreen>();
+        output = (HostScreen)Activator.CreateInstance<TScreen>();
 
-      return output;
-   }
+        return output;
+    }
 }

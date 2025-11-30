@@ -2,5 +2,5 @@
 
 public interface IHeightElement
 {
-   int LineHeight { get; }
+    int LineHeight { get; }
 }

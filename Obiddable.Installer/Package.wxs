@@ -1,0 +1,62 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Id="Obiddable.Obiddable" Name="Obiddable" Manufacturer="Obiddable" Version="$(Version)">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Obiddable is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Feature Id="Main">
+      <ComponentGroupRef Id="AppComponent" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentRef Id="ApplicationShortcutStartMenu" />
+    </Feature>
+    <Icon Id="Icon" SourceFile="$(sys.CURRENTDIR)\..\images\bmlogo_LVC_icon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="Icon" />
+  </Package>
+  <Fragment>
+    <ComponentGroup Id="AppComponent">
+      <Files Include="$(Obiddable.Win.TargetDir)**" Directory="InstallFolder" />  
+    </ComponentGroup>
+  </Fragment>
+  <Fragment>
+    <!-- Program Files -->
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="InstallFolder" Name="!(bind.Property.ProductName)" />
+    </StandardDirectory>
+    <!-- Desktop Shortcut -->
+    <StandardDirectory Id="DesktopFolder">
+        <Component Id="ApplicationShortcutDesktop" Guid="*">
+          <Shortcut Id="ApplicationDesktopShortcut"
+              Name="Obiddable"
+              Description="Launch Obiddable"
+              Target="[InstallFolder]Obiddable.exe"
+              WorkingDirectory="InstallFolder"/>
+          <RemoveFolder Id="DesktopShortcutDir" On="uninstall"/>
+          <RegistryValue
+              Root="HKCU"
+              Key="Software\Obiddable\Desktop"
+              Name="installed"
+              Type="integer"
+              Value="1"
+              KeyPath="yes"/>
+        </Component>
+    </StandardDirectory>
+    <!-- Start Menu Shortcut -->
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="Obiddable">
+        <Component Id="ApplicationShortcutStartMenu" Guid="*">
+          <Shortcut Id="ApplicationStartMenuShortcut"
+              Name="Obiddable"
+              Description="Launch Obiddable"
+              Target="[InstallFolder]Obiddable.exe"
+              WorkingDirectory="InstallFolder"/>
+          <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+          <RegistryValue
+              Root="HKCU"
+              Key="Software\Obiddable\StartMenu"
+              Name="installed"
+              Type="integer"
+              Value="1"
+              KeyPath="yes"/>
+        </Component>
+      </Directory>
+    </StandardDirectory>  
+  </Fragment>
+</Wix>

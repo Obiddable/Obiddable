@@ -2,15 +2,15 @@
 
 public class Entity
 {
-   public int? Id { get; private set; }
-   public Entity(int? id)
-   {
-      Id = id;
-   }
+    public int? Id { get; private set; }
+    public Entity(int? id)
+    {
+        Id = id;
+    }
 
-   public bool IsNew()
-       => Id.HasValue == false;
+    public bool IsNew()
+        => Id.HasValue == false;
 
-   public bool IsOld()
-       => Id.HasValue;
+    public bool IsOld()
+        => Id.HasValue;
 }
