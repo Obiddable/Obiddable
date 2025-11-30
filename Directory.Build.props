@@ -1,12 +1,33 @@
 <Project>
   <PropertyGroup>
-    <!-- Start with a manually controlled Major.Minor.Patch value -->
-    <!-- Update this file manually when you want to change the Major or Minor. -->
+    <!-- Basic Project Info -->
+    <Company>Obiddable</Company>
+    <Product>Obiddable Bidding Manager</Product>
+    <Description>An open source bidding application and process for Pennsylvania school districts</Description>
+    <Copyright>Copyright © 2025 Obiddable</Copyright>
+
+    <!-- Repository Information -->
+    <PackageProjectUrl>https://github.com/Obiddable/Obiddable</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Obiddable/Obiddable</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <!-- License -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <!-- Version Information -->
     <Version>1.0.13</Version>
-    <!-- keep assembly/file version consistent; add .0 for the 4th component -->
     <AssemblyVersion>1.0.13.0</AssemblyVersion>
     <FileVersion>1.0.13.0</FileVersion>
+
     <!-- InformationalVersion is useful for including the git SHA if desired -->
     <InformationalVersion>1.0.13+94de744b</InformationalVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- Application-Specific URLs -->
+    <AssemblyMetadata Include="HelpUrl" Value="https://github.com/Obiddable/Obiddable/wiki" />
+    <AssemblyMetadata Include="SupportUrl" Value="https://github.com/Obiddable/Obiddable/discussions" />
+    <AssemblyMetadata Include="BugReportUrl" Value="https://github.com/Obiddable/Obiddable/issues" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://github.com/Obiddable/Obiddable#readme" />
+    <AssemblyMetadata Include="ProjectUrl" Value="https://github.com/Obiddable/Obiddable" />
+  </ItemGroup>
 </Project>
