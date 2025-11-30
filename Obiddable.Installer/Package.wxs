@@ -1,0 +1,23 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+  <Package Id="Obiddable.Obiddable" Name="Obiddable" Manufacturer="Obiddable" Version="$(Version)">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Obiddable is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Feature Id="Main">
+      <ComponentGroupRef Id="AppComponent" />
+    </Feature>
+
+    <Icon Id="Icon" SourceFile="$(sys.CURRENTDIR)\..\images\bmlogo_LVC_icon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="Icon" />
+  </Package>
+  <Fragment>
+    <ComponentGroup Id="AppComponent">
+      <Files Include="$(Obiddable.Win.TargetDir)**" Directory="InstallFolder" />  
+    </ComponentGroup>
+  </Fragment>
+  <Fragment>
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="InstallFolder" Name="!(bind.Property.ProductName)" />
+    </StandardDirectory>
+  </Fragment>
+</Wix>
