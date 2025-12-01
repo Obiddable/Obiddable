@@ -31,83 +31,88 @@ jobs:
       - run: dotnet restore
       - run: dotnet test --configuration Release
 
-  check-version:
-    if: github.ref == 'refs/heads/stage'
+  extract-version:
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.getver.outputs.version }}
     steps:
-      - id: version
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+  
+      - id: getver
         run: |
           [xml]$p = Get-Content Directory.Build.props
-          $version = "v$($p.Project.PropertyGroup.Version)"
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "Version extracted: $version"
-      - id: check-tag    
-        run: |
-          $tag = "${{ steps.version.outputs.version }}"
-          git fetch --tags
-          if (git tag -l $tag) {
-            echo "exists=true" >> $env:GITHUB_OUTPUT
-            echo "::error::Tag $tag already exists! Did you forget to bump the version in Directory.Build.props?"
-            exit 1
-          } else {
-            echo "exists=false" >> $env:GITHUB_OUTPUT
-            echo "Tag $tag does not exist. Will create it."
-          }
-  
-  tag-and-release:
-    needs: [build, test]
-    if: github.ref == 'refs/heads/main'
+          $v = "v$($p.Project.PropertyGroup.Version)"
+          echo "version=$v" >> $env:GITHUB_OUTPUT
+          echo "Version: $v"
+
+  tag:
+    needs: extract-version
     runs-on: windows-latest
+    if: github.ref == 'refs/heads/main'    
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - id: version
-        run: |
-          [xml]$p = Get-Content Directory.Build.props
-          $version = "v$($p.Project.PropertyGroup.Version)"
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "Version extracted: $version"
-      - id: check-tag    
-        run: |
-          $tag = "${{ steps.version.outputs.version }}"
+      - run: |
+          $tag = "${{ needs.extract-version.outputs.version }}"
           git fetch --tags
           if (git tag -l $tag) {
-            echo "exists=true" >> $env:GITHUB_OUTPUT
-            echo "::error::Tag $tag already exists! Did you forget to bump the version in Directory.Build.props?"
+            echo "::error::Tag $tag already exists"
             exit 1
-          } else {
-            echo "exists=false" >> $env:GITHUB_OUTPUT
-            echo "Tag $tag does not exist. Will create it."
           }
-      - if: steps.check-tag.outputs.exists == 'false'
-        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.version.outputs.version }}
-          git push origin ${{ steps.version.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-dotnet@v3
+          git tag $tag
+          git push origin $tag
+
+  stage-release:
+    if: github.ref == 'refs/heads/stage'
+    needs: [extract-version, tag, build, test]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
         with:
-          dotnet-version: '10.0.x'
-      - run: dotnet restore
-      - run: dotnet build --no-restore --configuration Release
+          name: release-artifacts
+          path: release-artifacts
       - run: |
-          if (!(Test-Path "./Obiddable.Installer/bin/x64/Release/Obiddable.msi")) {
-            throw "Build artifact not found at expected path!"
+          $v = "${{ needs.extract-version.outputs.version }}"
+          if (!(Test-Path "./release-artifacts/Obiddable.msi")) {
+            throw "Build artifact missing"
           }
-          echo "Artifact verified successfully"
-      - run: |
-          $version = "${{ steps.version.outputs.version }}"
-          $target = "Obiddable-$version-win-x64.msi"
-          Copy-Item "./Obiddable.Installer/bin/x64/Release/Obiddable.msi" $target
-          echo "Prepared file: $target"
+          $target = "Obiddable-$v-win-x64-STAGING.msi"
+          Copy-Item "./release-artifacts/Obiddable.msi" $target
+          echo "Prepared: $target"
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: Obiddable-${{ steps.version.outputs.version }}-win-x64.msi
-          tag: ${{ steps.version.outputs.version }}
+          name: STAGED RELEASE (${{ needs.extract-version.outputs.version }})
+          artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64-STAGING.msi
+          tag: ${{ needs.extract-version.outputs.version }}-stage
           prerelease: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    if: github.ref == 'refs/heads/main'
+    needs: [extract-version, tag, build, test]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: release-artifacts
+      - run: |
+          $v = "${{ needs.extract-version.outputs.version }}"
+          if (!(Test-Path "./release-artifacts/Obiddable.msi")) {
+            throw "Build artifact missing"
+          }
+          $target = "Obiddable-$v-win-x64.msi"
+          Copy-Item "./release-artifacts/Obiddable.msi" $target
+          echo "Prepared: $target"
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64.msi
+          tag: ${{ needs.extract-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
