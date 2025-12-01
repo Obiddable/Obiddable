@@ -46,7 +46,7 @@ jobs:
           [xml]$p = Get-Content Directory.Build.props
           
           if ($branch -eq "stage") {
-            $v = "v$($p.Project.PropertyGroup.Version)-stage"
+            $v = "v$($p.Project.PropertyGroup.Version.Trim())-stage"
           } else {
             $v = "v$($p.Project.PropertyGroup.Version)"
           }
