@@ -30,6 +30,28 @@ jobs:
           dotnet-version: '10.0.x'
       - run: dotnet restore
       - run: dotnet test --configuration Release
+
+  check-version:
+    if: github.ref == 'refs/heads/stage'
+    steps:
+      - id: version
+        run: |
+          [xml]$p = Get-Content Directory.Build.props
+          $version = "v$($p.Project.PropertyGroup.Version)"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "Version extracted: $version"
+      - id: check-tag    
+        run: |
+          $tag = "${{ steps.version.outputs.version }}"
+          git fetch --tags
+          if (git tag -l $tag) {
+            echo "exists=true" >> $env:GITHUB_OUTPUT
+            echo "::error::Tag $tag already exists! Did you forget to bump the version in Directory.Build.props?"
+            exit 1
+          } else {
+            echo "exists=false" >> $env:GITHUB_OUTPUT
+            echo "Tag $tag does not exist. Will create it."
+          }
   
   tag-and-release:
     needs: [build, test]
