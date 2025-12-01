@@ -33,6 +33,7 @@ jobs:
 
   check-version:
     if: github.ref == 'refs/heads/stage'
+    runs-on: windows-latest
     steps:
       - id: version
         run: |
