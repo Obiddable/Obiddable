@@ -6,11 +6,6 @@ on:
       - wip
       - stage
       - main
-  pull_request:
-    branches:
-      - wip
-      - stage
-      - main
 
 jobs:
   build:
