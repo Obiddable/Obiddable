@@ -3,10 +3,7 @@
   <!-- Version Information -->
   <PropertyGroup>
     <Version>1.0.6</Version>
-  </PropertyGroup>
 
-
-  <PropertyGroup>
     <Company>Obiddable</Company>
     <Product>Obiddable Bidding Manager</Product>
     <Description>An open source bidding application and process for Pennsylvania school districts</Description>
