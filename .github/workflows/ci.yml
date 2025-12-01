@@ -42,8 +42,14 @@ jobs:
   
       - id: getver
         run: |
+          $branch = "${{ github.ref_name }}"
           [xml]$p = Get-Content Directory.Build.props
-          $v = "v$($p.Project.PropertyGroup.Version)"
+          
+          if ($branch -eq "stage") {
+            $v = "v$($p.Project.PropertyGroup.Version)-stage"
+          } else {
+            $v = "v$($p.Project.PropertyGroup.Version)"
+          }
           echo "version=$v" >> $env:GITHUB_OUTPUT
           echo "Version: $v"
 
@@ -57,13 +63,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          $branch = "${{ github.ref_name }}"
-          $version = "${{ needs.extract-version.outputs.version }}"
-          if ($branch -eq "stage") {
-            $tag = "$version-stage"
-          } else {
-            $tag = $version
-          }
+          $tag = "${{ needs.extract-version.outputs.version }}"
           git fetch --tags
           if (git tag -l $tag) {
             echo "::error::Tag $tag already exists"
@@ -74,7 +74,7 @@ jobs:
           git tag $tag
           git push origin $tag
 
-  stage-release:
+  release-stage:
     if: github.ref == 'refs/heads/stage'
     needs: [extract-version, tag, build, test]
     runs-on: windows-latest
@@ -88,16 +88,15 @@ jobs:
           if (!(Test-Path "./release-artifacts/Obiddable.msi")) {
             throw "Build artifact missing"
           }
-          $target = "Obiddable-$v-win-x64-STAGING.msi"
+          $target = "Obiddable-$v-win-x64.msi"
           Copy-Item "./release-artifacts/Obiddable.msi" $target
           echo "Prepared: $target"
       - uses: ncipollo/release-action@v1
         with:
-          name: STAGED RELEASE (${{ needs.extract-version.outputs.version }})
-          artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64-STAGING.msi
-          tag: ${{ needs.extract-version.outputs.version }}-stage
-          prerelease: true
+          artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64.msi
+          tag: ${{ needs.extract-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: true
 
   release:
     if: github.ref == 'refs/heads/main'
