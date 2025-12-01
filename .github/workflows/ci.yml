@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - wip
+      - stage
+      - main
+  pull_request:
+    branches:
+      - wip
+      - stage
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet restore
+      - run: dotnet build --no-restore --configuration Release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: "./Obiddable.Installer/bin/x64/Release/Obiddable.msi"
+
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet restore
+      - run: dotnet test --configuration Release
