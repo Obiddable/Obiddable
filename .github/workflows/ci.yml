@@ -102,10 +102,12 @@ jobs:
           echo "Artifact verified successfully"
       - run: |
           $version = "${{ steps.version.outputs.version }}"
-          Compress-Archive -Path "./Obiddable.Installer/bin/x64/Release/Obiddable.msi" -DestinationPath "Obiddable-$version-win-x64.zip"
-          echo "Created archive: Obiddable-$version-win-x64.zip"
+          $target = "Obiddable-$version-win-x64.msi"
+          Copy-Item "./Obiddable.Installer/bin/x64/Release/Obiddable.msi" $target
+          echo "Prepared file: $target"
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: Obiddable-${{ steps.version.outputs.version }}-win-x64.zip
-          tag: v${{ steps.version.outputs.version }}
+          artifacts: Obiddable-${{ steps.version.outputs.version }}-win-x64.msi
+          tag: ${{ steps.version.outputs.version }}
+          prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
