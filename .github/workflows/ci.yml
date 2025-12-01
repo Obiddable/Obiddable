@@ -32,6 +32,7 @@ jobs:
       - run: dotnet test --configuration Release
   
   tag-and-release:
+    needs: [build, test]
     if: github.ref == 'refs/heads/main'
     runs-on: windows-latest
     permissions:
