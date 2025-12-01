@@ -15,12 +15,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <!-- Version Information -->
-    <Version>0.0.1</Version>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
-    <FileVersion>0.0.1.0</FileVersion>
-
-    <!-- InformationalVersion is useful for including the git SHA if desired -->
-    <InformationalVersion>1.0.13.0+172ed8d4</InformationalVersion>
+    <Version>1.0.2</Version>
+      <AssemblyVersion>$(Version).0</AssemblyVersion>
+      <FileVersion>$(Version).0</FileVersion>
+      <InformationalVersion>$(Version).0+$(SourceRevisionId)</InformationalVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Application-Specific URLs -->
