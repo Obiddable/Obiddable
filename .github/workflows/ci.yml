@@ -99,7 +99,6 @@ jobs:
           prerelease: true
 
   release:
-    if: github.ref == 'refs/heads/main'
     needs: [extract-version, tag, build, test]
     runs-on: windows-latest
     steps:
