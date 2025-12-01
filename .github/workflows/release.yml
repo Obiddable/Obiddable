@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: version
+        run: |
+          [xml]$p = Get-Content Directory.Build.props
+          $version = "v$($p.Project.PropertyGroup.Version)"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "Version: $version"
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet restore
+      - run: dotnet build --no-restore --configuration Release
+      - run: |
+          if (!(Test-Path "./Obiddable.Installer/bin/x64/Release/Obiddable.msi")) {
+            throw "Build artifact not found at expected path!"
+          }
+          echo "Artifact verified successfully"
+      - run: |
+          $version = "${{ steps.version.outputs.version }}"
+          Compress-Archive -Path "./Obiddable.Installer/bin/x64/Release/Obiddable.msi" -DestinationPath "Obiddable-$version-win-x64.zip"
+          echo "Created archive: Obiddable-$version-win-x64.zip"
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: Obiddable-${{ steps.version.outputs.version }}-win-x64.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
