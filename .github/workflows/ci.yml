@@ -50,7 +50,6 @@ jobs:
   tag:
     needs: extract-version
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/main'    
     permissions:
       contents: write
     steps:
@@ -58,7 +57,13 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          $tag = "${{ needs.extract-version.outputs.version }}"
+          $branch = "${{ github.ref_name }}"
+          $version = "${{ needs.extract-version.outputs.version }}"
+          if ($branch -eq "stage") {
+            $tag = "$version-stage"
+          } else {
+            $tag = $version
+          }
           git fetch --tags
           if (git tag -l $tag) {
             echo "::error::Tag $tag already exists"
