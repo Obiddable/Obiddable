@@ -74,30 +74,6 @@ jobs:
           git tag $tag
           git push origin $tag
 
-  release-stage:
-    if: github.ref == 'refs/heads/stage'
-    needs: [extract-version, tag, build, test]
-    runs-on: windows-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-artifacts
-          path: release-artifacts
-      - run: |
-          $v = "${{ needs.extract-version.outputs.version }}"
-          if (!(Test-Path "./release-artifacts/Obiddable.msi")) {
-            throw "Build artifact missing"
-          }
-          $target = "Obiddable-$v-win-x64.msi"
-          Copy-Item "./release-artifacts/Obiddable.msi" $target
-          echo "Prepared: $target"
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64.msi
-          tag: ${{ needs.extract-version.outputs.version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: true
-
   release:
     needs: [extract-version, tag, build, test]
     runs-on: windows-latest
@@ -119,3 +95,4 @@ jobs:
           artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64.msi
           tag: ${{ needs.extract-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: ${{ github.ref == 'refs/heads/stage' }}
