@@ -54,7 +54,7 @@ jobs:
           echo "Version: $v"
 
   tag:
-    needs: extract-version
+    needs: [test, extract-version]
     runs-on: windows-latest
     permissions:
       contents: write
