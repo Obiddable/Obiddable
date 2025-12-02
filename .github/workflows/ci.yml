@@ -87,7 +87,7 @@ jobs:
           if (!(Test-Path "./release-artifacts/Obiddable.msi")) {
             throw "Build artifact missing"
           }
-          $target = "Obiddable-$v-win-x64.msi"
+          $target = "./Obiddable-$v-win-x64.msi"
           Copy-Item "./release-artifacts/Obiddable.msi" $target
           echo "Prepared: $target"
       - uses: ncipollo/release-action@v1
