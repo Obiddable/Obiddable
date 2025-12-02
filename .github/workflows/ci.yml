@@ -77,6 +77,8 @@ jobs:
   release:
     needs: [extract-version, tag, build, test]
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/download-artifact@v4
         with:

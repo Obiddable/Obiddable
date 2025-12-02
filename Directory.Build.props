@@ -2,7 +2,7 @@
 
   <!-- Version Information -->
   <PropertyGroup>
-    <Version>1.0.11</Version>
+    <Version>1.0.12</Version>
 
     <Company>Obiddable</Company>
     <Product>Obiddable Bidding Manager</Product>
