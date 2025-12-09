@@ -13,7 +13,7 @@ public static class UpdateChecker
 
     private static readonly HttpClient client = new HttpClient();
 
-    public static async Task<bool?> HasNewReleaseAsync(out string newRelease)
+    public static async Task<bool?> HasNewReleaseAsync()
     {
         try
         {
@@ -22,7 +22,7 @@ public static class UpdateChecker
             var currentVersion = VersionResolver.GetVersion();
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
             
-            newRelease = null;
+            var newRelease = null;
 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(

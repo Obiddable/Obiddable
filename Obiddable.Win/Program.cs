@@ -30,7 +30,7 @@ static class Program
     [STAThread]
     static async Task Main()
     {
-        if (await UpdateChecker.HasNewReleaseAsync(out var newVersion)){
+        if (await UpdateChecker.HasNewReleaseAsync()){
             MessageBox.Show($"A new version of Obiddable is now available, please inform your system administrator.");
         }
 
