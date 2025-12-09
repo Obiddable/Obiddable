@@ -13,16 +13,16 @@ public static class UpdateChecker
 
     private static readonly HttpClient client = new HttpClient();
 
-    public static async Task<bool?> HasNewReleaseAsync()
+    public static async Task<bool> HasNewReleaseAsync()
     {
         try
         {
             var owner = REPO_OWNER;
             var repo = REPO_NAME;
-            var currentVersion = VersionResolver.GetVersion();
+            var currentVersion = new VersionResolver().GetVersion();
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
             
-            var newRelease = null;
+            string? newRelease = null;
 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -35,7 +35,10 @@ public static class UpdateChecker
             response.EnsureSuccessStatusCode();
 
             using var stream = await response.Content.ReadAsStreamAsync(cts.Token);
-            using var doc = await JsonDocument.ParseAsync(stream, cts.Token);
+            using var doc = await JsonDocument.ParseAsync(
+                utf8Json: stream, 
+                options: default, 
+                cancellationToken: cts.Token);
 
             if (doc.RootElement.GetArrayLength() == 0)
                 return false;
