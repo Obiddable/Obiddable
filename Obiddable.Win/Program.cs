@@ -28,8 +28,12 @@ static class Program
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    static async Task Main()
     {
+        if (await UpdateChecker.HasNewReleaseAsync(out var newVersion)){
+            MessageBox.Show($"A new version of Obiddable is now available, please inform your system administrator.");
+        }
+
         if (
             !Directory.Exists(DefaultObiddableDocumentsPath)
             || !Directory.Exists(DefaultReportsDirectoryPath)
