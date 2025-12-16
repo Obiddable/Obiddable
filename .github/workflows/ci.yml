@@ -48,7 +48,12 @@ jobs:
   
       - id: getver
         run: |
-          $branch = "${{ github.ref_name }}"
+          # For pull requests, use the base (target) branch; for push events, use the current branch
+          if ("${{ github.event_name }}" -eq "pull_request") {
+            $branch = "${{ github.base_ref }}"
+          } else {
+            $branch = "${{ github.ref_name }}"
+          }
           [xml]$p = Get-Content Directory.Build.props
           
           if ($branch -eq "stage") {
@@ -59,7 +64,7 @@ jobs:
           echo "version=$v" >> $env:GITHUB_OUTPUT
           echo "Version: $v"
   check-tag:
-    needs: [test, extract-version]
+    needs: [extract-version]
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
