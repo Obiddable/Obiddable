@@ -59,7 +59,7 @@ jobs:
           echo "version=$v" >> $env:GITHUB_OUTPUT
           echo "Version: $v"
   check-tag:
-    needs: [test, extract-version]
+    needs: [extract-version]
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
