@@ -30,6 +30,10 @@ static class Program
     [STAThread]
     static void Main()
     {
+        if (UpdateChecker.HasNewReleaseAsync().GetAwaiter().GetResult()){
+            MessageBox.Show($"A new version of Obiddable is now available, please inform your system administrator.");
+        }
+
         if (
             !Directory.Exists(DefaultObiddableDocumentsPath)
             || !Directory.Exists(DefaultReportsDirectoryPath)
