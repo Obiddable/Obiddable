@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches:
+      - dev
       - stage
       - main
 
@@ -22,6 +23,7 @@ jobs:
           path: "./Obiddable.Installer/bin/x64/Release/Obiddable.msi"
 
   test:
+    if: github.ref != 'refs/heads/dev'
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +34,7 @@ jobs:
       - run: dotnet test --configuration Release
 
   extract-version:
+    if: github.ref != 'refs/heads/dev'
     runs-on: windows-latest
     outputs:
       version: ${{ steps.getver.outputs.version }}

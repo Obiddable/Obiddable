@@ -28,9 +28,9 @@ static class Program
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static async Task Main()
+    static void Main()
     {
-        if (await UpdateChecker.HasNewReleaseAsync(out var newVersion)){
+        if (UpdateChecker.HasNewReleaseAsync().GetAwaiter().GetResult()){
             MessageBox.Show($"A new version of Obiddable is now available, please inform your system administrator.");
         }
 
