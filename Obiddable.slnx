@@ -8,8 +8,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".csharpierrc" />
     <File Path=".editorconfig" />
-    <File Path=".github/workflows/auto-increment-version.yml" />
-    <File Path=".github/workflows/ci-cd-workflow.yml" />
+    <File Path=".github/workflows/ci.yml" />
     <File Path="Directory.Build.props" />
     <File Path="README.md" />
   </Folder>
