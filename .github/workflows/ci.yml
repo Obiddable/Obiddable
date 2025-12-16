@@ -25,7 +25,7 @@ jobs:
           name: release-artifacts
           path: "./Obiddable.Installer/bin/x64/Release/Obiddable.msi"
 
- test:
+  test:
     if: github.ref != 'refs/heads/dev'
     runs-on: windows-latest
     steps:
