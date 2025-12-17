@@ -63,6 +63,7 @@ jobs:
           }
           echo "version=$v" >> $env:GITHUB_OUTPUT
           echo "Version: $v"
+
   check-tag:
     needs: [extract-version]
     runs-on: windows-latest
@@ -79,7 +80,7 @@ jobs:
           }
           echo "✓ Version tag $tag is available"
   add-tag:
-    needs: [check-tag]
+    needs: [check-tag, extract-version]
     if: github.event_name == 'push'
     runs-on: windows-latest
     permissions:
