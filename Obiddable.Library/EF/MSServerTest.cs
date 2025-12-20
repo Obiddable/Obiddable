@@ -4,10 +4,8 @@ using Microsoft.Data.SqlClient;
 
 namespace Obiddable.Library.EF;
 
-// ADDED: New class to encapsulate MS SQL specific logic
 public static class MsSqlDataSourceHelper
 {
-	private const int CONNECTION_TIMEOUT_IN_MILLISECONDS = 20_000;
 	public static bool TestConnection(string connectionString, out string errorMessage)
 	{
 		errorMessage = string.Empty;
@@ -32,4 +30,3 @@ public static class MsSqlDataSourceHelper
 		}
 	}
 }
-// END ADDED
