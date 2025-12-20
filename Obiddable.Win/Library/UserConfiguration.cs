@@ -184,7 +184,9 @@ public class UserConfiguration
         }
     }
 
-    public UserConfiguration(string configFileName)
+    public bool HasExcelPermissions => EpplusLicenseType != EpplusLicenseType.None;
+
+	public UserConfiguration(string configFileName)
     {
         _configFileName = configFileName;
         LoadConfigurationFile();

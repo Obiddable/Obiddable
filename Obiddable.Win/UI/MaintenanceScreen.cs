@@ -47,7 +47,7 @@ public partial class MaintenanceScreen : HostScreen
 
     protected virtual void InitializeActionsMenu(IActionMenu actionMenu) { }
 
-    protected void AddAction(string title, Action action)
+    protected void AddAction(string title, Action action, bool enabled = true)
     {
         var actionMenuItem = new ToolStripMenuItem() { Text = title };
         actionMenuItem.Click += delegate(Object sender, EventArgs eventArgs)
@@ -57,9 +57,9 @@ public partial class MaintenanceScreen : HostScreen
         actionsMenu.DropDownItems.Add(actionMenuItem);
     }
 
-    protected ToolStripMenuItem CreateMenuItem(string name, Action action)
+    protected ToolStripMenuItem CreateMenuItem(string name, Action action, bool enabled = true)
     {
-        var output = new ToolStripMenuItem(name);
+        var output = new ToolStripMenuItem(name) { Enabled = enabled};
         output.Click += (_, _) => action();
 
         return output;
