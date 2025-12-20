@@ -1,9 +1,13 @@
-name: CI
+﻿name: CI
 
 on:
   push:
     branches:
+      - dev
       - stage
+      - main
+  pull_request:
+    branches:
       - main
 
 jobs:
@@ -22,6 +26,7 @@ jobs:
           path: "./Obiddable.Installer/bin/x64/Release/Obiddable.msi"
 
   test:
+    if: github.ref != 'refs/heads/dev'
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +37,7 @@ jobs:
       - run: dotnet test --configuration Release
 
   extract-version:
+    if: github.ref != 'refs/heads/dev'
     runs-on: windows-latest
     outputs:
       version: ${{ steps.getver.outputs.version }}
@@ -42,7 +48,12 @@ jobs:
   
       - id: getver
         run: |
-          $branch = "${{ github.ref_name }}"
+          # For pull requests, use the base (target) branch; for push events, use the current branch
+          if ("${{ github.event_name }}" -eq "pull_request") {
+            $branch = "${{ github.base_ref }}"
+          } else {
+            $branch = "${{ github.ref_name }}"
+          }
           [xml]$p = Get-Content Directory.Build.props
           
           if ($branch -eq "stage") {
@@ -53,11 +64,9 @@ jobs:
           echo "version=$v" >> $env:GITHUB_OUTPUT
           echo "Version: $v"
 
-  tag:
-    needs: [test, extract-version]
+  check-tag:
+    needs: [extract-version]
     runs-on: windows-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v3
         with:
@@ -69,13 +78,26 @@ jobs:
             echo "::error::Tag $tag already exists"
             exit 1
           }
+          echo "✓ Version tag $tag is available"
+  add-tag:
+    needs: [check-tag, extract-version]
+    if: github.event_name == 'push'
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          $tag = "${{ needs.extract-version.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag $tag
           git push origin $tag
-
   release:
-    needs: [extract-version, tag, build, test]
+    needs: [extract-version, add-tag, build, test]
+    if: github.event_name == 'push'
     runs-on: windows-latest
     permissions:
       contents: write

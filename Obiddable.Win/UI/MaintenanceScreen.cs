@@ -33,6 +33,7 @@ public partial class MaintenanceScreen : HostScreen
 
         addButton.Click += AddButton_Click;
         editButton.Click += EditButton_Click;
+        deleteButton.Click += DeleteButton_Click;
 		refreshButton.Click += RefreshButton_Click;
         listViewMain.DoubleClick += ListViewMain_DoubleClick;
         configButton.Click += ConfigButton_Click;
