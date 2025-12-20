@@ -120,3 +120,4 @@ jobs:
           tag: ${{ needs.extract-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: ${{ github.ref == 'refs/heads/stage' }}
+          draft: true
