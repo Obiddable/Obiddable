@@ -247,7 +247,7 @@ public class UserConfiguration
                 return CsvFieldLine.Null;
             }
             string[] fields = FileHelpers.ParseCSVRow(line);
-            return new CsvFieldLine(fields[0], fields[1]);
+            return new CsvFieldLine(fields[0], fields[1].Replace("<COMMA>", ",").Replace("<NEWLINE>","\n"));
         };
     }
 
@@ -352,7 +352,7 @@ public class UserConfiguration
 
     private Func<FieldInfo, string> writeLine()
     {
-        return field => $"{field.Name},{field.GetValue(this)?.ToString()}";
+        return field => $"{field.Name},{field.GetValue(this)?.ToString().Replace(",","<COMMA>").Replace("\n","<NEWLINE>")}";
     }
 
     private class CsvFieldLine
