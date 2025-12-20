@@ -184,6 +184,9 @@ public class ItemMaintenanceScreen : MaintenanceScreen
             return;
         }
 
+        if (CatalogingMessaging.Instance.ConfirmItemDelete(item) == false)
+            return;
+
         _catalogingRepo.DeleteItem(item.Id);
 
         RefreshList();

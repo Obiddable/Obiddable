@@ -3,6 +3,7 @@ using Obiddable.Library.Bidding.Requesting;
 using Obiddable.Library.Bidding.Requesting.Extensions;
 using Obiddable.Library.EF.Bidding;
 using Obiddable.Library.EF.Bidding.Requesting;
+using Obiddable.Win.Library;
 using Obiddable.Win.Library.IO.Bidding.Requesting;
 using Obiddable.Win.Library.UI;
 
@@ -59,7 +60,7 @@ public class RequestorMaintenanceScreen : MaintenanceScreen
             {
                RequestorMessaging.Instance.ShowExportBlankRequestToExcelForAllRequestors_FailedError(ex);
             }
-         }),
+         }, UserConfiguration.Instance.HasExcelPermissions),
 
          new ToolStripSeparator(),
 

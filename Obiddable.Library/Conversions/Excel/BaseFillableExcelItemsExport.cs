@@ -21,9 +21,15 @@ public abstract class BaseFillableExcelItemsExport : IExcelExport
     public string Password;
     public int lastItemRow { get { return FirstItemRow + items.Count - 1; } }
 
+    protected BaseFillableExcelItemsExport()
+    {
+    }
+
 
     public MemoryStream Generate()
     {
+
+
         MemoryStream stream = new MemoryStream();
         using (var package = new ExcelPackage())
         {

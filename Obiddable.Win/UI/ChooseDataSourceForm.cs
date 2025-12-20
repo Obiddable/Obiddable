@@ -1,111 +1,116 @@
-﻿using Obiddable.Win.Library;
+﻿using Obiddable.Library.EF;
+using Obiddable.Win.Library;
 using System.Configuration;
 
 namespace Obiddable.Win.UI;
 
 public partial class ChooseDataSourceForm : Form
 {
-    public ChooseDataSourceForm()
-    {
-        InitializeComponent();
-    }
+	public ChooseDataSourceForm()
+	{
+		InitializeComponent();
+	}
 
-    private void ReadData()
-    {
-        var config = UserConfiguration.Instance;
+	private void ReadData()
+	{
+		var config = UserConfiguration.Instance;
 
-        if (config.DataSourceType == DataSourceType.Sqlite)
-        {
-            sqliteBrowseButton.Enabled = true;
-            sqliteRadioButton.Checked = true;
+		if (config.DataSourceType == DataSourceType.Sqlite)
+		{
+			sqliteBrowseButton.Enabled = true;
+			sqliteRadioButton.Checked = true;
 
-            if (!File.Exists(config.DataSourceSqliteFilePath ?? string.Empty))
-            {
-                MessageBox.Show(
-                    "The configured SQLite database file was not found. Please select a valid file.",
-                    "File Not Found",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                sqliteFilePathTextBox.Text = string.Empty;
-            }
-            else
-            {
-                sqliteFilePathTextBox.Text = config.DataSourceSqliteFilePath ?? string.Empty;
-            }
-        }
-        else if (config.DataSourceType == DataSourceType.MsSql)
-        {
-            sqliteBrowseButton.Enabled = false;
-            msSqlRadioButton.Checked = true;
-            msSqlConnectionStringTextBox.Text =
-                config.DataSourceMsSqlConnectionString ?? string.Empty;
-        }
-        else
-        {
-            sqliteBrowseButton.Enabled = true;
-            sqliteRadioButton.Checked = true;
-            sqliteFilePathTextBox.Text = string.Empty;
-        }
-    }
+			if (!File.Exists(config.DataSourceSqliteFilePath ?? string.Empty))
+			{
+				MessageBox.Show(
+					"The configured SQLite database file was not found. Please select a valid file.",
+					"File Not Found",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning
+				);
+				sqliteFilePathTextBox.Text = string.Empty;
+			}
+			else
+			{
+				sqliteFilePathTextBox.Text = config.DataSourceSqliteFilePath ?? string.Empty;
+			}
+		}
+		else if (config.DataSourceType == DataSourceType.MsSql)
+		{
+			sqliteBrowseButton.Enabled = false;
+			msSqlRadioButton.Checked = true;
+			msSqlConnectionStringTextBox.Text =
+				config.DataSourceMsSqlConnectionString ?? string.Empty;
+			msSqlServerTestButton.Enabled = true;
+		}
+		else
+		{
+			sqliteBrowseButton.Enabled = true;
+			sqliteRadioButton.Checked = true;
+			sqliteFilePathTextBox.Text = string.Empty;
+		}
+	}
 
-    private void ChooseDataSourceForm_Load(object sender, EventArgs e)
-    {
-        ReadData();
-    }
+	private void ChooseDataSourceForm_Load(object sender, EventArgs e)
+	{
+		ReadData();
+	}
 
-    private void MsSqlRadioButton_CheckedChanged(object sender, EventArgs e)
-    {
-        sqliteRadioButton.Checked = !msSqlRadioButton.Checked;
-        msSqlConnectionStringTextBox.Enabled = true;
-        UpdateRadioButtons();
-    }
+	private void MsSqlRadioButton_CheckedChanged(object sender, EventArgs e)
+	{
+		sqliteRadioButton.Checked = !msSqlRadioButton.Checked;
+		msSqlConnectionStringTextBox.Enabled = true;
+		msSqlServerTestButton.Enabled = true;
+		UpdateRadioButtons();
+	}
 
-    private void UpdateRadioButtons()
-    {
-        if (sqliteRadioButton.Checked)
-        {
-            sqliteBrowseButton.Enabled = true;
-            msSqlConnectionStringTextBox.Enabled = false;
-        }
-        else if (msSqlRadioButton.Checked)
-        {
-            sqliteBrowseButton.Enabled = false;
-            msSqlConnectionStringTextBox.Enabled = true;
-        }
-        else
-        {
-            throw new InvalidOperationException();
-        }
-    }
+	private void UpdateRadioButtons()
+	{
+		if (sqliteRadioButton.Checked)
+		{
+			sqliteBrowseButton.Enabled = true;
+			msSqlConnectionStringTextBox.Enabled = false;
+			msSqlServerTestButton.Enabled = false;
+		}
+		else if (msSqlRadioButton.Checked)
+		{
+			sqliteBrowseButton.Enabled = false;
+			msSqlConnectionStringTextBox.Enabled = true;
+			msSqlServerTestButton.Enabled = true;
+		}
+		else
+		{
+			throw new InvalidOperationException();
+		}
+	}
 
-    private void SaveChangesButton_Click(object sender, EventArgs e)
-    {
-        if (!sqliteRadioButton.Checked && !msSqlRadioButton.Checked)
-        {
-            return;
-        }
+	private void SaveChangesButton_Click(object sender, EventArgs e)
+	{
+		if (!sqliteRadioButton.Checked && !msSqlRadioButton.Checked)
+		{
+			return;
+		}
 
-        if (sqliteRadioButton.Checked)
-        {
-            if (string.IsNullOrWhiteSpace(sqliteFilePathTextBox.Text))
-            {
-                MessageBox.Show(
-                    "Please provide a valid SQLite database file path.",
-                    "Invalid File Path",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
+		if (sqliteRadioButton.Checked)
+		{
+			if (string.IsNullOrWhiteSpace(sqliteFilePathTextBox.Text))
+			{
+				MessageBox.Show(
+					"Please provide a valid SQLite database file path.",
+					"Invalid File Path",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning
+				);
+				return;
+			}
 
-            UserConfiguration.Instance.DataSourceType = DataSourceType.Sqlite;
-            UserConfiguration.Instance.DataSourceSqliteFilePath = sqliteFilePathTextBox.Text;
-            UserConfiguration.Instance.DataSourceMsSqlConnectionString = null;
-        }
-        else if (msSqlRadioButton.Checked)
-        {
-            if (string.IsNullOrWhiteSpace(msSqlConnectionStringTextBox.Text))
+			UserConfiguration.Instance.DataSourceType = DataSourceType.Sqlite;
+			UserConfiguration.Instance.DataSourceSqliteFilePath = sqliteFilePathTextBox.Text;
+			UserConfiguration.Instance.DataSourceMsSqlConnectionString = null;
+		}
+		else if (msSqlRadioButton.Checked)
+		{
+			if (string.IsNullOrWhiteSpace(msSqlConnectionStringTextBox.Text))
 			{
 				MessageBox.Show(
 					"Please provide a valid Microsoft SQL connection string.",
@@ -116,34 +121,34 @@ public partial class ChooseDataSourceForm : Form
 				return;
 			}
 
-            UserConfiguration.Instance.DataSourceType = DataSourceType.MsSql;
-            UserConfiguration.Instance.DataSourceMsSqlConnectionString =
-                msSqlConnectionStringTextBox.Text;
-            UserConfiguration.Instance.DataSourceSqliteFilePath = null;
-        }
-        Close();
-    }
+			UserConfiguration.Instance.DataSourceType = DataSourceType.MsSql;
+			UserConfiguration.Instance.DataSourceMsSqlConnectionString =
+				msSqlConnectionStringTextBox.Text;
+			UserConfiguration.Instance.DataSourceSqliteFilePath = null;
+		}
+		Close();
+	}
 
-    private void CancelButton_Click(object sender, EventArgs e)
-    {
-        if (
-            UserConfiguration.Instance.DataSourceType == DataSourceType.Unspecified
-            && MessageBox.Show(
-                "No data source is configured. The application cannot run without a data source configured. Are you sure you want to exit?",
-                "Confirm Exit",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
-            ) == DialogResult.No
-        )
-        {
-            return;
-        }
-        Close();
-    }
+	private void CancelButton_Click(object sender, EventArgs e)
+	{
+		if (
+			UserConfiguration.Instance.DataSourceType == DataSourceType.Unspecified
+			&& MessageBox.Show(
+				"No data source is configured. The application cannot run without a data source configured. Are you sure you want to exit?",
+				"Confirm Exit",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Warning
+			) == DialogResult.No
+		)
+		{
+			return;
+		}
+		Close();
+	}
 
-    private void SqliteRadioButton_CheckedChanged(object sender, EventArgs e)
-    {
-        msSqlRadioButton.Checked = !sqliteRadioButton.Checked;
+	private void SqliteRadioButton_CheckedChanged(object sender, EventArgs e)
+	{
+		msSqlRadioButton.Checked = !sqliteRadioButton.Checked;
 		UpdateRadioButtons();
 	}
 
@@ -169,7 +174,7 @@ public partial class ChooseDataSourceForm : Form
 			saveFileDialog.DefaultExt = "sqlite";
 			saveFileDialog.AddExtension = true;
 			saveFileDialog.OverwritePrompt = false;
-            saveFileDialog.FileName = "obiddable_bidding_database";
+			saveFileDialog.FileName = "obiddable_bidding_database";
 
 			if (saveFileDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -203,6 +208,28 @@ public partial class ChooseDataSourceForm : Form
 		}
 	}
 
-
+	// ADDED: Test MS SQL connection using helper class
+	private void TestButton_Click(object sender, EventArgs e)
+	{
+		if (MsSqlDataSourceHelper.TestConnection(msSqlConnectionStringTextBox.Text, out string errorMessage))
+		{
+			MessageBox.Show(
+				"Connection successful!",
+				"Test Connection",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information
+			);
+		}
+		else
+		{
+			MessageBox.Show(
+				$"Connection failed:\n\n{errorMessage}",
+				"Test Connection Failed",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error
+			);
+		}
+	}
+	// END ADDED
 
 }

@@ -3,6 +3,7 @@ using Obiddable.Library.Bidding.Requesting;
 using Obiddable.Library.Bidding.Requesting.Extensions;
 using Obiddable.Library.EF.Bidding.Cataloging;
 using Obiddable.Library.EF.Bidding.Requesting;
+using Obiddable.Win.Library;
 using Obiddable.Win.Library.IO.Bidding.Requesting;
 using Obiddable.Win.Library.UI;
 
@@ -39,7 +40,7 @@ public class RequestMaintenanceScreen : MaintenanceScreen
         var generateRequestImportSheetMenuItem = new ToolStripMenuItem() { Text = "Generate Blank Request to CSV" };
         generateRequestImportSheetMenuItem.Click += generateRequestImportSheetMenuItem_Click;
 
-        var generateRequestExcelMenuItem = new ToolStripMenuItem() { Text = "Generate Blank Request to Excel" };
+        var generateRequestExcelMenuItem = new ToolStripMenuItem() { Text = "Generate Blank Request to Excel", Enabled = UserConfiguration.Instance.HasExcelPermissions };
         generateRequestExcelMenuItem.Click += GenerateRequestExcelMenuItem_Click;
 
         actionsMenu.DropDownItems.AddRange(new ToolStripItem[] {
@@ -61,7 +62,7 @@ public class RequestMaintenanceScreen : MaintenanceScreen
         var importIntoSelectedRequestMenuItem = new ToolStripMenuItem() { Text = "Import Request from CSV" };
         importIntoSelectedRequestMenuItem.Click += importIntoSelectedRequestMenuItem_Click;
 
-        var importRequestExcelMenuitem = new ToolStripMenuItem() { Text = "Import Request from Excel" };
+        var importRequestExcelMenuitem = new ToolStripMenuItem() { Text = "Import Request from Excel", Enabled = UserConfiguration.Instance.HasExcelPermissions };
         importRequestExcelMenuitem.Click += ImportRequestExcelMenuitem_Click;
 
         var generateRequestExportSheetMenuItem = new ToolStripMenuItem() { Text = "Export Request to CSV" };

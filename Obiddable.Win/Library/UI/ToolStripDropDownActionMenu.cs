@@ -13,9 +13,9 @@ public class ToolStripDropDownActionMenu : IActionMenu
         _toolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
     }
 
-    public void AddAction(string title, Action action)
+    public void AddAction(string title, Action action, bool enabled = true)
     {
-        var actionMenuItem = new ToolStripMenuItem() { Text = title };
+        var actionMenuItem = new ToolStripMenuItem() { Text = title, Enabled = enabled };
         actionMenuItem.Click += delegate (Object sender, EventArgs eventArgs)
         {
             action.Invoke();

@@ -60,15 +60,21 @@
             epplusNonCommercialPersonalNameTextBox = new TextBox();
             epplusLicenseNonCommercialPersonalRadio = new RadioButton();
             label1 = new Label();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            tabPage2 = new TabPage();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             optionsGroupBox.SuspendLayout();
             groupBox1.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // reportsFolderTextBox
             // 
-            reportsFolderTextBox.Location = new Point(12, 25);
+            reportsFolderTextBox.Location = new Point(29, 39);
             reportsFolderTextBox.Name = "reportsFolderTextBox";
             reportsFolderTextBox.ReadOnly = true;
             reportsFolderTextBox.Size = new Size(348, 22);
@@ -79,9 +85,9 @@
             toolStrip1.Dock = DockStyle.Bottom;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
             toolStrip1.Items.AddRange(new ToolStripItem[] { cancelButton, saveChangesButton, chooseDataSourceButton });
-            toolStrip1.Location = new Point(0, 635);
+            toolStrip1.Location = new Point(0, 449);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(450, 32);
+            toolStrip1.Size = new Size(518, 32);
             toolStrip1.TabIndex = 4;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -124,7 +130,7 @@
             // 
             reportsFolderLabel.AutoSize = true;
             reportsFolderLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            reportsFolderLabel.Location = new Point(12, 9);
+            reportsFolderLabel.Location = new Point(29, 23);
             reportsFolderLabel.Name = "reportsFolderLabel";
             reportsFolderLabel.Size = new Size(86, 13);
             reportsFolderLabel.TabIndex = 5;
@@ -138,7 +144,7 @@
             // 
             exportsFolderLabel.AutoSize = true;
             exportsFolderLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            exportsFolderLabel.Location = new Point(12, 59);
+            exportsFolderLabel.Location = new Point(29, 73);
             exportsFolderLabel.Name = "exportsFolderLabel";
             exportsFolderLabel.Size = new Size(85, 13);
             exportsFolderLabel.TabIndex = 7;
@@ -146,7 +152,7 @@
             // 
             // exportsFolderTextBox
             // 
-            exportsFolderTextBox.Location = new Point(12, 75);
+            exportsFolderTextBox.Location = new Point(29, 89);
             exportsFolderTextBox.Name = "exportsFolderTextBox";
             exportsFolderTextBox.ReadOnly = true;
             exportsFolderTextBox.Size = new Size(348, 22);
@@ -154,7 +160,7 @@
             // 
             // reportsFolderButton
             // 
-            reportsFolderButton.Location = new Point(365, 25);
+            reportsFolderButton.Location = new Point(382, 39);
             reportsFolderButton.Margin = new Padding(2);
             reportsFolderButton.Name = "reportsFolderButton";
             reportsFolderButton.Size = new Size(73, 22);
@@ -165,7 +171,7 @@
             // 
             // exportsFolderButton
             // 
-            exportsFolderButton.Location = new Point(365, 75);
+            exportsFolderButton.Location = new Point(382, 89);
             exportsFolderButton.Margin = new Padding(2);
             exportsFolderButton.Name = "exportsFolderButton";
             exportsFolderButton.Size = new Size(73, 22);
@@ -226,7 +232,7 @@
             optionsGroupBox.Controls.Add(suppressFilePathSelectionsOnSavingCheckBox);
             optionsGroupBox.Controls.Add(autoOpenExportsCheckBox);
             optionsGroupBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            optionsGroupBox.Location = new Point(12, 112);
+            optionsGroupBox.Location = new Point(29, 126);
             optionsGroupBox.Name = "optionsGroupBox";
             optionsGroupBox.Size = new Size(426, 152);
             optionsGroupBox.TabIndex = 18;
@@ -243,6 +249,7 @@
             includeTimestampsOnAllFiles.TabIndex = 18;
             includeTimestampsOnAllFiles.Text = "Timestamp All Exports";
             includeTimestampsOnAllFiles.UseVisualStyleBackColor = true;
+            includeTimestampsOnAllFiles.Visible = false;
             // 
             // epplusNoLicenseRadio
             // 
@@ -272,7 +279,7 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(epplusNoLicenseRadio);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox1.Location = new Point(12, 270);
+            groupBox1.Location = new Point(22, 21);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(426, 355);
             groupBox1.TabIndex = 20;
@@ -390,21 +397,53 @@
             label1.TabIndex = 20;
             label1.Text = resources.GetString("label1.Text");
             // 
+            // tabControl1
+            // 
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Location = new Point(12, 12);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(489, 422);
+            tabControl1.TabIndex = 21;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(reportsFolderLabel);
+            tabPage1.Controls.Add(reportsFolderTextBox);
+            tabPage1.Controls.Add(optionsGroupBox);
+            tabPage1.Controls.Add(exportsFolderTextBox);
+            tabPage1.Controls.Add(exportsFolderButton);
+            tabPage1.Controls.Add(exportsFolderLabel);
+            tabPage1.Controls.Add(reportsFolderButton);
+            tabPage1.Location = new Point(4, 22);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(481, 396);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Behavior";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Location = new Point(4, 22);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(481, 396);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Excel Export Options";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
             // ConfigForm
             // 
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 667);
+            ClientSize = new Size(518, 481);
             ControlBox = false;
-            Controls.Add(groupBox1);
-            Controls.Add(optionsGroupBox);
-            Controls.Add(exportsFolderButton);
-            Controls.Add(reportsFolderButton);
-            Controls.Add(exportsFolderLabel);
-            Controls.Add(exportsFolderTextBox);
-            Controls.Add(reportsFolderLabel);
+            Controls.Add(tabControl1);
             Controls.Add(toolStrip1);
-            Controls.Add(reportsFolderTextBox);
             Font = new Font("Segoe UI", 8.25F);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             KeyPreview = true;
@@ -422,6 +461,10 @@
             optionsGroupBox.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
 
@@ -459,5 +502,8 @@
       private RadioButton epplusLicenseCommercialPaidRadio;
       private LinkLabel linkLabel1;
         private ToolStripButton chooseDataSourceButton;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
     }
 }

@@ -1,7 +1,7 @@
----
+﻿---
 name: QA Version Test
 about: QA Version Test
-title: QA Testing (v{major}.{minor}.0.0)
+title: 🧪 QA Testing (v<major>.<minor>.0.0)
 labels: ''
 assignees: ''
 

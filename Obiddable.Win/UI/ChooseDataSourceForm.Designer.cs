@@ -40,6 +40,7 @@ partial class ChooseDataSourceForm
         toolStrip1 = new ToolStrip();
         cancelButton = new ToolStripButton();
         saveChangesButton = new ToolStripButton();
+        msSqlServerTestButton = new Button();
         toolStrip1.SuspendLayout();
         SuspendLayout();
         // 
@@ -86,10 +87,10 @@ partial class ChooseDataSourceForm
         sqliteBrowseButton.Text = "Browse...";
         sqliteBrowseButton.UseVisualStyleBackColor = true;
         sqliteBrowseButton.Click += SqliteBrowseButton_Click;
-		// 
-		// label1
-		// 
-		label1.AutoSize = true;
+        // 
+        // label1
+        // 
+        label1.AutoSize = true;
         label1.ForeColor = SystemColors.ControlDarkDark;
         label1.Location = new Point(28, 63);
         label1.Name = "label1";
@@ -111,7 +112,7 @@ partial class ChooseDataSourceForm
         // 
         msSqlConnectionStringTextBox.Location = new Point(154, 123);
         msSqlConnectionStringTextBox.Name = "msSqlConnectionStringTextBox";
-        msSqlConnectionStringTextBox.Size = new Size(295, 23);
+        msSqlConnectionStringTextBox.Size = new Size(217, 23);
         msSqlConnectionStringTextBox.TabIndex = 12;
         // 
         // toolStrip1
@@ -149,12 +150,25 @@ partial class ChooseDataSourceForm
         saveChangesButton.Text = "Save Changes";
         saveChangesButton.Click += SaveChangesButton_Click;
         // 
+        // msSqlServerTestButton
+        // 
+        msSqlServerTestButton.Enabled = false;
+        msSqlServerTestButton.Location = new Point(376, 126);
+        msSqlServerTestButton.Margin = new Padding(2);
+        msSqlServerTestButton.Name = "msSqlServerTestButton";
+        msSqlServerTestButton.Size = new Size(73, 22);
+        msSqlServerTestButton.TabIndex = 14;
+        msSqlServerTestButton.Text = "Test";
+        msSqlServerTestButton.UseVisualStyleBackColor = true;
+        msSqlServerTestButton.Click += TestButton_Click;
+        // 
         // ChooseDataSourceForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(460, 200);
         ControlBox = false;
+        Controls.Add(msSqlServerTestButton);
         Controls.Add(toolStrip1);
         Controls.Add(msSqlConnectionStringTextBox);
         Controls.Add(label2);
@@ -187,4 +201,5 @@ partial class ChooseDataSourceForm
     private ToolStrip toolStrip1;
     private ToolStripButton cancelButton;
     private ToolStripButton saveChangesButton;
+    private Button msSqlServerTestButton;
 }

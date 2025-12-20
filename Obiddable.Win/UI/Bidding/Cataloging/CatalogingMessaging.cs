@@ -1,4 +1,5 @@
-﻿using Obiddable.Win.Library.UI;
+﻿using Obiddable.Library.Bidding.Cataloging;
+using Obiddable.Win.Library.UI;
 
 namespace Obiddable.Win.UI.Bidding.Cataloging;
 
@@ -68,6 +69,17 @@ public class CatalogingMessaging : MessagingService
     public string GetItemEstimatedPriceNotANumber()
     {
         return FieldMustBeValidDecimalValue("Estimated Price");
+    }
+
+    internal bool ConfirmItemDelete(Item item)
+    {
+        var message = $"Are you sure you would like to delete this item? This cannot be undone.\r\n" +
+            $"\r\n" +
+            $"Item Code: {item.FormattedCode}\r\n" +
+            $"Description: {item.Description}";
+
+        string caption = "Delete Item?";
+        return ShowYesNoConfirmation(message, caption) == DialogResult.Yes;
     }
     #endregion
 }
