@@ -37,7 +37,7 @@ jobs:
       - run: dotnet test --configuration Release
 
   extract-version:
-    if: github.ref != 'refs/heads/dev'
+    if: github.ref == 'refs/heads/main'
     runs-on: windows-latest
     outputs:
       version: ${{ steps.getver.outputs.version }}
@@ -120,3 +120,4 @@ jobs:
           tag: ${{ needs.extract-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: ${{ github.ref == 'refs/heads/stage' }}
+          draft: true

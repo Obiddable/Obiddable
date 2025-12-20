@@ -12,6 +12,7 @@ using Obiddable.Library.EF.Bidding.Requesting;
 using Obiddable.Library.EF.Bidding.Responding;
 using Obiddable.Reporting.Bidding;
 using Obiddable.Reporting.Bidding.VendorResponses;
+using Obiddable.Win.Library;
 using Obiddable.Win.Library.IO.Bidding.Purchasing;
 using Obiddable.Win.Library.Operations.Bidding;
 using Obiddable.Win.Library.UI;
@@ -77,7 +78,7 @@ public class PurchaseOrderMaintenanceScreen : MaintenanceScreen
 
         actionMenu.AddActionSubMenu("Selected", (subMenu) =>
         {
-            subMenu.AddAction("Export Purchase Order To Csv", () =>
+            subMenu.AddAction("Export Purchase Order To Excel", () =>
              {
                  if (SelectedItem == null)
                  {
@@ -85,7 +86,7 @@ public class PurchaseOrderMaintenanceScreen : MaintenanceScreen
                  }
                  var po = _purchasingRepo.GetPurchaseOrder(SelectedItemTag);
                  PurchaseOrdersExports.ExportPurchaseOrderToExcel(po);
-             });
+             }, UserConfiguration.Instance.HasExcelPermissions);
         });
     }
     #endregion

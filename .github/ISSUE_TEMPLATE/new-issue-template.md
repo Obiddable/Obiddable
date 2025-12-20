@@ -1,7 +1,7 @@
----
-name: DEFAULT
+﻿---
+name: 📄 New Issue Template
 about: Six Seven
-title: "[/] : "
+title: "[<ux|pipeline|bug>/<low|med|high>] 📄 <Path > To > Issue>: title"
 labels: ''
 assignees: Tiptup300
 
@@ -9,7 +9,7 @@ assignees: Tiptup300
 
 ## Description
 
-
+<description>
 
 ---
 
