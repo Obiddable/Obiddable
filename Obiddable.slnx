@@ -8,6 +8,8 @@
   <Folder Name="/Solution Items/">
     <File Path=".csharpierrc" />
     <File Path=".editorconfig" />
+    <File Path=".github/ISSUE_TEMPLATE/new-issue-template.md" />
+    <File Path=".github/ISSUE_TEMPLATE/qa-version-test.md" />
     <File Path=".github/workflows/auto-increment-version.yml" />
     <File Path=".github/workflows/ci-cd-workflow.yml" />
     <File Path="Directory.Build.props" />
