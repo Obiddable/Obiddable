@@ -37,7 +37,7 @@ jobs:
       - run: dotnet test --configuration Release
 
   extract-version:
-    if: github.ref != 'refs/heads/dev'
+    if: github.ref == 'refs/heads/main'
     runs-on: windows-latest
     outputs:
       version: ${{ steps.getver.outputs.version }}
