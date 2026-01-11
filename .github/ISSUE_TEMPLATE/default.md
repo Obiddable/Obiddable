@@ -1,7 +1,7 @@
 ---
-name: DEFAULT
-about: Six Seven
-title: "[/] : "
+name: Issue
+about: (Default)
+title: "[category/priority] : title"
 labels: ''
 assignees: Tiptup300
 
