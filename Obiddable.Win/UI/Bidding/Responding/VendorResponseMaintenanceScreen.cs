@@ -6,6 +6,7 @@ using Obiddable.Library.EF.Bidding;
 using Obiddable.Library.EF.Bidding.Cataloging;
 using Obiddable.Library.EF.Bidding.Requesting;
 using Obiddable.Library.EF.Bidding.Responding;
+using Obiddable.Win.Library;
 using Obiddable.Win.Library.IO.Bidding.Responding;
 using Obiddable.Win.Library.UI;
 using System.Data;
@@ -39,7 +40,7 @@ public class VendorResponseMaintenanceScreen : MaintenanceScreen
         var generateVendorsImportSheetMenuItem = new ToolStripMenuItem() { Text = "Generate Blank Vendor Response to CSV" };
         generateVendorsImportSheetMenuItem.Click += GenerateVendorsImportSheetMenuItem_Click;
 
-        var generateVendorsImportSheetExcelMenuItem = new ToolStripMenuItem() { Text = "Generate Blank Vendor Response to Excel" };
+        var generateVendorsImportSheetExcelMenuItem = new ToolStripMenuItem() { Text = "Generate Blank Vendor Response to Excel", Enabled = UserConfiguration.Instance.HasExcelPermissions };
         generateVendorsImportSheetExcelMenuItem.Click += GenerateVendorsImportSheetExcelMenuItem_Click;
 
         actionsMenu.DropDownItems.AddRange(new ToolStripItem[] {
@@ -60,7 +61,7 @@ public class VendorResponseMaintenanceScreen : MaintenanceScreen
         var importIntoSelectedVendorResponseMenuItem = new ToolStripMenuItem() { Text = "Import Vendor Response from CSV" };
         importIntoSelectedVendorResponseMenuItem.Click += importVendorsMenuItem_Click;
 
-        var importExcelMenuItem = new ToolStripMenuItem() { Text = "Import Vendor Response from Excel" };
+        var importExcelMenuItem = new ToolStripMenuItem() { Text = "Import Vendor Response from Excel", Enabled = UserConfiguration.Instance.HasExcelPermissions };
         importExcelMenuItem.Click += ImportExcelMenuItem_Click;
 
         var exportVendorResponseMenuItem = new ToolStripMenuItem() { Text = "Export Vendor Response to CSV" };

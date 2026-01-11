@@ -1,4 +1,4 @@
----
+﻿---
 name: Issue
 about: (Default)
 title: "[category/priority] : title"
@@ -9,7 +9,7 @@ assignees: Tiptup300
 
 ## Description
 
-
+<description>
 
 ---
 
