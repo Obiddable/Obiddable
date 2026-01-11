@@ -9,6 +9,25 @@ assignees: ''
 
 ## QA
 
+### Choose Data Source...
+
+* [ ] Local SQLite > Browse
+  * [ ] Create new? Yes, Prompts to choose new location
+  * [ ] No, Prompts to choose existing 
+    * [ ] Choosing fake location gives error
+  * [ ] Cancel, Goes back
+* [ ] Microsoft SQL Server
+  * [ ] Blank gives error
+* [ ] Click First Chancel says to quit
+   * [ ] Yes, does not quit
+   * [ ] No, Does quit 
+* [ ] Save Changes works
+
+### Configuration Form
+
+* [ ] Fills user documents for reports and exports
+* [ ] epplus licensing  
+
 ### Global UI
 
 * [ ] Exports Folder
@@ -25,6 +44,19 @@ assignees: ''
       * [ ] Timestamp All Exports  
 * [ ] Help 
 
+### Bid Maintenance 
+
+* [ ] Can create bid 
+* [ ] Can change bid title
+* [ ] Can delete bid after changing setting
+* [ ] Actions 
+  * [ ] Export Bid
+  * [ ] Roll Bid
+  * [ ] Duplicate Bid
+  * [ ] Clear Items
+  * [ ] Clear Requestors
+  * [ ] Clear Vendors 
+
 ### Bid Navigation
 
 * [ ] Looks Correct
@@ -32,40 +64,33 @@ assignees: ''
    * [ ] Run Reports
       * [ ] Bid Items List Report
       * [ ] Bid Requestors Requested Quantities Report
-      * [ ] Item Reports
-         * [ ] Bid Items List Report
-     * [ ] id Request Reports
-         * [ ] Bid Requestors Requested Quantities Report
-         * [ ] Bid Requests Detail Report
-         * [ ] Bid Requests Summary Report
-         * [ ] Price Override Report
-         * [ ] Expenditures by Requestor Report
-      * [ ] Election Process Reports
-         * [ ] Election Confirmation Sheet Report
-         * [ ] Elected Quantities Discrepancy Report
-         * [ ] Bid Tally Report
-      * [ ] Vendor Response Reports
-         * [ ] Vendor Specifications Report
-         * [ ] Vendor Detail Report
-         * [ ] Vendor Detail Report (Elected Only)
-         * [ ] Vendor Summary Report
-         * [ ] No Response Items Report
-      * [ ] Totals Reports
-         * [ ] Bid Summary Report
-         * [ ] Detailed Distribution Report
+      * [ ] Bid Requests Detail Report
+      * [ ] Bid Requests Summary Report
+      * [ ] Price Override Report
+      * [ ] Expenditures by Requestor Report
+      * [ ] Vendor Specifications Report
+      * [ ] Vendor Detail Report
+      * [ ] Vendor Detail Report (Elected Only)
+      * [ ] Vendor Summary Report
+      * [ ] No Response Items Report
+      * [ ] Election Confirmation Sheet Report
+      * [ ] Elected Quantities Discrepancy Report
+      * [ ] Bid Tally Report
+      * [ ] Bid Summary Report
+      * [ ] Detailed Distribution Report
 
 ### Items
 
-* [ ] Top Menu
-* [ ] Update All Item Prices
-* [ ] Reset All Item Prices
-* [ ] Import Items From CSV
-* [ ] Export All Items To CSV
-* [ ] Generate Items Import Template to CSV
+* [ ] Actions
+  * [ ] Update All Item Prices
+  * [ ] Reset All Item Prices
+  * [ ] Import Items From CSV
+  * [ ] Export All Items To CSV
+  * [ ] Generate Items Import Template to CSV
 * [ ] Add Item
 * [ ] Edit Item
    * [ ] Last Order Price 
-* [ ] Delete Item
+* [ ] Delete Item THIS NEEDS FIXED, DELETE BUTTON DOESNT WORK, key does? 
 
 ### Requesting
 
@@ -91,8 +116,21 @@ assignees: ''
       * [ ] Import Request From Excel
       * [ ] Export Request to Csv
 
-### Elections
+### Vendor Responses
 
+* [ ] Actions 
+  * [ ] Generate Blank Vendor REsponse o CSV
+  * [ ] Generate Blank Vendor REsponse to Excel
+  * [ ] Selected > Clear Response Items
+  * [ ] Selected > Import Vendor Response From CSV
+  * [ ] Selected > Import Vendor Response from Excel
+  * [ ] Selected > Export Vendor Response To CSV
+* [ ] Add
+* [ ] Edit
+* [ ] Delete
+
+
+### Elections
 
 * [ ] Elections
    * [ ] Actions
@@ -101,8 +139,7 @@ assignees: ''
       * [ ] Clear All Elections
       * [ ] Import Elections from CSV
       * [ ] Export All Elections to CSV
-      * [ ] Selected >
-        * [ ] Clear Election
+      * [ ] Selected > Clear Election
   * [ ] Edit
      * [ ] Clear Button
      * [ ] Select one
@@ -113,4 +150,4 @@ assignees: ''
 * [ ] Purchase Order Maintenance 
    * [ ] Actions
       * [ ] Generate Purchase Orders
-      * [ ] Selected > Export Purchase Order to CSV
+      * [ ] Selected > Export Purchase Order to Excel
