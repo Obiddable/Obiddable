@@ -97,7 +97,7 @@ jobs:
           git push origin $tag
   release:
     needs: [extract-version, add-tag, build, test]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: windows-latest
     permissions:
       contents: write
@@ -116,6 +116,7 @@ jobs:
           echo "Prepared: $target"
       - uses: ncipollo/release-action@v1
         with:
+          name: Obiddable ({{ needs.extract-version.outputs.version }})
           artifacts: Obiddable-${{ needs.extract-version.outputs.version }}-win-x64.msi
           tag: ${{ needs.extract-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
