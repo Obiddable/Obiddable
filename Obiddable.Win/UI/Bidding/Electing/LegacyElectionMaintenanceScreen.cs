@@ -196,52 +196,61 @@ public class LegacyElectionMaintenanceScreen : MaintenanceScreen
 
         IntializeTotalsTextBoxes();
     }
-    protected override void RefreshList()
-    {
-        listViewMain.BeginUpdate();
+    protected override async Task RefreshList()
+	{
+		//find all items that are both requested and responded to along with getting information on whether it's elected, which is stored in responses, so just look at all responses
+		int itemsTotal = 0, electedItemsTotal = 0;
+		var items = await Task.Run(() => GetItems());
+
+		listViewMain.BeginUpdate();
         listViewMain.Items.Clear();
-
-        //find all items that are both requested and responded to along with getting information on whether it's elected, which is stored in responses, so just look at all responses
-        int itemsTotal, electedItemsTotal;
-        itemsToElect = _respondingRepo.GetItems_Responded_ByBid(_bid.Id).OrderBy(x => x.Code).ToList();
-        allBidsResponseItems = _respondingRepo.GetResponseItems_ByBid(_bid.Id);
-
-        itemsTotal = 0;
-        electedItemsTotal = 0;
-        foreach (Item i in itemsToElect)
-        {
-            var row = new ListViewItem();
-
-            List<ResponseItem> responseItemsForThisItem = allBidsResponseItems.Where(x => x.Item.Id == i.Id).ToList();
-            ResponseItem electedResponseItem = responseItemsForThisItem.FirstOrDefault(y => y.Elected);
-
-            row.Text = i.GetFormattedId();
-            row.SubItems.Add(electedResponseItem != null ? electedResponseItem.Id.ToString() : "");
-            row.SubItems.Add(i.FormattedCode);
-            row.SubItems.Add(i.Description);
-            row.SubItems.Add(i.Unit);
-            row.SubItems.Add(i.Category);
-            row.SubItems.Add(i.GetFormattedRequestedQuantity(_requestingRepo));
-            row.SubItems.Add(responseItemsForThisItem.Count.ToString());
-            row.SubItems.Add(electedResponseItem != null ? electedResponseItem.VendorResponse.VendorName : "-");
-            row.SubItems.Add(electedResponseItem != null ? electedResponseItem.IsAlternate ? "YES" : "NO" : "-");
-            row.SubItems.Add(electedResponseItem != null ? electedResponseItem.Price.ToString("$0.00") : "-");
-            row.SubItems.Add(electedResponseItem != null ? electedResponseItem.ElectionReason : "-");
-
-            row.BackColor = electedResponseItem != null ? Color.White : Color.LightGray;
-            row.Tag = i.Id;
-
-            listViewMain.Items.Add(row);
-
-            itemsTotal++;
-            electedItemsTotal += electedResponseItem != null ? 1 : 0;
-        }
-
-        listViewMain.EndUpdate();
+        listViewMain.Items.AddRange(items);
+		listViewMain.EndUpdate();
 
         UpdateTotalsTextBoxes(itemsTotal, electedItemsTotal);
 
         ReselectItem();
+
+        ListViewItem[] GetItems()
+        {
+            List<ListViewItem> items = new List<ListViewItem>();
+
+			itemsToElect = _respondingRepo.GetItems_Responded_ByBid(_bid.Id).OrderBy(x => x.Code).ToList();
+			allBidsResponseItems = _respondingRepo.GetResponseItems_ByBid(_bid.Id);
+
+			itemsTotal = 0;
+			electedItemsTotal = 0;
+			foreach (Item i in itemsToElect)
+			{
+				var row = new ListViewItem();
+
+				List<ResponseItem> responseItemsForThisItem = allBidsResponseItems.Where(x => x.Item.Id == i.Id).ToList();
+				ResponseItem electedResponseItem = responseItemsForThisItem.FirstOrDefault(y => y.Elected);
+
+				row.Text = i.GetFormattedId();
+				row.SubItems.Add(electedResponseItem != null ? electedResponseItem.Id.ToString() : "");
+				row.SubItems.Add(i.FormattedCode);
+				row.SubItems.Add(i.Description);
+				row.SubItems.Add(i.Unit);
+				row.SubItems.Add(i.Category);
+				row.SubItems.Add(i.GetFormattedRequestedQuantity(_requestingRepo));
+				row.SubItems.Add(responseItemsForThisItem.Count.ToString());
+				row.SubItems.Add(electedResponseItem != null ? electedResponseItem.VendorResponse.VendorName : "-");
+				row.SubItems.Add(electedResponseItem != null ? electedResponseItem.IsAlternate ? "YES" : "NO" : "-");
+				row.SubItems.Add(electedResponseItem != null ? electedResponseItem.Price.ToString("$0.00") : "-");
+				row.SubItems.Add(electedResponseItem != null ? electedResponseItem.ElectionReason : "-");
+
+				row.BackColor = electedResponseItem != null ? Color.White : Color.LightGray;
+				row.Tag = i.Id;
+
+				items.Add(row);
+
+				itemsTotal++;
+				electedItemsTotal += electedResponseItem != null ? 1 : 0;
+			}
+
+            return items.ToArray();
+		}
     }
 
     private void UpdateTotalsTextBoxes(int itemsTotal, int electedItemsTotal)

@@ -9,6 +9,7 @@ using Obiddable.Library.EF.Bidding.Responding;
 using Obiddable.Win.Library;
 using Obiddable.Win.Library.IO.Bidding.Responding;
 using Obiddable.Win.Library.UI;
+using System.Collections.Immutable;
 using System.Data;
 
 namespace Obiddable.Win.UI.Bidding.Responding;
@@ -232,34 +233,39 @@ public class VendorResponseMaintenanceScreen : MaintenanceScreen
             }
         );
     }
-    protected override void RefreshList()
+    protected override async Task RefreshList()
     {
-        listViewMain.BeginUpdate();
+        var listviewItems = await Task.Run(() => BuildItems());
 
+		listViewMain.BeginUpdate();
         listViewMain.Items.Clear();
-
-        List<VendorResponse> vendors = _respondingRepo.GetVendorResponses_ByBid(_bid.Id).OrderBy(x => x.VendorName).ToList();
-        List<ListViewItem> listviewItems = new List<ListViewItem>();
-
-        foreach (VendorResponse v in vendors)
-        {
-            ListViewItem newListItem = new ListViewItem();
-
-            newListItem.Text = $"{v.Id}";
-            newListItem.SubItems.Add(v.VendorName);
-            newListItem.SubItems.Add(v.ResponseItems.Count.ToString());
-            newListItem.SubItems.Add(v.GetGetSum_TotalPrice(_requestingRepo).ToString("$0.00"));
-            newListItem.SubItems.Add(v.GetCount_Elected.ToString());
-            newListItem.SubItems.Add(v.GetGetSum_ElectedTotalPrice(_requestingRepo).ToString("$0.00"));
-
-            newListItem.Tag = v.Id;
-            listviewItems.Add(newListItem);
-
-        }
-
-        listViewMain.Items.AddRange(listviewItems.ToArray());
+        listViewMain.Items.AddRange(listviewItems);
         listViewMain.EndUpdate();
         ReselectItem();
+
+        ListViewItem[] BuildItems()
+        {
+			List<VendorResponse> vendors = _respondingRepo.GetVendorResponses_ByBid(_bid.Id).OrderBy(x => x.VendorName).ToList();
+			List<ListViewItem> listviewItems = new List<ListViewItem>();
+
+			foreach (VendorResponse v in vendors)
+			{
+				ListViewItem newListItem = new ListViewItem();
+
+				newListItem.Text = $"{v.Id}";
+				newListItem.SubItems.Add(v.VendorName);
+				newListItem.SubItems.Add(v.ResponseItems.Count.ToString());
+				newListItem.SubItems.Add(v.GetGetSum_TotalPrice(_requestingRepo).ToString("$0.00"));
+				newListItem.SubItems.Add(v.GetCount_Elected.ToString());
+				newListItem.SubItems.Add(v.GetGetSum_ElectedTotalPrice(_requestingRepo).ToString("$0.00"));
+
+				newListItem.Tag = v.Id;
+				listviewItems.Add(newListItem);
+
+			}
+
+            return listviewItems.ToArray();
+		}
     }
     protected override void ListViewDoubleClicked()
     {

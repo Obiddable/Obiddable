@@ -72,7 +72,7 @@ public partial class MaintenanceScreen : HostScreen
         actionsMenu.DropDownItems.Add(actionMenuItem);
     }
 
-    private void Form1_Load(object sender, EventArgs e)
+    private async void Form1_Load(object sender, EventArgs e)
     {
         InitializeTitles();
         InitializeActionsMenu(_actionMenu);
@@ -80,8 +80,8 @@ public partial class MaintenanceScreen : HostScreen
         LoadColumnWidths();
         try
         {
-            RefreshList();
-        }
+            await RefreshList();
+		}
         catch
         {
             MessageBox.Show("An error occured while refreshing the list.");
@@ -93,7 +93,7 @@ public partial class MaintenanceScreen : HostScreen
     public override void Refresh()
     {
         base.Refresh();
-        RefreshList();
+        _ = Task.Run(() => RefreshList());
         //listViewMain.Focus();
     }
 
@@ -115,7 +115,7 @@ public partial class MaintenanceScreen : HostScreen
             );
     }
 
-    protected virtual void RefreshList() { }
+    protected virtual Task RefreshList() => Task.CompletedTask;
     #endregion
 
     #region LIST OPERATIONS

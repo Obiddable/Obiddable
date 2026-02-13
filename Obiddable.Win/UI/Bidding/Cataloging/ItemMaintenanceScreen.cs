@@ -107,12 +107,17 @@ public class ItemMaintenanceScreen : MaintenanceScreen
       ]);
     }
 
-    protected override void RefreshList()
+    protected override async Task RefreshList()
     {
-        var items = _catalogingRepo.GetItems(_bid.Id);
+        var items = await Task.Run(() => GetItems());
 
-        listViewMain.ReplaceListViewItems(
-           items
+        listViewMain.ReplaceListViewItems(items);
+        ReselectItem();
+
+        ListViewItem[] GetItems()
+		{
+			var items = _catalogingRepo.GetItems(_bid.Id);
+            return items
               .OrderBy(x => x.Code)
               .Select(i
                  => new ListViewItem(items: [
@@ -128,9 +133,8 @@ public class ItemMaintenanceScreen : MaintenanceScreen
                  {
                      Tag = i.Id
                  }
-              )
-        );
-        ReselectItem();
+              ).ToArray();
+		}
     }
 
     protected override void ListViewDoubleClicked()
