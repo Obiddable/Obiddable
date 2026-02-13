@@ -139,32 +139,41 @@ public class PurchaseOrderMaintenanceScreen : MaintenanceScreen
             }
         );
     }
-    protected override void RefreshList()
+    protected override async Task RefreshList()
     {
+        var items = await Task.Run(() => GetItems());
+
         listViewMain.BeginUpdate();
         listViewMain.Items.Clear();
-
-        List<PurchaseOrder> pos = _purchasingRepo.GetPurchaseOrders_ByBid(_bid.Id).OrderByDescending(x => x.CreationDate).ToList();
-
-        foreach (PurchaseOrder po in pos)
-        {
-            var row = new ListViewItem();
-
-            row.Text = $"{po.Id}";
-            row.SubItems.Add(po.CreationDate.ToString("yyy-MM-dd-HH-mm-ss"));
-            row.SubItems.Add(po.Vendor);
-            row.SubItems.Add(po.Building);
-            row.SubItems.Add(po.LineItems.Count.ToString());
-            row.SubItems.Add(po.GetQuantitySumOfLineItems().ToString());
-            row.SubItems.Add(po.GetExtendedPriceSumOfLineItems().ToString("$0.00"));
-
-            row.Tag = po.Id;
-
-            listViewMain.Items.Add(row);
-        }
-
-        listViewMain.EndUpdate();
+       listViewMain.Items.AddRange(items);
+		listViewMain.EndUpdate();
         ReselectItem();
+
+        ListViewItem[] GetItems()
+        {
+			List<PurchaseOrder> pos = _purchasingRepo.GetPurchaseOrders_ByBid(_bid.Id).OrderByDescending(x => x.CreationDate).ToList();
+
+            List<ListViewItem> list = new List<ListViewItem>();
+
+			foreach (PurchaseOrder po in pos)
+			{
+				var row = new ListViewItem();
+
+				row.Text = $"{po.Id}";
+				row.SubItems.Add(po.CreationDate.ToString("yyy-MM-dd-HH-mm-ss"));
+				row.SubItems.Add(po.Vendor);
+				row.SubItems.Add(po.Building);
+				row.SubItems.Add(po.LineItems.Count.ToString());
+				row.SubItems.Add(po.GetQuantitySumOfLineItems().ToString());
+				row.SubItems.Add(po.GetExtendedPriceSumOfLineItems().ToString("$0.00"));
+
+				row.Tag = po.Id;
+
+				list.Add(row);
+			}
+
+            return list.ToArray();
+		}
     }
     protected override void ListViewDoubleClicked()
     {

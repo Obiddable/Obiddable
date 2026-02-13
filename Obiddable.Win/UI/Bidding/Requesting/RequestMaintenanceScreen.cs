@@ -231,33 +231,38 @@ public class RequestMaintenanceScreen : MaintenanceScreen
             }
         );
     }
-    protected override void RefreshList()
+    protected override async Task RefreshList()
     {
-        listViewMain.BeginUpdate();
+        var listviewItems = await Task.Run(() => GetItems());
 
+		listViewMain.BeginUpdate();
         listViewMain.Items.Clear();
-
-        List<Request> requests = _requestingRepo.GetRequests_ByRequestor(_requestor.Id);
-        List<ListViewItem> listviewItems = new List<ListViewItem>();
-
-        foreach (Request r in requests)
-        {
-            ListViewItem newListItem = new ListViewItem();
-
-            newListItem.Text = $"{r.Id}";
-            newListItem.SubItems.Add(r.Account_Number);
-            newListItem.SubItems.Add(r.RequestItems.Count.ToString());
-            newListItem.SubItems.Add(r.QuantitySum().ToString());
-            newListItem.SubItems.Add(r.ExtendedPriceSum().ToString("$0.00"));
-            newListItem.SubItems.Add(r.ExtendedPriceWithOverridesSum().ToString("$0.00"));
-
-            newListItem.Tag = r.Id;
-            listviewItems.Add(newListItem);
-        }
-
         listViewMain.Items.AddRange(listviewItems.ToArray());
         listViewMain.EndUpdate();
         ReselectItem();
+
+        ListViewItem[] GetItems()
+        {
+			List<Request> requests = _requestingRepo.GetRequests_ByRequestor(_requestor.Id);
+			List<ListViewItem> listviewItems = new List<ListViewItem>();
+
+			foreach (Request r in requests)
+			{
+				ListViewItem newListItem = new ListViewItem();
+
+				newListItem.Text = $"{r.Id}";
+				newListItem.SubItems.Add(r.Account_Number);
+				newListItem.SubItems.Add(r.RequestItems.Count.ToString());
+				newListItem.SubItems.Add(r.QuantitySum().ToString());
+				newListItem.SubItems.Add(r.ExtendedPriceSum().ToString("$0.00"));
+				newListItem.SubItems.Add(r.ExtendedPriceWithOverridesSum().ToString("$0.00"));
+
+				newListItem.Tag = r.Id;
+				listviewItems.Add(newListItem);
+			}
+
+            return listviewItems.ToArray();
+		}
     }
     protected override void ListViewDoubleClicked()
     {

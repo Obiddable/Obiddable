@@ -87,35 +87,42 @@ public class BidMaintenanceScreen : MaintenanceScreen
 
         listViewMain.View = View.Details;
     }
-    protected override void RefreshList()
+    protected override async Task RefreshList()
     {
+        var listviewItems = await Task.Run(() => GetItems());
+
         listViewMain.BeginUpdate();
         listViewMain.Items.Clear();
-
-        List<Bid> bids = _biddingRepo.GetBids();
-        List<ListViewItem> listviewItems = new List<ListViewItem>();
-
-        foreach (Bid bid in bids)
-        {
-            ListViewItem item = new ListViewItem();
-            item.Text = $"{bid.Id.ToString("000000")}";
-            item.SubItems.Add(bid.Name);
-            item.SubItems.Add(bid.Items.Count.ToString());
-            item.SubItems.Add(bid.Requestors.Count.ToString());
-            item.SubItems.Add(bid.VendorResponses.Count.ToString());
-            item.SubItems.Add(bid.PurchaseOrders.Count.ToString());
-
-            item.Tag = bid.Id;
-            listviewItems.Add(item);
-        }
-
-        listViewMain.Items.AddRange(listviewItems.ToArray());
+        listViewMain.Items.AddRange(listviewItems);
         listViewMain.EndUpdate();
 
         listViewMain.SortByColumn(1, SortOrder.Descending);
         listViewMain.Sort();
 
         ReselectItem();
+
+        ListViewItem[] GetItems()
+        {
+
+			List<Bid> bids = _biddingRepo.GetBids();
+			List<ListViewItem> listviewItems = new List<ListViewItem>();
+
+			foreach (Bid bid in bids)
+			{
+				ListViewItem item = new ListViewItem();
+				item.Text = $"{bid.Id.ToString("000000")}";
+				item.SubItems.Add(bid.Name);
+				item.SubItems.Add(bid.Items.Count.ToString());
+				item.SubItems.Add(bid.Requestors.Count.ToString());
+				item.SubItems.Add(bid.VendorResponses.Count.ToString());
+				item.SubItems.Add(bid.PurchaseOrders.Count.ToString());
+
+				item.Tag = bid.Id;
+				listviewItems.Add(item);
+			}
+
+            return listviewItems.ToArray();
+		}
     }
     protected override void ListViewDoubleClicked()
     {
@@ -150,7 +157,7 @@ public class BidMaintenanceScreen : MaintenanceScreen
         operationMenuitem.Click += OperationMenuItem_Click;
         return operationMenuitem;
     }
-    private void OperationMenuItem_Click(object sender, EventArgs e)
+    private async void OperationMenuItem_Click(object sender, EventArgs e)
     {
         if (SelectedItem == null)
         {
@@ -171,7 +178,7 @@ public class BidMaintenanceScreen : MaintenanceScreen
         BidDataOperation bidDataOperation = (BidDataOperation)Activator.CreateInstance(t, bid);
         bidDataOperation.Run();
 
-        RefreshList();
+        await RefreshList();
     }
     #endregion
 
@@ -186,7 +193,7 @@ public class BidMaintenanceScreen : MaintenanceScreen
             }
             _biddingRepo.AddBid(f.GetBid());
             BiddingMessaging.Instance.ShowBidAddSuccess();
-            RefreshList();
+            _ = Task.Run(() => RefreshList());
         }
     }
     protected override void EditButtonClicked()
@@ -209,7 +216,7 @@ public class BidMaintenanceScreen : MaintenanceScreen
             }
             _biddingRepo.UpdateBid(f.GetBid());
             BiddingMessaging.Instance.ShowBidEditSuccess();
-            RefreshList();
+            _ = Task.Run(() => RefreshList());
         }
     }
     protected override void DeleteButtonClicked()
@@ -241,7 +248,7 @@ public class BidMaintenanceScreen : MaintenanceScreen
             BiddingMessaging.Instance.ShowBidDeleteFailed();
         }
 
-        RefreshList();
+        _ = Task.Run(() => RefreshList());
     }
     private void KeyPressOnToolStrip(object sender, KeyEventArgs e)
     {

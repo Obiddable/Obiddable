@@ -144,13 +144,22 @@ public class RequestorMaintenanceScreen : MaintenanceScreen
          new() { Text = "Total Price With Overrides", Width = 171, TextAlign = HorizontalAlignment.Right  },
       ]);
     }
-    protected override void RefreshList()
+    protected override async Task RefreshList()
     {
-        if (_requestingRepo.GetRequestors_ByBid(_bid.Id) is not List<Requestor> requestors)
-            return;
+		if (await Task.Run(() => GetItems()) is not ListViewItem[] items)
+			return;
 
-        listViewMain.ReplaceListViewItems(
-           requestors
+		listViewMain.ReplaceListViewItems(items);
+        ReselectItem();
+
+
+
+        ListViewItem[]? GetItems()
+        {
+			if (_requestingRepo.GetRequestors_ByBid(_bid.Id) is not List<Requestor> requestors)
+				return null;
+
+            return requestors
               .Select(r => new ListViewItem(items: [
                  $"{r.Id}",
                r.FormattedCode,
@@ -163,10 +172,8 @@ public class RequestorMaintenanceScreen : MaintenanceScreen
                r.TotalPriceWithOverride().ToString("$0.00")
               ])
               { Tag = r.Id })
-              .ToArray()
-        );
-
-        ReselectItem();
+              .ToArray();
+		}
     }
 
     protected override void ListViewDoubleClicked()
