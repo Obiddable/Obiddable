@@ -24,7 +24,8 @@ public class VendorResponseMaintenanceScreen : MaintenanceScreen
     private Bid _bid;
     public VendorResponseMaintenanceScreen(IHostForm hostForm, int bidId) : base(hostForm)
     {
-        _bid = _biddingRepo.GetBid(bidId);
+        _bid = _biddingRepo.GetBid(bidId)
+            ?? throw new Exception("Failed to get bid");
     }
 
     #region INIT METHODS

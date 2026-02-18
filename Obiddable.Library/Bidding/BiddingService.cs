@@ -11,8 +11,11 @@ public class BiddingService
 
     public bool BidNameExists(string text, int bidId)
     {
-        return _biddingRepo.GetBids()
-            .Where(bid => bid.Id != bidId)
-            .Any(bid => bid.Name == text);
+        var bids = _biddingRepo.GetBids();
+
+        if (_biddingRepo.GetBids() is null)
+            throw new Exception("Unable to get bids");
+
+        return bids.Any(bid => bid.Id != bidId && bid.Name == text);
     }
 }

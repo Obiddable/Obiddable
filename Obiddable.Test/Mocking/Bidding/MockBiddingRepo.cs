@@ -10,7 +10,7 @@ public class MockBiddingRepo : IBiddingRepo
     {
         _data = data;
     }
-    public Bid GetBid(int bidId)
+    public Bid? GetBid(int bidId)
         => _data.GetBid(bidId);
 
     public List<Bid> GetBids()

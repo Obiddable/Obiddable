@@ -62,25 +62,29 @@ public class EFBiddingRepo : IBiddingRepo
     }
 
     // gets
-    public Bid GetBid(int bidId)
+    public Bid? GetBid(int bidId)
     {
-        Bid output;
-
-        using (var untrackedDbc = new UntrackedDbc())
+        Bid? output = null;
+        
+        try
         {
+            using var untrackedDbc = new UntrackedDbc();
             output = untrackedDbc.GetUntrackedBid(bidId);
         }
+        catch { }
 
         return output;
     }
-    public List<Bid> GetBids()
+    public List<Bid>? GetBids()
     {
-        List<Bid> output;
+        List<Bid>? output = null;
 
-        using (var untrackedDbc = new UntrackedDbc())
+        try
         {
+            using var untrackedDbc = new UntrackedDbc();
             output = untrackedDbc.GetUntrackedBids();
         }
+        catch { }
 
         return output;
     }

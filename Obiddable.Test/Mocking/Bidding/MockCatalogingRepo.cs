@@ -14,17 +14,19 @@ public class MockCatalogingRepo : ICatalogingRepo
 
     public void AddItem(Item item, int bidId)
     {
-        Bid bid;
+        var bid = _data.GetBid(bidId) 
+            ?? throw new Exception($"Failed to get bid {bidId}");
 
-        bid = _data.GetBid(bidId);
         _data.Items.Add(item.ChangeBid(bid));
     }
     public Item GetItem(int itemId)
         => _data.GetItem(itemId);
+
     public IEnumerable<Item> GetItems(int bidId)
         => _data.Items
         .Where(item => item.Bid.Id == bidId)
         .ToList();
+
     public void UpdateItem(Item newVersion)
     {
         Item oldItem = _data.GetItem(newVersion.Id);
@@ -33,6 +35,7 @@ public class MockCatalogingRepo : ICatalogingRepo
         _data.Items.Remove(oldItem);
         _data.Items.Add(updatedItemToAdd);
     }
+    
     public void DeleteItem(int itemId)
     {
         Item item = _data.GetItem(itemId);
