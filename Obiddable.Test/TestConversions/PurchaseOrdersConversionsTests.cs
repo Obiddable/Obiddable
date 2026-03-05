@@ -1,5 +1,5 @@
-﻿using Obiddable.Library.Bidding.Purchasing;
-using Obiddable.Library.Conversions.Bidding.Purchasing;
+﻿using Obiddable.Library.Purchasing;
+using Obiddable.Library.Purchasing.Purchasing;
 
 namespace Obiddable.Test.TestConversions;
 

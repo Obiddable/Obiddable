@@ -1,8 +1,7 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Staging.ItemRequests;
+﻿using Obiddable.Library.Cataloging;
+using Obiddable.Library.Requesting;
 
-namespace Obiddable.Library.Staging;
+namespace Obiddable.Library.Staging.ItemRequests;
 
 public class ItemRequestService
 {

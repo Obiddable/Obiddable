@@ -1,12 +1,11 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Distribution;
-using Obiddable.Library.Bidding.Purchasing;
+using Obiddable.Library.Distribution;
+using Obiddable.Library.Purchasing;
 using Obiddable.Test.MockBids;
 using Obiddable.Test.Mocking;
 using Obiddable.Test.Mocking.Bidding;
-using Obiddable.Test.Repos;
 
-namespace Obiddable.Test;
+namespace Obiddable.Test.TestBidding.TestPurchasing;
 
 public class PurchasingTests
 {

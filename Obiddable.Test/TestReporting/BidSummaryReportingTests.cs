@@ -3,7 +3,7 @@ using Obiddable.Reporting.Html;
 using Obiddable.Test.MockBids;
 using Obiddable.Test.Mocking;
 
-namespace Obiddable.Test.Reporting;
+namespace Obiddable.Test.TestReporting;
 
 public class BidSummaryReportingTests
 {

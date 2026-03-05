@@ -1,5 +1,5 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Requesting;
+using Obiddable.Library.Requesting;
 using Obiddable.Library.Staging.ItemRequests;
 
 namespace Obiddable.Library.Staging;

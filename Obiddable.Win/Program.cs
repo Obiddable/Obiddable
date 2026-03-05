@@ -1,7 +1,6 @@
 ﻿using Obiddable.Library.EF;
-using Obiddable.Library.EF.Bidding.Electing;
-using Obiddable.Win.Library;
-using Obiddable.Win.Library.Operations.UI;
+using Obiddable.Library.EF.Electing;
+using Obiddable.Win.Configuration;
 using Obiddable.Win.UI;
 
 namespace Obiddable.Win;

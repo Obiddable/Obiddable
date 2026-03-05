@@ -1,8 +1,8 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
+﻿using Obiddable.Library.Cataloging;
 using Obiddable.Test.MockBids;
 using Obiddable.Test.Mocking;
 
-namespace Obiddable.Test.Bidding.Cataloging;
+namespace Obiddable.Test.TestBidding.TestCataloging;
 
 public class CatalogingServiceTests
 {

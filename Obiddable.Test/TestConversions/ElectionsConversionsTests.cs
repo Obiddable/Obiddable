@@ -1,6 +1,6 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Responding;
-using Obiddable.Library.Conversions.Bidding.Electing;
+﻿using Obiddable.Library.Cataloging;
+using Obiddable.Library.Electing;
+using Obiddable.Library.Responding;
 using Obiddable.Test.MockBids;
 using Obiddable.Test.Mocking;
 using System.Diagnostics.CodeAnalysis;

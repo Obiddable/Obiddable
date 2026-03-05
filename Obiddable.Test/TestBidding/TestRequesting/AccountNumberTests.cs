@@ -1,6 +1,6 @@
 ﻿using Obiddable.Library.Bidding;
 
-namespace Obiddable.Test.Bidding.Requesting;
+namespace Obiddable.Test.TestBidding.TestRequesting;
 
 public class AccountNumberTests
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Purchasing;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Responding;
-using Obiddable.Library.EF.Bidding.Electing;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.EF.Electing;
+using Obiddable.Library.Purchasing;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
 
 namespace Obiddable.Library.EF;
 
