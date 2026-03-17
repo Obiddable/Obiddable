@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Obiddable.EntityFramework\Obiddable.EntityFramework.csproj" />
     <ProjectReference Include="..\Obiddable.Excel\Obiddable.Excel.csproj" />
     <ProjectReference Include="..\Obiddable.Reporting\Obiddable.Reporting.csproj" />
     <ProjectReference Include="..\Obiddable.Library\Obiddable.Library.csproj" />

@@ -1,5 +1,4 @@
 ﻿using Obiddable.Library.Cataloging;
-using Obiddable.Library.EF.Cataloging;
 using Obiddable.Library.Requesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
@@ -10,17 +9,19 @@ namespace Obiddable.Library.Excel;
 
 public class ExcelRequestExport : BaseFillableExcelItemsExport
 {
-    private readonly ICatalogingRepo _catalogingRepo = new EFCatalogingRepo();
+    private readonly ICatalogingRepo _catalogingRepo;
 
     Requestor _requestor;
 
     public const int FIRST_ITEM_ROW = 6;
     public const string DEFAULT_WORK_SHEET_NAME = "Request";
 
-    public ExcelRequestExport(Requestor requestor)
+    public ExcelRequestExport(Requestor requestor, ICatalogingRepo catalogingRepo)
     {
         _bid = requestor.Bid;
         _requestor = requestor;
+        _catalogingRepo = catalogingRepo;
+
         items = _catalogingRepo.GetItems(_bid.Id)
             .OrderBy(x => x.Code).ToList();
 

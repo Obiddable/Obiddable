@@ -1,6 +1,6 @@
-﻿using Obiddable.Library.Bidding;
+﻿using Obiddable.EntityFramework.Bidding;
+using Obiddable.Library.Bidding;
 using Obiddable.Library.Cataloging;
-using Obiddable.Library.EF.Bidding;
 using Obiddable.Library.EF.Cataloging;
 using Obiddable.Library.EF.Requesting;
 using Obiddable.Library.EF.Responding;

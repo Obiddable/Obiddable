@@ -9,7 +9,10 @@ public class ElectionSet
     private List<Election> _elections;
     private Dictionary<int, Election> _dirtyElectionsByItemId;
 
-    public ElectionSet(IEnumerable<MarkedElection> markedElections, IEnumerable<UnmarkedElection> unmarkedElections)
+    public ElectionSet(
+        IEnumerable<MarkedElection> markedElections,
+        IEnumerable<UnmarkedElection> unmarkedElections
+    )
     {
         IEnumerable<Election> elections;
 
@@ -19,6 +22,7 @@ public class ElectionSet
         _elections = elections.ToList();
         _dirtyElectionsByItemId = new Dictionary<int, Election>();
     }
+
     private void validateNoDuplicateRequestItems(IEnumerable<MarkedElection> markedElections)
     {
         if (hasDuplicateRequestItems(markedElections))
@@ -26,8 +30,12 @@ public class ElectionSet
             throw new ArgumentException("Cannot Have Multiple Elections For One Request Item.");
         }
     }
-    private static bool hasDuplicateRequestItems(IEnumerable<MarkedElection> markedElections)
-        => markedElections.Any(x => markedElections.Count(y => x.ElectedResponseItem.Id == y.ElectedResponseItem.Id) > 1);
+
+    private static bool hasDuplicateRequestItems(IEnumerable<MarkedElection> markedElections) =>
+        markedElections.Any(x =>
+            markedElections.Count(y => x.ElectedResponseItem.Id == y.ElectedResponseItem.Id) > 1
+        );
+
     private void validateNoDuplicateItems(IEnumerable<Election> elections)
     {
         if (hasDuplicateItems(elections))
@@ -35,9 +43,9 @@ public class ElectionSet
             throw new ArgumentException("Cannot Have Multiple Elections For one Item.");
         }
     }
-    private bool hasDuplicateItems(IEnumerable<Election> elections)
-        => elections.Any(x => elections.Count(y => x.Item.Id == y.Item.Id) > 1);
 
+    private bool hasDuplicateItems(IEnumerable<Election> elections) =>
+        elections.Any(x => elections.Count(y => x.Item.Id == y.Item.Id) > 1);
 
     public void ElectResponseItemForItem(ResponseItem electedResponseItem, string reason)
     {
@@ -57,12 +65,14 @@ public class ElectionSet
             throw new Exception($"Cannot elect response item: {ex.Message}", ex);
         }
     }
+
     private void replaceElectionAndAddToDirtyList(Election oldElection, Election newElection)
     {
         _elections.Remove(oldElection);
         _elections.Add(newElection);
         addElectionToDirtyList(oldElection);
     }
+
     private void addElectionToDirtyList(Election election)
     {
         if (isElectionAlreadyDirty(election))
@@ -119,21 +129,12 @@ public class ElectionSet
         return output;
     }
 
-    public IEnumerable<Election> GetElections()
-        => _elections.ToList();
+    public IEnumerable<Election> GetElections() => _elections.ToList();
 
-    internal void SaveChangesToRepo(ElectingService electingService)
-    {
-        IEnumerable<Election> dirtyElections;
+    public IEnumerable<Election> getDirtyElections() =>
+        _elections.Where(x =>
+            _dirtyElectionsByItemId.Any(dirtyItemId => dirtyItemId.Key == x.Item.Id)
+        );
 
-        dirtyElections = getDirtyElections();
-        electingService.SaveElections(dirtyElections);
-        clearDirtyItemIds();
-    }
-    private IEnumerable<Election> getDirtyElections() =>
-        _elections.Where(x => _dirtyElectionsByItemId.Any(dirtyItemId => dirtyItemId.Key == x.Item.Id));
-
-    private void clearDirtyItemIds()
-        => _dirtyElectionsByItemId.Clear();
-
+    public void clearDirtyItemIds() => _dirtyElectionsByItemId.Clear();
 }

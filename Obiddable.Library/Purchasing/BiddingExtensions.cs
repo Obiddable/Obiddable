@@ -17,6 +17,11 @@ public static class BiddingExtensions
         }
         return false;
     }
+
+
+    public static int GetElectedItemsCount(this Bid bid)
+        => bid.VendorResponses.Sum(x => x.GetCount_Elected);
+
     public static int GetPurchaseOrdersCount(this Bid bid)
         => bid.PurchaseOrders.Count();
     public static int GetPurchaseOrdersItemsCount(this Bid bid)

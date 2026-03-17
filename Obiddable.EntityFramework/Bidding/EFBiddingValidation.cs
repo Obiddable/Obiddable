@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Obiddable.Library.Bidding;
+using Obiddable.Library.EF;
 using Obiddable.Library.Validations;
 
-namespace Obiddable.Library.EF.Bidding;
+namespace Obiddable.EntityFramework.Bidding;
 
 public class EFBiddingValidation
 {

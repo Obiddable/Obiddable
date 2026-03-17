@@ -34,7 +34,19 @@ public class ElectionsConversionService
         responseItem = _respondingRepo.GetResponseItem(responseItemId);
         electionSet = _electingService.GetElectionSetForBid(item.Bid);
         electionSet.ElectResponseItemForItem(responseItem, reasonElected);
-        electionSet.SaveChangesToRepo(_electingService);
+        SaveChangesToRepo(electionSet, _electingService);
+    }
+
+    internal void SaveChangesToRepo(ElectionSet electionSet, ElectingService electingService)
+    {
+        IEnumerable<Election> dirtyElections;
+
+        dirtyElections = electionSet.getDirtyElections();
+        electingService.SaveElections(dirtyElections);
+        electionSet.clearDirtyItemIds();
+
+
+
     }
 
     public void UnelectResponseItem(int responseItemId)
@@ -46,6 +58,6 @@ public class ElectionsConversionService
         responseItem = _respondingRepo.GetResponseItem(responseItemId);
         electionSet = _electingService.GetElectionSetForBid(responseItem.VendorResponse.Bid);
         electionSet.UnelectItem(responseItem.Item);
-        electionSet.SaveChangesToRepo(_electingService);
+        SaveChangesToRepo(electionSet, _electingService);
     }
 }

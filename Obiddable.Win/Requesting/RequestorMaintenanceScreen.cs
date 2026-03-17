@@ -1,5 +1,5 @@
-﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.EF.Bidding;
+﻿using Obiddable.EntityFramework.Bidding;
+using Obiddable.Library.Bidding;
 using Obiddable.Library.EF.Requesting;
 using Obiddable.Library.Requesting;
 using Obiddable.Library.Requesting.Extensions;

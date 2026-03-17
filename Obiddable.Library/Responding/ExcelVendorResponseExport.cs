@@ -1,7 +1,5 @@
 ﻿using Obiddable.Library.Bidding;
 using Obiddable.Library.Cataloging;
-using Obiddable.Library.EF.Cataloging;
-using Obiddable.Library.EF.Requesting;
 using Obiddable.Library.Excel;
 using Obiddable.Library.Requesting;
 using Obiddable.Library.Requesting.Extensions;
@@ -16,12 +14,14 @@ public class ExcelVendorResponseExport : BaseFillableExcelItemsExport
     public const int FIRST_ITEM_ROW = 12;
     public const string WORK_SHEET_NAME = "VendorResponse";
 
-    private readonly ICatalogingRepo _catalogingRepo = new EFCatalogingRepo();
-    private readonly IRequestingRepo _requestItemsRepo = new EFRequestingRepo();
+    private readonly ICatalogingRepo _catalogingRepo;
+    private readonly IRequestingRepo _requestItemsRepo;
 
-    public ExcelVendorResponseExport(Bid bid)
+    public ExcelVendorResponseExport(Bid bid, ICatalogingRepo catalogingRepo, IRequestingRepo requestingRepo)
     {
         _bid = bid;
+        _catalogingRepo = catalogingRepo;
+        _requestItemsRepo = requestingRepo;
 
         items = getRequestedItemsOrderedByCode(_bid);
         PrintedColumns = 13;

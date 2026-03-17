@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Obiddable.Library.Bidding;
+using Obiddable.Library.EF;
 
-namespace Obiddable.Library.EF.Bidding;
+namespace Obiddable.EntityFramework.Bidding;
 
 public class EFBiddingRepo : IBiddingRepo
 {

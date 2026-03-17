@@ -1,5 +1,7 @@
 ﻿using Obiddable.Library.Bidding;
 using Obiddable.Library.Cataloging;
+using Obiddable.Library.EF.Cataloging;
+using Obiddable.Library.EF.Requesting;
 using Obiddable.Library.Requesting;
 using Obiddable.Library.Responding;
 using Obiddable.Win.Configuration;
@@ -23,7 +25,7 @@ public static class VendorResponsesExports
     {
         string fileName = _fileNameGetter.BuildFileName(bid, "vendor-response-sheet", "xlsx", "", DateTime.Now);
         string title = "Save Request Excel";
-        var excelExport = new ExcelVendorResponseExport(bid);
+        var excelExport = new ExcelVendorResponseExport(bid, new EFCatalogingRepo(), new EFRequestingRepo());
         using (var ms = excelExport.Generate())
         {
             FileHelpers.SaveExcel(fileName, ms, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);

@@ -1,5 +1,6 @@
 ﻿using Obiddable.Library.Bidding;
 using Obiddable.Library.Cataloging;
+using Obiddable.Library.EF.Cataloging;
 using Obiddable.Library.Excel;
 using Obiddable.Library.Requesting;
 using Obiddable.Win.Configuration;
@@ -30,7 +31,7 @@ public static class RequestsExports
         for (int x = 0; x < requestors.Count; x++)
         {
             fileNames[x] = $"{bid.Id}-{requestors[x].Code}-{requestors[x].Name}-{requestors[x].Building}.xlsx".MakeValidFileName();
-            streams[x] = new ExcelRequestExport(requestors[x]).Generate();
+            streams[x] = new ExcelRequestExport(requestors[x], new EFCatalogingRepo()).Generate();
         }
         string description = "Save Request Excel";
         FileHelpers.SaveExcels(fileNames, streams, description);
@@ -59,7 +60,7 @@ public static class RequestsExports
     {
         string fileName = $"{requestor.Bid.Id}-{requestor.Code}-{requestor.Name}-{requestor.Building}.xlsx".MakeValidFileName();
         string title = "Save Request Excel";
-        var excelRequestExport = new ExcelRequestExport(requestor);
+        var excelRequestExport = new ExcelRequestExport(requestor, new EFCatalogingRepo());
         using (MemoryStream ms = excelRequestExport.Generate())
         {
             FileHelpers.SaveExcel(fileName, ms, title, UserConfiguration.Instance.SupressFileLocationSelectDialog);
