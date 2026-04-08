@@ -1,7 +1,7 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
+using Obiddable.Library.Cataloging;
 
-namespace Obiddable.Test.Repos;
+namespace Obiddable.Test.Mocking.Bidding;
 
 public class MockCatalogingRepo : ICatalogingRepo
 {

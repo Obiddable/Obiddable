@@ -1,7 +1,7 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Electing;
-using Obiddable.Library.Bidding.Electing.Elections;
-using Obiddable.Library.Bidding.Requesting;
+﻿using Obiddable.Library.Cataloging;
+using Obiddable.Library.Electing;
+using Obiddable.Library.Electing.Elections;
+using Obiddable.Library.Requesting;
 
 namespace Obiddable.Library.Staging.ItemElections;
 

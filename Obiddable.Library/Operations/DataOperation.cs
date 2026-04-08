@@ -13,7 +13,6 @@ public abstract class DataOperation : IOperation
         if (System.Diagnostics.Debugger.IsAttached)
         {
             RunDataOperation();
-
         }
         else
         {

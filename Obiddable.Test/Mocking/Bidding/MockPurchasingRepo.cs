@@ -1,5 +1,4 @@
-﻿using Obiddable.Library.Bidding.Purchasing;
-using Obiddable.Test.Repos;
+﻿using Obiddable.Library.Purchasing;
 
 namespace Obiddable.Test.Mocking.Bidding;
 

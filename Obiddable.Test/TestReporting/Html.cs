@@ -1,6 +1,6 @@
 ﻿using Obiddable.Reporting.Html;
 
-namespace Obiddable.Test.Reporting;
+namespace Obiddable.Test.TestReporting;
 
 public class Html
 {

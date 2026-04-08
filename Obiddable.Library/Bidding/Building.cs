@@ -1,4 +1,4 @@
-﻿using Obiddable.Library.Bidding.Requesting;
+﻿using Obiddable.Library.Requesting;
 
 namespace Obiddable.Library.Bidding;
 

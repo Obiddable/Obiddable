@@ -26,6 +26,7 @@
     <EmbeddedResource Include="Resources\Styles\Reports.ElectedQuantitiesDiscrepancyReport.css" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Obiddable.EntityFramework\Obiddable.EntityFramework.csproj" />
     <ProjectReference Include="..\Obiddable.Library\Obiddable.Library.csproj" />
   </ItemGroup>
 </Project>

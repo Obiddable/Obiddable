@@ -1,0 +1,57 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Obiddable.Library.Bidding;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.EF.Electing;
+using Obiddable.Library.Purchasing;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
+
+namespace Obiddable.Library.EF;
+
+public enum DbcType
+{
+    Unspecified,
+    Sqlite,
+	MsSqlServer
+}
+
+public class Dbc : DbContext
+{
+    public static DbcType DbType = DbcType.Unspecified;
+	public static string ConnectionString = "Data Source=bidding.db";
+
+    public Dbc(DbContextOptions options) : base(options) { }
+
+    public Dbc() : base() { }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        if (ConnectionString is null)
+            throw new Exception($"{nameof(ConnectionString)} not set");
+
+        switch (DbType)
+        {
+            case DbcType.Sqlite:
+                options.UseSqlite(ConnectionString);
+                break;
+            case DbcType.MsSqlServer:
+                options.UseSqlServer(ConnectionString);
+                break;
+            case DbcType.Unspecified:
+            default:
+                throw new Exception("DbcType not specified");
+		}
+    }
+
+    // These properties must be accessible for entity framework to work correctly.
+    public DbSet<Bid> Bids { get; set; }
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Requestor> Requestors { get; set; }
+    public DbSet<Request> Requests { get; set; }
+    public DbSet<RequestItem> RequestItems { get; set; }
+    public DbSet<VendorResponse> VendorResponses { get; set; }
+    public DbSet<ResponseItem> ResponseItems { get; set; }
+    public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+    public DbSet<LineItem> LineItems { get; set; }
+    public DbSet<DbcMarkedElection> MarkedElections { get; set; }
+}

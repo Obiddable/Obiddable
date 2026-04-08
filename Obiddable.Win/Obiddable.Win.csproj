@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Obiddable.EntityFramework\Obiddable.EntityFramework.csproj" />
     <ProjectReference Include="..\Obiddable.Excel\Obiddable.Excel.csproj" />
     <ProjectReference Include="..\Obiddable.Reporting\Obiddable.Reporting.csproj" />
     <ProjectReference Include="..\Obiddable.Library\Obiddable.Library.csproj" />
@@ -34,6 +35,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Folder Include="Library\UI\" />
   </ItemGroup>
 
 </Project>

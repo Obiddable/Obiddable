@@ -1,12 +1,11 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Responding;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
 using Obiddable.Reporting.Bidding.Electings;
 using Obiddable.Test.Mocking;
-using Obiddable.Test.Repos;
 
-namespace Obiddable.Test.Reporting.Electings;
+namespace Obiddable.Test.TestReporting.TestElectings;
 
 public class ElectedQuantitiesDiscrepancyReportTests
 {
