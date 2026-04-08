@@ -14,7 +14,7 @@ public class ElectedQuantitiesDiscrepancyReportTests
     {
         Mocker _ = new Mocker(new DiscrepancyMock());
 
-        ElectedQuantitiesDiscrepancyReport report = new ElectedQuantitiesDiscrepancyReport(_.GetRequestingRepo(),
+        ElectedQuantitiesDiscrepancyReportBuilder report = new ElectedQuantitiesDiscrepancyReportBuilder(_.GetRequestingRepo(),
             _.GetLegacyElectionsRepo());
 
         string output = report.GenerateTableData(_.GetBiddingRepo().GetBid(1));

@@ -64,7 +64,7 @@ public partial class ReportsToolstrip : UserControl
 
 			 HeaderMenuItem("Election Process Reports"),
              ReportMenuItem("Election Confirmation Sheet Report", typeof(ElectionConfirmationSheetReportBuilder)),
-             ReportMenuItem("Elected Quantities Discrepancy Report", typeof(ElectedQuantitiesDiscrepancyReport)),
+             ReportMenuItem("Elected Quantities Discrepancy Report", typeof(ElectedQuantitiesDiscrepancyReportBuilder)),
              ReportMenuItem("Bid Tally Report", typeof(TallyReportBuilder)),
 
              HeaderMenuItem("Totals Reports"),
