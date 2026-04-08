@@ -9,7 +9,7 @@ public partial class BidNavigationBoxControl : UserControl
     public event EventHandler EditClicked;
 
     [DefaultValue(typeof(Color), "ControlDarkDark")]
-    public Color EditButtonColor { get; set; } = System.Drawing.SystemColors.ControlDarkDark;
+    public Color EditButtonColor { get; set; }
 
     private bool _editEnabled;
     protected bool EditEnabled
@@ -53,18 +53,15 @@ public partial class BidNavigationBoxControl : UserControl
 
     private void SetButtonEnabled(bool buttonEnabled)
     {
+        editButton.BackColor = EditButtonColor;
         editButton.Enabled = buttonEnabled;
         if (editButton.Enabled)
         {
-            editButton.BackColor = EditButtonColor;
-            editButton.ForeColor = Color.White;
             editButton.Show();
             panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
         }
         else
         {
-            editButton.BackColor = Color.Gray;
-            editButton.ForeColor = Color.DarkGray;
             editButton.Hide();
             panel1.BackColor = Color.LightGray;
         }
