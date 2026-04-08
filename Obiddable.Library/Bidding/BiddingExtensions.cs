@@ -5,7 +5,7 @@ namespace Obiddable.Library.Bidding;
 public static class BiddingExtensions
 {
     public static bool CanEditRequestors(this Bid bid)
-        => true;
+        => bid.Items.Count() > 0;
     public static int GetRequestorsCount(this Bid bid)
         => bid.Requestors.Count();
     public static int GetRequestsCount(this Bid bid)
