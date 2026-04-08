@@ -11,18 +11,18 @@ using System.Text;
 
 namespace Obiddable.Reporting.Bidding.Electings;
 
-public class ElectedQuantitiesDiscrepancyReport : BidHtmlReportBuilder
+public class ElectedQuantitiesDiscrepancyReportBuilder : BidHtmlReportBuilder
 {
     private readonly IRequestingRepo _requestingRepo;
     private readonly ILegacyElectionsRepo _legacyElectionsRepo;
 
-    public ElectedQuantitiesDiscrepancyReport()
+    public ElectedQuantitiesDiscrepancyReportBuilder()
         : this(new EFRequestingRepo(), new EFLegacyElectionsRepo())
     {
 
     }
 
-    public ElectedQuantitiesDiscrepancyReport(
+    public ElectedQuantitiesDiscrepancyReportBuilder(
         IRequestingRepo requestingRepo,
         ILegacyElectionsRepo legacyElectionsRepo)
     {
