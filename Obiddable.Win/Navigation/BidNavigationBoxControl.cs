@@ -1,4 +1,5 @@
 ﻿using Obiddable.Library.Bidding;
+using System.ComponentModel;
 
 namespace Obiddable.Win.UI.Bidding.Navigation;
 
@@ -6,6 +7,9 @@ public partial class BidNavigationBoxControl : UserControl
 {
     protected Bid _bid;
     public event EventHandler EditClicked;
+
+    [DefaultValue(typeof(Color), "ControlDarkDark")]
+    public Color EditButtonColor { get; set; }
 
     private bool _editEnabled;
     protected bool EditEnabled
@@ -47,26 +51,20 @@ public partial class BidNavigationBoxControl : UserControl
         titleLabel.Text = title;
     }
 
-    protected void SetButtonColor(Color color)
-    {
-        editButton.BackColor = color;
-    }
-
     private void SetButtonEnabled(bool buttonEnabled)
     {
+        editButton.BackColor = EditButtonColor;
         editButton.Enabled = buttonEnabled;
-        if (editButton.Enabled == false)
+        if (editButton.Enabled)
         {
-            SetButtonDisabledStyle();
+            editButton.Show();
+            panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
         }
-    }
-
-    private void SetButtonDisabledStyle()
-    {
-        editButton.BackColor = Color.Gray;
-        editButton.ForeColor = Color.DarkGray;
-        editButton.Hide();
-        panel1.BackColor = Color.LightGray;
+        else
+        {
+            editButton.Hide();
+            panel1.BackColor = Color.LightGray;
+        }
     }
 
     protected virtual void InitLabels() { }
