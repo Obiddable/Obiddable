@@ -79,10 +79,12 @@ public partial class VendorResponseAddForm : Form
         if (e.KeyCode == Keys.Enter)
         {
             savechangesButton_Click(sender, e);
+            e.Handled = true;
         }
         if (e.KeyCode == Keys.Escape)
         {
             toolStripButton1_Click(sender, e);
+            e.Handled = true;
         }
 
     }
