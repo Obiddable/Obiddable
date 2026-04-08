@@ -174,8 +174,9 @@ public partial class ChooseDataSourceForm : Form
 			saveFileDialog.AddExtension = true;
 			saveFileDialog.OverwritePrompt = false;
 			saveFileDialog.FileName = "obiddable_bidding_database";
+			saveFileDialog.InitialDirectory = Program.DefaultObiddableDocumentsPath;
 
-			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				string path = saveFileDialog.FileName;
 
