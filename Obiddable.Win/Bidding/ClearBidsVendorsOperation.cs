@@ -1,0 +1,25 @@
+﻿using Obiddable.Library.Bidding;
+using Obiddable.Library.EF.Responding;
+using Obiddable.Library.Responding;
+
+namespace Obiddable.Win.Bidding;
+
+public class ClearBidsVendorsOperation : BidDataOperation
+{
+    private readonly IRespondingRepo _respondingRepo = new EFRespondingRepo();
+    private readonly BiddingMessaging _biddingMessaging = new BiddingMessaging();
+
+    public ClearBidsVendorsOperation(Bid bid) : base(bid) { }
+
+    public override bool Confirm()
+    {
+        return _biddingMessaging.ConfirmBidClearVendorResponses(_bid.VendorResponses.Count);
+    }
+
+    protected override void RunDataOperation()
+	{
+		_respondingRepo.DeleteResponseItems_ByBid(_bid.Id);
+		_respondingRepo.DeleteVendorResponses_ByBid(_bid.Id);
+        _biddingMessaging.ShowBidClearVendorResponsesSuccess();
+    }
+}

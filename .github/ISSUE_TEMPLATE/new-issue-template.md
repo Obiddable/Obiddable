@@ -1,7 +1,7 @@
-﻿---
-name: Issue
-about: (Default)
-title: "[category/priority] : title"
+---
+name: 📄 New Issue Template
+about: Six Seven
+title: "[<ux|pipeline|bug>/<low|med|high>] 📄 <Path > To > Issue>: title"
 labels: ''
 assignees: Tiptup300
 

@@ -1,10 +1,10 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.EF.Bidding.Cataloging;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.EF.Cataloging;
 using Obiddable.Reporting.Html;
 using System.Text;
 
-namespace Obiddable.Reporting.Bidding.Cataloging;
+namespace Obiddable.Reporting.Bidding.Items;
 
 public class ItemsListReportBuilder : BidHtmlReportBuilder
 {

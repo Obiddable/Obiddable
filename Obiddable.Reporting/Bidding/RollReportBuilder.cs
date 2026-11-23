@@ -1,5 +1,5 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Reporting.Bidding.Cataloging;
+using Obiddable.Reporting.Bidding.Items;
 using Obiddable.Reporting.Bidding.Requesting;
 using Obiddable.Reporting.Bidding.VendorResponses;
 using Obiddable.Reporting.Html;

@@ -1,9 +1,10 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
+using Obiddable.Library.Cataloging;
 using Obiddable.Test.MockBids;
-using Obiddable.Test.Repos;
+using Obiddable.Test.Mocking;
+using Obiddable.Test.Mocking.Bidding;
 
-namespace Obiddable.Test;
+namespace Obiddable.Test.TestBidding.TestCataloging;
 
 public class ItemTests
 {

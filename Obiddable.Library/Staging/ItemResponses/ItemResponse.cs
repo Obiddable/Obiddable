@@ -1,7 +1,7 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Responding;
+﻿using Obiddable.Library.Cataloging;
+using Obiddable.Library.Responding;
 
-namespace Obiddable.Library.Staging;
+namespace Obiddable.Library.Staging.ItemResponses;
 
 public class ItemResponse
 {

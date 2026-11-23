@@ -1,9 +1,8 @@
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Electing;
-using Obiddable.Library.Bidding.Electing.Elections;
-using Obiddable.Library.Bidding.Responding;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.Electing.Elections;
+using Obiddable.Library.Responding;
 
-namespace Obiddable.Test.Bidding.Electing;
+namespace Obiddable.Test.TestBidding.TestElecting;
 
 public class ElectionTests
 {

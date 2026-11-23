@@ -1,8 +1,8 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Responding;
-using Obiddable.Test.Repos;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
+using Obiddable.Test.Mocking;
 
 namespace Obiddable.Test.MockBids;
 

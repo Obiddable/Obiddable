@@ -1,6 +1,6 @@
 ﻿using Obiddable.Library.Bidding;
 
-namespace Obiddable.Test.Repos;
+namespace Obiddable.Test.Mocking.Bidding;
 
 public class MockBiddingRepo : IBiddingRepo
 {

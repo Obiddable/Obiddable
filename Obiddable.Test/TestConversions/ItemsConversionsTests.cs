@@ -1,5 +1,4 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Conversions.Bidding.Cataloging;
+﻿using Obiddable.Library.Cataloging;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Obiddable.Test.TestConversions;

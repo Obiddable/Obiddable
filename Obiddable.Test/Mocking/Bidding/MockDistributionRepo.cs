@@ -1,12 +1,12 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Distribution;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Responding;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.Distribution;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
 using Obiddable.Library.Staging;
-using Obiddable.Test.Repos;
+using Obiddable.Library.Staging.ItemElections;
 
-namespace Obiddable.Test;
+namespace Obiddable.Test.Mocking.Bidding;
 
 public class MockDistributionRepo : IDistributionRepo
 {

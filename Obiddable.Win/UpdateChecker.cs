@@ -1,8 +1,6 @@
-using System;
-using System.Net.Http;
+using Obiddable.Win.Library;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Obiddable.Win;
 

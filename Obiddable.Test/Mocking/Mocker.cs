@@ -1,10 +1,10 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Distribution;
-using Obiddable.Library.Bidding.Electing;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Responding;
-using Obiddable.Test.Repos;
+using Obiddable.Library.Cataloging;
+using Obiddable.Library.Distribution;
+using Obiddable.Library.Electing;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
+using Obiddable.Test.Mocking.Bidding;
 
 namespace Obiddable.Test.Mocking;
 

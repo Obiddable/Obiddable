@@ -1,8 +1,8 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Responding;
-using Obiddable.Library.EF.Bidding.Requesting;
-using Obiddable.Library.EF.Bidding.Responding;
+using Obiddable.Library.EF.Requesting;
+using Obiddable.Library.EF.Responding;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Responding;
 using Obiddable.Reporting.Html;
 using System.Text;
 

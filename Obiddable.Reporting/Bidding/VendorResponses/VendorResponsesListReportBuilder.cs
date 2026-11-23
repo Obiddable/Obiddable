@@ -1,6 +1,6 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Responding;
-using Obiddable.Library.EF.Bidding.Responding;
+using Obiddable.Library.EF.Responding;
+using Obiddable.Library.Responding;
 using Obiddable.Reporting.Html;
 using System.Text;
 

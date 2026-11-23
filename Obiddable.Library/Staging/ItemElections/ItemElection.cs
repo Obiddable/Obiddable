@@ -1,7 +1,7 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Electing.Elections;
+﻿using Obiddable.Library.Cataloging;
+using Obiddable.Library.Electing.Elections;
 
-namespace Obiddable.Library.Staging;
+namespace Obiddable.Library.Staging.ItemElections;
 
 public class ItemElection
 {

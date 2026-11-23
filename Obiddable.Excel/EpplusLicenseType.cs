@@ -1,4 +1,4 @@
-﻿namespace Obiddable.Win.Library;
+﻿namespace Obiddable.Excel;
 
 public enum EpplusLicenseType
 {

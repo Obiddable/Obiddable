@@ -1,8 +1,8 @@
-﻿using Obiddable.Library.Bidding.Cataloging;
-using Obiddable.Library.Bidding.Electing;
-using Obiddable.Library.Bidding.Responding;
+﻿using Obiddable.Library.Cataloging;
+using Obiddable.Library.Electing;
+using Obiddable.Library.Responding;
 
-namespace Obiddable.Test.Repos;
+namespace Obiddable.Test.Mocking.Bidding;
 
 public class MockLegacyElectionsRepo : ILegacyElectionsRepo
 {

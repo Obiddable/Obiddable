@@ -11,7 +11,7 @@ public abstract class BidHtmlReportBuilder : HtmlReportBuilder<Bid>
             return null;
         }
 
-        Subtitle = bid.ToString();
+        Subtitle = $"{bid.Name} -- BID ID {bid.Id}";
         FileNameSubtitle = bid.ToString();
 
         return base.BuildReport(bid);

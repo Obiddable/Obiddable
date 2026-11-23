@@ -1,6 +1,4 @@
-﻿using Obiddable.Win.Library;
-
-namespace Obiddable.Win;
+﻿namespace Obiddable.Win.Library;
 
 public class VersionResolver : IVersionResolver
 {

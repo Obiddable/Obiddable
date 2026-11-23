@@ -1,9 +1,9 @@
 ﻿using Obiddable.Library.Bidding;
-using Obiddable.Library.Bidding.Electing;
-using Obiddable.Library.Bidding.Requesting;
-using Obiddable.Library.Bidding.Requesting.Extensions;
-using Obiddable.Library.EF.Bidding.Electing;
-using Obiddable.Library.EF.Bidding.Requesting;
+using Obiddable.Library.EF.Electing;
+using Obiddable.Library.EF.Requesting;
+using Obiddable.Library.Electing;
+using Obiddable.Library.Requesting;
+using Obiddable.Library.Requesting.Extensions;
 using Obiddable.Reporting.Html;
 using System.Text;
 
